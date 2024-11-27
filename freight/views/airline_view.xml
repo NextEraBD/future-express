@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_freight_airline_form">
+            <field name="name">freight.airline.form</field>
+            <field name="model">freight.airline</field>
+            <field name="arch" type="xml">
+                <form string="Airline">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name" required="1"/>
+                                <field name="country"/>
+                            </group>
+                            <group>
+                                <field name="icao"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_airline_tree">
+            <field name="name">freight.airline.tree</field>
+            <field name="model">freight.airline</field>
+            <field name="arch" type="xml">
+                <tree string="Airline">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="country"/>
+                    <field name="icao"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_freight_airline_action">
+            <field name="name">Airlines</field>
+            <field name="res_model">freight.airline</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new port.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Airline" parent="freight.freight_configuration" id="menu_freight_airline_id"
+                  action="view_freight_airline_action" sequence="3"/>
+
+    </data>
+</odoo>

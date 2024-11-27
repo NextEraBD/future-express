@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--      Form View-->
+        <record id="freight_rate_price_form_view" model="ir.ui.view">
+            <field name="name">freight.rate.price.form.view</field>
+            <field name="model">freight.rate.price</field>
+            <field name="arch" type="xml">
+                <form string="Freight">
+                    <header>
+                        <field name="state" widget="statusbar" force_save="1" decoration-danger="state == 'expired'"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Freight Name"/>
+                        </h1>
+                        <group string="Rate">
+                            <group>
+                                <field name="carrier_id" attrs="{'invisible': [('is_shipping_line','=',True)]}"/>
+                                <field name="partner_id" attrs="{'invisible': [('is_shipping_line','=',False)]}"/>
+
+                                <field name="product_id"/>
+                                <field name="package"/>
+                                <field name="is_compute" invisible="1"/>
+                                <field name="container_id" attrs="{'invisible': ['|',('transport','=','air'),('ocean_shipment_type','=','lcl')]}"/>
+                                <field name="freight_price" attrs="{'invisible': [('ocean_shipment_type','!=','fcl')]}"/>
+                                <field name="volume" attrs="{'invisible': ['|',('transport','!=','ocean'),('ocean_shipment_type','!=','lcl')]}"/>
+                                <field name="air_freight_per_kg" attrs="{'invisible': ['|',('transport','!=','air'),('ocean_shipment_type','!=','lcl')]}"/>
+<!--                                <field name="freight_air_price" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+                                <field name="country_id"/>
+                                <field name="currency_id"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="is_shipping_line"/>
+                                <field name="agent_id" attrs="{'invisible': [('is_shipping_line','=',True)]}"/>
+                                <field name="pol_id"/>
+                                <field name="pod_id"/>
+                                <field name="transport"/>
+                                <field name="ocean_shipment_type" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <field name="free_out_days"/>
+                                <field name="free_in_time"/>
+                                <field name="t_time"/>
+                                <field name="vessel_date"/>
+                            </group>
+                        </group>
+                        <group string="DeTails">
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="action"/>
+                                <field name="user_id"/>
+                                <field name="remaining_days"/>
+                            </group>
+<!--                            <group>-->
+<!--                                <field name="weight_per_kg" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+<!--                                <field name="cost_price_kg" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+<!--                                <field name="Selling_price_kg" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+<!--                                <field name="minimum_weight" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+<!--                                <field name="minimum_cost_price" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+<!--                                <field name="minimum_selling_price" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+<!--                            </group>-->
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--      Tree View-->
+        <record id="freight_rate_price_tree_view" model="ir.ui.view">
+            <field name="name">freight.rate.price.tree.view</field>
+            <field name="model">freight.rate.price</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="active" invisible="1"/>
+                    <field name="name"/>
+                    <field name="partner_id" domain="[('is_shipping_line','=',True)]" optional="show"/>
+                    <field name="carrier_id" optional="show"/>
+                    <field name="agent_id" optional="show"/>
+                    <field name="product_id" optional="show"/>
+                    <field name="transport" />
+                    <field name="container_id" attrs="{'invisible': [('transport','=','air')]}"/>
+                    <field name="package" attrs="{'invisible': [('transport','!=','air')]}"/>
+                    <field name="freight_price" optional="show"/>
+                    <field name="currency_id" optional="show"/>
+                    <field name="country_id" optional="show"/>
+                    <field name="pol_id" options="{'no_create_edit': True,'always_reload': True}"
+                           context="{'port_by_code_ref': True}" optional="show"/>
+                    <field name="pod_id" options="{'no_create_edit': True,'always_reload': True}"
+                           context="{'port_by_code_ref': True}" optional="show"/>
+                    <field name="free_out_days" optional="show"/>
+                    <field name="free_in_time" optional="show"/>
+                    <field name="t_time" optional="show"/>
+                    <field name="date_from" optional="show"/>
+                    <field name="date_to" optional="show"/>
+                    <field name="remaining_days" optional="show"/>
+                    <field name="user_id" readonly="1" optional="show"/>
+                    <field name="state" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--      actions-->
+        <record id="action_freight_rate_price" model="ir.actions.act_window">
+            <field name="name">Freight Rates</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">freight.rate.price</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to create a new Freight Rate.
+                </p>
+            </field>
+        </record>
+        <!--      Menus-->
+        <menuitem id="menu_freight_rate_price"
+                  name="Freight Rates"
+                  action="action_freight_rate_price"
+                  parent="freight.freight_root"
+                  sequence="5"/>
+    </data>
+</odoo>

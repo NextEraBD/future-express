@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_freight_operation_form_inherit">
+            <field name="name">freight.operation.form.inherit</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_form"/>
+            <field name="arch" type="xml">
+<!--                <header position="inside">-->
+<!--                    <button name="action_create_claim" attrs="{'invisible': [('official_counter','=',0)]}"-->
+<!--                            type="object" string="Create Claim" class="btn-primary"/>-->
+<!--                </header>-->
+                <div class="oe_button_box" position="inside">
+
+                    <button class="oe_stat_button" name="action_viw_expenses"
+                            type="object" icon="fa-money">
+                        <field name="expenses_counter" string="Expenses" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_viw_official"
+                            type="object" icon="fa-money">
+                        <field name="official_counter" string="Official Receipt" widget="statinfo"
+                               icon="fa-usd"/>
+                    </button>
+
+                    <button class="oe_stat_button" name="action_view_claims"
+                            type="object" icon="fa-money">
+                        <field name="claim_counter" string="Customer Claims" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_vendor_claims"
+                            type="object" icon="fa-money">
+                        <field name="vendor_claim_counter" string="Vendor Claims" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_entries"
+                            type="object" icon="fa-money">
+                        <field name="entry_counter" string="Entries" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_so"
+                            type="object" icon="fa-money">
+                        <field name="so_counter" string="SO" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_view_po"
+                            type="object" icon="fa-money">
+                        <field name="po_counter" string="RFQ" widget="statinfo" icon="fa-usd"/>
+                    </button>
+
+
+                </div>
+                <field name="company_id" position="after">
+                    <field name="claim_created"  invisible="1"/>
+                    <field name="invised_created" invisible="1"/>
+                    <field name="total_expense_amount" invisible="1" />
+                    <field name="total_sale_amount" invisible="1" />
+                    <field name="total_cost_amount" invisible="1" />
+                    <field name="total_profit_amount" invisible="1" />
+                    <!-- Expense Totals -->
+                    <field name="total_expense_sale_amount" invisible="1" />
+                    <field name="total_expense_cost_amount" invisible="1" />
+                    <field name="total_expense_profit_amount" invisible="1" />
+                </field>
+
+            </field>
+        </record>
+    </data>
+</odoo>

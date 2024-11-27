@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+                <!--        Console-->
+        <record model="ir.ui.view" id="view_console_operation_form">
+            <field name="name">console.operation.form</field>
+            <field name="model">console.operation</field>
+            <field name="arch" type="xml">
+                <form string="Console form view">
+                    <header>
+                        <field name="distribute" invisible="1"/>
+                        <button name="action_shipment_house_create2" type="object" string="Create Shipment"
+                                class="btn-primary" attrs="{'invisible':[('distribute','=',True)]}"/>
+
+
+                        <button name="action_create_master_way_bill" attrs="{'invisible':['|','|',('direction','!=','export'),('transport','!=','air'),('shipment_count','=',0)]}"
+                                type="object" class="btn-link d-block"
+                                string="Create Master"/>
+
+                        <button name="action_create_manifest"
+                                type="object" class="btn-link d-block"
+                                string="Create Manifest"/>
+
+
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="button_customer_invoices"
+                                    type="object" icon="fa-money">
+                                <field name="invoice_count" string="Invoices" widget="statinfo" icon="fa-usd"/>
+                            </button>
+                            <button class="oe_stat_button" name="button_vendor_bills"
+                                    type="object" icon="fa-money">
+                                <field name="vendor_bill_count" string="Vendor Bills" widget="statinfo" icon="fa-usd"/>
+                            </button>
+                            <button class="oe_stat_button" name="button_expense"
+                                    type="object" icon="fa-bars">
+                                <field name="expenses_amount" string="Expense Consul" widget="statinfo" icon="fa-usd"/>
+                            </button>
+
+                            <button class="oe_stat_button" name="action_view_manifest"
+                                    type="object" icon="fa-money">
+                                <field name="manifest_count" string="Manifest" widget="statinfo" icon="fa-usd"/>
+                            </button>
+
+                            <button class="oe_stat_button" name="action_open_shipment"
+                                    type="object" icon="fa-bars">
+                                <field name="shipment_count" string="Shipment" widget="statinfo" icon="fa-usd"/>
+                            </button>
+
+                        </div>
+                        <h1>
+                            <div>
+
+                                <field name="name" readonly="1"/>
+                            </div>
+                        </h1>
+                        <group name="operation" string="Operation">
+                            <group>
+                                <field name="direction"/>
+
+                                <field name="pieces"/>
+                                <field name="date_from"/>
+                                <field name="Cut_off"/>
+                                <field name="estimated_time_departure"/>
+                                <field name="estimated_time_arrival"/>
+                            </group>
+                            <group>
+
+                                <field name="transport" required="1"/>
+
+                                <field name="ocean_shipment_type"
+                                       invisible="1"/>
+                                <field name="inland_shipment_type"
+                                       attrs="{'invisible': [('transport','!=','land')]}"/>
+                                <field name="teu"
+                                       attrs="{'invisible': ['|',('ocean_shipment_type','!=','fcl'),('transport','!=','ocean')]}"/>
+                                <field name="cbm"
+                                       attrs="{'invisible': ['|',('ocean_shipment_type','!=','lcl'),('transport','!=','ocean')]}"/>
+                                <field name="frt"
+                                       attrs="{'invisible': ['|',('ocean_shipment_type','not in',('bulk','break')),('transport','!=','ocean')]}"/>
+                                <field name="date_end"/>
+                                <field name="actual_time_departure"/>
+                                <field name="actual_time_arrival"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Shipper">
+                                <field name="shipper_id"/>
+                                <field name="agent_id"/>
+                                <field name="second_agent" attrs="{'invisible':[('transport','=','air')]}"/>
+                            </group>
+                            <group string="consignee">
+                                <!--                                <field name="seal_no"/>-->
+                                <field name="consignee_id"/>
+                                <field name="shipping_line_id" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <field name="master_id"
+                                       />
+
+                            </group>
+                        </group>
+                        <group string="Main Carriage">
+                            <group>
+                                <field name="source_location_id"/>
+                                <field name="datetime"/>
+                                <field name="obl" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                            </group>
+                            <group>
+                                <field name="destination_location_id" attrs="{'invisible':[('transport','=','air')]}"/>
+                                <field name="destination_location_id" string="Port of Destination" attrs="{'invisible':[('transport','!=','air')]}"/>
+                                <field name="dangerous_goods"/>
+                                <field name="dangerous_goods_notes"
+                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                            </group>
+                        </group>
+                        <group name="general" string="General">
+                            <group>
+                                <field name="voyage_no" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <field name="vessel_id" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <field name="mawb_no" invisible="1"/>
+                                <field name="airline_id" attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <field name="truck_ref" attrs="{'invisible': [('transport','!=','land')]}"/>
+                                <field name="trucker" attrs="{'invisible': [('transport','!=','land')]}"/>
+                                <field name="trucker_number" attrs="{'invisible': [('transport','!=','land')]}"/>
+                            </group>
+                            <group>
+                                <field name="total_house"/>
+                                <field name="company_id"/>
+                                <field name="total_frt"/>
+                            </group>
+                        </group>
+                        <group string="Bill Of Lading Info">
+                            <group>
+                                <field name="master" string="MAWB" attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <field name="housing" string="Housing" invisible="1"/>
+                                <field name="master" string="MBL" attrs="{'invisible': [('transport','not in',('land','ocean'))]}"/>
+                                <field name="housing" string="HBL" attrs="{'invisible': [('transport','not in',('land'))]}"/>
+                            </group>
+                        </group>
+                        <group string="Activity" attrs="{'invisible': [('transport','=','air')]}">
+                            <group>
+                                <field name="freight_check" attrs="{'invisible': [('transport','=','air')]}"/>
+                                <field name="transport_check" attrs="{'invisible': ['|',('direction','=','export'),('transport','=','air')]}"/>
+                                <field name="storage_check" attrs="{'invisible': ['|',('direction','!=','import'),('transport','=','air')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Console Operation">
+                                <field name="console_operation_ids" widget="section_and_note_one2many" attrs="{'readonly':[('distribute','=',True)]}">
+                                    <tree string="Console Operation">
+<!--                                        <field name="checked" invisible="1"/>-->
+                                        <field name="name"/>
+                                        <field name="customer_id"/>
+                                        <field name="transport"/>
+                                        <field name="control"/>
+                                        <field name="seal_no" attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+                                        <field name="housing" string="HBL" attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+                                        <field name="housing" string="MHWB" attrs="{'column_invisible': [('parent.transport','!=','air')]}"/>
+                                        <field name="house_id"
+                                               attrs="{'column_invisible': ['|',('parent.direction','!=','import'),('parent.transport','!=','ocean')]}"/>
+                                        <field name="container_id" attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+                                        <field name="package"/>
+                                        <field name="qty"/>
+                                        <field name="volume" sum="Total Volume"/>
+                                        <field name="gross_weight" sum="Total Gross"/>
+                                        <field name="net_weight" attrs="{'column_invisible': [('parent.transport','=','air')]}" sum="Total net"/>
+                                        <field name="chargeable_weight" attrs="{'column_invisible': [('parent.transport','!=','air')]}" sum="Total charge"/>
+                                        <field name="largest" attrs="{'column_invisible': [('parent.transport','=','air')]}" string="Largest (FRT)" sum="Total large"/>
+<!--                                        <field name="state" attrs="{'column_invisible': [('parent.transport','=','air')]}"/>-->
+                                        <field name="console_id" invisible="1"/>
+                                        <field name="notify" optional="hide"/>
+                                        <field name="way_number" optional="hide" attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+                                        <field name="storage_location" optional="hide" attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+                                        <field name="shipper_id" optional="hide"/>
+                                        <field name="consignee_id" optional="hide"/>
+                                        <field name="agent_id" optional="hide"/>
+                                        <field name="second_agent_id" optional="hide" attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+                                    </tree>
+                                    <form string="Operation">
+                                        <group>
+                                            <group>
+                                                <field name="customer_id"/>
+                                                <field name="shipper_id"/>
+                                                <field name="consignee_id"/>
+                                                <field name="agent_id"/>
+                                                <field name="second_agent_id" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <field name="transport"/>
+                                                <field name="control"/>
+                                                <field name="seal_no" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <!--                                        <field name="hbl"/>-->
+                                                <field name="housing" string="HBL" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <field name="housing" string="MHWB" attrs="{'invisible': [('parent.transport','!=','air')]}"/>
+                                                <field name="available_container_id" widget="many2many_tags"
+                                                       invisible="1"/>
+                                                <field name="container_id" domain="[('id','in',available_container_id)]" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <field name="name"/>
+                                                <field name="package"/>
+                                                <field name="dangerous_goods"/>
+                                                <field name="class_number"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                                <field name="un_number"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                            </group>
+                                            <group>
+<!--                                                <field name="type"/>-->
+                                                <field name="qty"/>
+                                                <field name="volume"/>
+                                                <field name="gross_weight"/>
+                                                <field name="net_weight" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <field name="chargeable_weight" attrs="{'invisible': [('parent.transport','!=','air')]}"/>
+                                                <field name="largest" string="Largest (FRT)" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <field name="console_id" invisible="1"/>
+                                                <field name="notify"/>
+                                                <field name="way_number" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <field name="storage_location" attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                                <field name="description"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Console Container" attrs="{'invisible': [('transport','=','air')]}">
+                                <field name="console_container_ids" widget="section_and_note_one2many">
+                                    <tree string="Console Container">
+                                        <field name="container_id"/>
+                                        <field name="transport"/>
+                                        <field name="control"/>
+                                        <field name="seal_no"/>
+                                        <field name="package"/>
+                                        <field name="qty"/>
+                                        <field name="volume"/>
+                                        <field name="gross_weight"/>
+                                        <field name="largest"/>
+                                        <field name="console_id" invisible="1"/>
+                                    </tree>
+                                    <form string="Containers">
+                                        <group>
+                                            <group>
+                                                <field name="container_id"/>
+                                                                                              <field name="transport"/>
+                                                <field name="control"/>
+                                                <field name="seal_no"/>
+                                                <field name="name"/>
+                                                <field name="package"/>
+                                                <field name="dangerous_goods"/>
+                                                <field name="class_number"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                                <field name="un_number"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                            </group>
+                                            <group>
+                                                <field name="type"/>
+                                                <field name="qty"/>
+                                                <field name="volume"/>
+                                                <field name="gross_weight"/>
+                                                <field name="largest"/>
+                                                <field name="console_id" invisible="1"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Console Package">
+                                <button string="Generate Package" name="create_package" type="object"/>
+                                <field name="console_package_ids" widget="section_and_note_one2many">
+                                    <tree string="Package">
+                                        <!--                                        <field name="container_id"/>-->
+                                        <!--                                        <field name="container_no_id"/>-->
+<!--                                        <field name="control"/>-->
+                                        <field name="name"/>
+                                        <field name="package"/>
+                                        <field name="qty"/>
+<!--                                        <field name="type"/>-->
+                                        <field name="volume" sum="Total Volume"/>
+                                        <field name="gross_weight" sum="Total Gross"/>
+                                        <field name="net_weight" attrs="{'column_invisible': [('parent.transport', '=', 'air')]}" sum="Total Net"/>
+                                        <field name="chargeable_weight" attrs="{'column_invisible': [('parent.transport', '!=', 'air')]}" sum="Total Chargeable"/>
+                                    </tree>
+                                    <form string="Package">
+                                        <group>
+                                            <group>
+                                                <!--                                                <field name="container_id"/>-->
+                                                <!--                                                <field name="container_no_id"/>-->
+<!--                                                <field name="control"/>-->
+<!--                                                <field name="seal_no"/>-->
+                                                <field name="name"/>
+                                                <field name="package"/>
+                                                <field name="qty"/>
+<!--                                                <field name="type"/>-->
+                                                <field name="volume" sum="Total Volume"/>
+                                                <field name="gross_weight" sum="Total Gross"/>
+                                                <field name="net_weight" attrs="{'column_invisible': [('parent.transport', '=', 'air')]}"/>
+                                                <field name="chargeable_weight" attrs="{'invisible': [('parent.transport', '!=', 'air')]}"/>
+                                            </group>
+                                            <group>
+                                                <field name="dangerous_goods"/>
+                                                <field name="class_number"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                                <field name="un_number"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                                <field name="Package_group"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                                <field name="imdg_code"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                                <field name="flash_point"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                                <field name="material_description"
+                                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+<!--                                                <field name="description"/>-->
+
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Console Freight" attrs="{'invisible': [('freight_check','!=',True)]}">
+                                <field name="console_freight_ids" widget="section_and_note_one2many">
+                                    <tree string="Console Freight" editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="available_container_id" invisible="1"/>
+                                        <field name="container_id" domain="[('id','in',available_container_id)]"/>
+                                        <field name="carrier_id"/>
+                                        <field name="shipping_line_id"/>
+                                        <field name="agent_id"/>
+                                        <field name="currency_id" optional="hide"/>
+                                        <field name="source_location_id" force_save="1"/>
+                                        <field name="destination_location_id" force_save="1"/>
+                                        <field name="name" optional="hide"/>
+                                        <field name="available_fright_rates_id"/>
+                                        <field name="rates_id" domain="[('id','in',available_fright_rates_id)]"/>
+                                        <field name="qty" optional="hide"/>
+                                        <field name="price_sale"/>
+                                        <field name="price_cost" force_save="1"/>
+                                        <field name="volume" optional="hide"/>
+                                        <field name="gross_weight" optional="hide"/>
+                                        <field name="console_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Console Transportation"
+                                  attrs="{'invisible': [('transport_check','!=',True)]}">
+                                <field name="console_transport_ids" widget="section_and_note_one2many">
+                                    <tree string="Console Transportation" editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="container_id"/>
+                                        <field name="currency_id"/>
+                                        <field name="name" optional="hide"/>
+                                        <field name="tracking_agent" />
+                                        <field name="source_location_id" optional="show"/>
+                                        <field name="destination_location_id" optional="show"/>
+                                        <field name="qty" optional="hide"/>
+                                        <field name="cost_price" optional="show"/>
+                                        <field name="sale_price" optional="show"/>
+                                        <field name="console_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_console_operation_tree">
+            <field name="name">console.operation.tree</field>
+            <field name="model">console.operation</field>
+            <field name="arch" type="xml">
+                <tree string="Console tree view">
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="shipper_id"/>
+                    <field name="consignee_id"/>
+                    <field name="source_location_id"/>
+                    <field name="destination_location_id"/>
+                    <field name="transport"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_console_operation_search" model="ir.ui.view">
+            <field name="name">console.operation.view.search</field>
+            <field name="model">console.operation</field>
+            <field name="arch" type="xml">
+                <search string="Console search view">
+                    <field name="shipper_id"/>
+                    <field name="consignee_id"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Shipper" name="shipper" domain="[]" context="{'group_by':'shipper_id'}"/>
+                        <filter string="Consignee" name="Consignee" domain="[]" context="{'group_by':'consignee_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="console_operation_view_kanban" model="ir.ui.view">
+            <field name="name">console.operation.kanban</field>
+            <field name="model">console.operation</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="name"/>
+                    <field name="color"/>
+                    <field name="activity_ids"/>
+                    <field name="activity_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+                                        <li>
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            <field name="obl"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            <field name="datetime"/>
+                                        </strong>
+                                    </div>
+                                    <br/>
+                                    <div class="oe_kanban_bottom_right">
+                                        <div class="o_kanban_inline_block">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_console_operation_action">
+            <field name="name">Console</field>
+            <field name="res_model">console.operation</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Console Operation.
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="console_operation_menu"
+                  name="Console"
+                  parent="freight.freight_root"
+                  sequence="1"
+                  action="view_console_operation_action"
+                  />
+
+
+    </data>
+</odoo>

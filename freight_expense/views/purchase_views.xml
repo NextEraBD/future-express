@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="els_view_purchase_order_crm" model="ir.ui.view">
+            <field name="name">purchase.order.form.crm</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header" position="inside"> <!-- Corrected 'postion' to 'position' -->
+                    <button name="action_create_journal_official" type="object" class="btn-secondary" attrs="{'invisible': ['|',('state', 'not in', ('purchase', 'done')), ('is_claimed',  '=', True),]}" string="Create Claim"/>
+                </xpath>
+
+
+                <field name="currency_id" position="after">
+                    <field name="source_location_id" />
+                    <field name="certificate_number" />
+                    <field name="transport" />
+                    <field name="ocean_shipment_type"  attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                    <field name="booking_no" />
+                </field>
+                <field name="picking_type_id" position="after">
+                    <field name="freight_operation_id"  readonly="1"/>
+                    <field name="destination_location_id" />
+                    <field name="certificate_date" />
+                    <field name="booking" invisible="1"/>
+                    <field name="is_claimed" invisible="1"/>
+                    <field name="weight" />
+                    <field name="volume" />
+                    <field name="chargeable_weight"  attrs="{'invisible': [('transport','!=','air')]}"/>
+                    <field name="net_weight"  attrs="{'invisible': [('transport','=','air')]}"/>
+                </field>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
+                    <field name="container_id"  attrs="{'column_invisible': [('parent.transport','=','air')]}" optional="show" force_save="1"
+                           />
+                     <field name="package"  attrs="{'column_invisible': [('parent.transport','!=','air')]}" force_save="1" />
+
+                </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='product_qty']" position="after">
+
+<!--                <field name="price_for_one_container" optional="show" attrs="{'column_invisible': [('parent.transport','=','air')]}" force_save="1" />-->
+<!--                <field name="container_from_to" optional="hide" force_save="1" attrs="{'column_invisible': [('parent.transport','=','air')]}" />-->
+                <field name="gross_weight" optional="hide" force_save="1" attrs="{'column_invisible': [('parent.transport','!=','air')]}" />
+            </xpath>
+
+                <xpath expr="//button[@name='action_create_invoice'][1]" position="replace">
+                    <button name="action_create_invoice" string="Create Bill" type="object" class="oe_highlight" context="{'create_bill':True}"
+                            attrs="{'invisible': ['|', '|',('state', 'not in', ('purchase', 'done')), ('invoice_status', 'in', ('no', 'invoiced')),('is_claimed',  '=', True)]}" data-hotkey="w"/>
+                </xpath>
+                <xpath expr="//button[@name='action_create_invoice']" position="replace">
+                    <button name="action_create_invoice" string="Create Bill" type="object" class="oe_highlight" context="{'create_bill':True}"
+                                 attrs="{'invisible': ['|','|',('state', 'not in', ('purchase', 'done')), ('invoice_status', 'not in', ('no', 'to invoice')),('is_claimed',  '=', True),]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_tree_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+			<field name="arch" type="xml">
+
+             <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="po_type" string="Purchase From"/>
+            </xpath>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

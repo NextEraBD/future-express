@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_cover_letter_tree" model="ir.ui.view">
+            <field name="name">hr.cover.letter.tree</field>
+            <field name="model">hr.cover.letter</field>
+            <field name="arch" type="xml">
+                <tree string="Cover Letter" decoration-info="state == 'draft'">
+                    <field name="name"/>
+                    <field name="date" optional="show"/>
+                    <field name="company_id" invisible="1"/>
+                    <!--                    <field name="branch_id" optional="show"/>-->
+                    <field name="employee_id" widget="many2one_avatar_employee"/>
+                    <field name="total_ex_sale_amount" optional="hide" decoration-bf="True" groups="base.group_multi_currency"/>
+                    <field name="total_ex_cost_amount" optional="hide" decoration-bf="True" groups="base.group_multi_currency"/>
+                    <field name="total_of_sale_amount" optional="hide" decoration-bf="True" groups="base.group_multi_currency"/>
+                    <field name="total_of_cost_amount" optional="hide" decoration-bf="True" groups="base.group_multi_currency"/>
+                    <field name="state" optional="show" readonly="1" decoration-info="state == 'draft'" decoration-success="state in ['reported', 'approved', 'done']" decoration-danger="state in 'refused'" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_cover_letter_form" model="ir.ui.view">
+            <field name="name">hr.cover.letter.form</field>
+            <field name="model">hr.cover.letter</field>
+            <field name="arch" type="xml">
+                <form string="Coverage Letter">
+                    <header>
+                        <button name="action_submit" string="Submit" groups="hr.group_hr_user" class="btn-primary" states="draft" type="object"/>
+<!--                        <button name="action_submit_events" string="Submit Events"  class="btn-secondary" states="draft" type="object" />-->
+<!--                        <button name="action_manager_approve" string="Approve" groups="hr.group_hr_user" class="btn-primary" states="reported" type="object"/>-->
+                        <button name="action_account_approve" string="Accounting Approve" groups="hr.group_hr_user" class="btn-primary" attrs="{'invisible': ['|',('all_approved', '=', False),('checked', '=', True)]}" type="object"/>
+<!--                        <button name="action_paid" string="Paid" groups="hr.group_hr_user" class="btn-primary" states="reported" type="object"/>-->
+                        <!--                        <button name="action_refuse" string="Refuse" groups="hr.group_hr_user" class="btn-primary" states="reported,approved" type="object"/>-->
+
+
+                        <!--                        <button name="action_create_vendor_bill" states="reported" string="Create Vendor Bill" groups="hr.group_hr_user" class="btn-primary" attrs="{'invisible':[('state','!=','reported')]}" type="object"/>-->
+
+                        <field name="state"  options="{'clickable': '1'}" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_viw_vendor_bill"
+                                    class="oe_stat_button"
+                                    icon="fa-list"
+                                    type="object"
+                                    attrs="{'invisible': [('bill_count', '=', 0)]}">
+                                <field name="bill_count" widget="statinfo" string="Vendor Bill" options="{'reload_on_button': true}"/>
+                            </button>
+                            <button name="action_viw_journals"
+                                    class="oe_stat_button"
+                                    icon="fa-list"
+                                    type="object"
+                                    attrs="{'invisible': [('entry_count', '=', 0)]}">
+                                <field name="entry_count" widget="statinfo" string="Journal Entries" options="{'reload_on_button': true}"/>
+                            </button>
+                        </div>
+                        <div class="pull-left">
+                            <label for="name" class="oe_edit_only oe_inline"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="2">
+                            <group>
+                                <field name="date"  attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="ex_is_console" invisible="1"/>
+                                <field name="off_is_console" invisible="1"/>
+                                <field name="all_approved" invisible="1"/>
+                                <field name="checked" invisible="1" readonly="0"/>
+                                <field name="company_id" groups="base.group_multi_company"  attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="employee_id"  attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="company_id" invisible="1"/>
+                                <!--                                <field name="branch_id" groups="branch.group_branch_user"  attrs="{'readonly':[('state','!=','draft')]}"/>-->
+                                <field name="total_cost_amount" string="Total Cost"/>
+                                <field name="total_gl" string="Total in GL"/>
+                                <field name="remaining_balance"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Expense" >
+                                <field name="expense_line_ids" widget="one2many" nolabel="1" colspan="3" attrs="{'readonly':[('state','=','done')]}">
+                                    <tree >
+                                        <field name="is_console"/>
+                                        <field name="outside_port" string="Outside Port"/>
+                                        <field name="shipment_number_domain" invisible="1"/>
+                                        <field name="shipment_number" domain="shipment_number_domain"  attrs="{'readonly':[('is_console','=',True)]}"/>
+
+                                        <field name="employee_id" invisible="0" optional="hide"/>
+<!--                                        <field name="operator_id" readonly="1" />-->
+
+                                        <field name="product_id_domain" invisible="1"/>
+                                        <!--                                        <field name="branch_id" invisible="1"/>-->
+                                        <field name="number" optional="hide"/>
+                                        <field name="date" optional="hide"/>
+                                        <field name="product_id" />
+                                        <field name="shipment_number" domain="shipment_number_domain"  attrs="{'invisible':[('is_console','=',True)]}"/>
+                                        <field name="container_id" optional="hide"/>
+                                        <field name="expense_type_id" invisible="1"/>
+                                        <field name="description" optional="hide"/>
+                                        <field name="ref" invisible="1"/>
+                                        <field name="expense_service_type"/>
+                                        <field name="master" string="Master" optional="hide"/>
+                                        <field name="housing" string="Housing" optional="hide"/>
+                                        <field name="port_id" optional="hide"/>
+                                        <field name="cover_letter_id" invisible="1"/>
+                                        <field name="uom_id" invisible="1"/>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="currency_id" optional="show" required="0"/>
+                                        <!--                                        <field name="amount_sale" groups="custom_hr_expense.group_cover_letter_manager" force_save="1"/>-->
+                                        <field name="amount_cost" force_save="1"/>
+                                        <field name="tax_id" optional="hide"/>
+                                        <field name="taxed_amount_cost" string="Total Cost"/>
+                                        <field name="line_state" optional="hide"/>
+                                        <!--                                        <field name="tax_ids" widget="many2many_tags" domain="[('company_id','=',company_id)]"/>-->
+                                        <field name="event_state_domain" invisible="1"/>
+                                        <field name="event_state_id" domain="event_state_domain" />
+                                        <!--                                        <button name="action_submit_event" type="object" string="Submit" class="btn-primary" attrs="{'invisible':[('event_state_id','=',False)]}" />-->
+                                        <field name="attachment_id" optional="show"/>
+
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+
+                                                <field name="shipment_number_domain" invisible="1"/>
+                                                <field name="product_id_domain" invisible="1"/>
+                                                <!--                                            <field name="branch_id" invisible="1"/>-->
+                                                <field name="expense_type_id" invisible="1"/>
+                                                <field name="is_console"/>
+
+                                                <field name="outside_port" string="Outside Port"/>
+                                                <field name="product_id"/>
+                                                <field name="shipment_number" domain="shipment_number_domain"  attrs="{'invisible':[('is_console','=',True)]}"/>
+                                                <field name="expense_service_type"/>
+<!--                                                <field name="clearance_company" attrs="{'invisible': [('expense_service_type', '!=', 'clearance')]}"/>-->
+<!--                                                <field name="tracking_agent" attrs="{'invisible': [('expense_service_type', '!=', 'transportation')]}"/>-->
+<!--                                                <field name="agent_id" attrs="{'invisible': [('expense_service_type', '!=', 'freight')]}"/>-->
+                                                <field name="employee_id" invisible="0" />
+                                                <field name="customer_id" invisible="0" />
+<!--                                                <field name="operator_id" readonly="1"/>-->
+
+                                                <field name="number" />
+                                                <field name="date" />
+
+                                                <field name="description" />
+                                                <field name="ref" invisible="1"/>
+
+                                            </group>
+                                            <group>
+                                                <field name="master" string="Master" />
+                                                <field name="housing" string="Housing" />
+                                                <field name="port_id" />
+                                                <field name="cover_letter_id" invisible="1"/>
+                                                <field name="uom_id" invisible="1"/>
+                                                <field name="quantity"/>
+                                               <field name="sale_currency_id"/>
+                                                <field name="amount_sale" />
+                                                <field name="total_sale" />
+                                                <field name="currency_id" string="Cost Currency"/>
+                                                <field name="amount_cost"/>
+                                                <field name="total_cost"/>
+                                                <field name="tax_id" />
+                                                <field name="taxed_amount_cost" string="Total Cost"/>
+                                                <field name="line_state" />
+                                                <field name="event_state_domain" invisible="1"/>
+                                                <field name="event_state_id" domain="event_state_domain" />
+                                                <field name="attachment_id" />
+                                                <field name="company_id" />
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <group col="12" class="oe_invoice_lines_tab">
+                                    <group colspan="8">
+                                    </group>
+                                    <!-- Totals (only invoices / receipts) -->
+                                    <group colspan="4">
+                                        <group class="oe_subtotal_footer oe_right">                                                                      ('payment_state' ,'=', 'invoicing_legacy')]}">
+
+                                            <field name="total_ex_sale_amount"  colspan="2"/>
+
+                                            <field name="total_ex_cost_amount" colspan="2" />
+                                        </group>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Official Receipt" >
+                                <field name="official_line_ids" widget="one2many" nolabel="1" colspan="3" attrs="{'readonly':[('state','=','done')]}">
+                                    <tree >
+                                        <field name="is_console"/>
+                                        <field name="employee_id" invisible="0" optional="hide"/>
+<!--                                        <field name="operator_id" readonly="1"/>-->
+                                        <field name="shipment_number_domain" invisible="1"/>
+                                        <field name="product_id_domain" invisible="1"/>
+                                        <!--                                        <field name="branch_id" invisible="1"/>-->
+                                        <field name="number"/>
+                                        <field name="date"/>
+                                        <field name="shipment_number" domain="shipment_number_domain" attrs="{'readonly':[('is_console','=',True)]}"/>
+
+                                        <field name="product_id" />
+                                        <field name="shipment_number" domain="shipment_number_domain"  attrs="{'invisible':[('is_console','=',True)]}"/>
+                                        <field name="expense_service_type"/>
+                                        <!--                                        <field name="container_id" optional="hide"/>-->
+                                        <field name="expense_type_id" invisible="1"/>
+                                        <!--                                        <field name="expense_service" invisible="1"/>-->
+                                        <field name="description" />
+                                        <field name="ref" invisible="1"/>
+
+                                        <field name="master"/>
+                                        <field name="housing"/>
+                                        <field name="port_id"/>
+                                        <field name="cover_letter_id" invisible="1"/>
+                                        <field name="uom_id" invisible="1"/>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="currency_id" optional="show" required="0" options="{'no_create': True}" />
+                                        <field name="amount_cost" force_save="1"/>
+                                        <field name="tax_id"/>
+                                        <field name="taxed_amount_cost" string="Total Cost"/>
+                                        <field name="line_state"/>
+                                        <field name="event_state_domain" invisible="1"/>
+                                        <field name="event_state_id" domain="event_state_domain" />
+
+                                        <field name="attachment_id" optional="show"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+
+                                                <field name="is_console"/>
+                                                <field name="current_account"/>
+                                                <field name="current_account_type" attrs="{'invisible': [('current_account', '!=', True)],'required': [('current_account', '=', True)]}"/>
+                                                <field name="employee_id" invisible="0" optional="hide"/>                                               
+ 						                        <field name="product_id" />
+
+                                                <field name="shipment_number_domain" invisible="1"/>
+                                                <field name="shipment_number" domain="shipment_number_domain" attrs="{'readonly':[('is_console','=',True)]}"/>
+
+                                                <field name="expense_service_type" string="Official Receipt Service Type"/>
+<!--                                                <field name="clearance_company" attrs="{'invisible': [('expense_service_type', '!=', 'clearance')]}"/>-->
+<!--                                                <field name="tracking_agent" attrs="{'invisible': [('expense_service_type', '!=', 'transportation')]}"/>-->
+<!--                                                <field name="agent_id" attrs="{'invisible': [('expense_service_type', '!=', 'freight')]}"/>-->
+                                                <field name="employee_id" invisible="0" optional="hide"/>
+                                                <field name="customer_id" invisible="0" />
+<!--                                                <field name="operator_id" readonly="1"/>-->
+                                                <field name="product_id_domain" invisible="1"/>
+                                                <!--                                        <field name="branch_id" invisible="1"/>-->
+                                                <field name="number"/>
+                                                <field name="date"/>
+                                                <field name="description" optional="show"/>
+                                                <field name="ref" invisible="1"/>
+
+                                            </group>
+                                            <group>
+
+                                                <field name="master"/>
+                                                <field name="housing"/>
+                                                <field name="port_id"/>
+                                                <field name="cover_letter_id" invisible="1"/>
+                                                <field name="uom_id" invisible="1"/>
+                                                <field name="quantity"/>
+                                                 <field name="sale_currency_id"/>
+                                               <field name="amount_sale" />
+                                                <field name="total_sale" />
+                                                <field name="currency_id" string="Cost Currency"/>
+                                                <field name="amount_cost"/>
+                                                <field name="total_cost"/>
+                                                <field name="tax_id"/>
+                                                <field name="taxed_amount_cost" string="Total Cost"/>
+                                                <field name="line_state"/>
+                                                <field name="event_state_domain" invisible="1"/>
+                                                <field name="event_state_id" domain="event_state_domain" />
+                                                <field name="attachment_id" optional="show"/>
+                                                <field name="company_id" invisible="1"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <group col="12" class="oe_invoice_lines_tab">
+                                    <group colspan="8">
+                                    </group>
+                                    <!-- Totals (only invoices / receipts) -->
+                                    <group colspan="4">
+                                        <group class="oe_subtotal_footer oe_right">                                                                      ('payment_state' ,'=', 'invoicing_legacy')]}">
+
+                                            <field name="total_of_sale_amount"  colspan="2"/>
+
+                                            <field name="total_of_cost_amount" colspan="2" />
+                                        </group>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="All Lines" >
+                                <field name="cov_line_ids" widget="one2many" nolabel="1" colspan="3" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="employee_id" invisible="1"/>
+                                        <field name="shipment_number_domain" invisible="1"/>
+                                        <field name="product_id_domain" invisible="1"/>
+                                        <!--                                        <field name="branch_id" invisible="1"/>-->
+                                        <field name="number"/>
+                                        <field name="date"/>
+                                        <field name="product_id"/>
+                                        <field name="expense_type_id" invisible="1"/>
+                                        <field name="expense_service" invisible="1"/>
+                                        <!--                                        <field name="container_id" optional="hide"/>-->
+                                        <field name="type"/>
+                                        <field name="description" optional="show"/>
+                                        <field name="ref" invisible="1"/>
+                                        <field name="shipment_number" />
+                                        <field name="master"/>
+                                        <field name="housing"/>
+                                        <field name="port_id"/>
+                                        <field name="cover_letter_id" invisible="1"/>
+                                        <field name="uom_id" invisible="1"/>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="currency_id" optional="show" options="{'no_create': True}" />
+                                        <!--                                        <field name="amount_sale" groups="custom_hr_expense.group_cover_letter_manager" force_save="1"/>-->
+                                        <field name="amount_cost" force_save="1"/>
+                                        <field name="tax_id"/>
+                                        <field name="taxed_amount_cost" string="Total Cost"/>
+                                        <field name="event_state_id" />
+                                        <field name="attachment_id" optional="show"/>
+                                    </tree>
+                                </field>
+                                <group col="12" class="oe_invoice_lines_tab">
+                                    <group colspan="8">
+                                    </group>
+                                    <!-- Totals (only invoices / receipts) -->
+                                    <group colspan="4">
+                                        <group class="oe_subtotal_footer oe_right">                                                                      ('payment_state' ,'=', 'invoicing_legacy')]}">
+
+                                            <field name="total_sale_amount"  colspan="2"/>
+
+                                            <field name="total_cost_amount" colspan="2" />
+                                        </group>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Vendor Bills">
+                                <field name="move_line_ids" widget="many2many" nolabel="1" colspan="3" readonly="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="product_id"/>
+                                        <field name="shipment_number"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
+                                        <field name="price_total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other Info" attrs="{'invisible':[('state','!=','refused')]}">
+                                <group>
+                                    <field name="refuse_user_id"/>
+                                    <field name="refuse_date"/>
+                                    <field name="refuse_reason" attrs="{'required':[('state','=','refused')]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_cover_letter_action" model="ir.actions.act_window">
+            <field name="name">Cover Letter</field>
+            <field name="res_model">hr.cover.letter</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new cover letter
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_cover_letter" name="Coverage Letter" parent="hr_expense.menu_hr_expense_my_expenses" action="hr_cover_letter_action"/>
+
+
+        <record id="act_hr_cover_letter_approve" model="ir.actions.act_window">
+            <field name="res_model">hr.cover.letter</field>
+            <field name="name">Cover Letter</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','in',['approved'])]</field>
+        </record>
+        <!--    <menuitem id="menu_expense_approval" parent="custom_main_account.menu_account_approval" action="act_hr_cover_letter_approve"   name="Expense" sequence="2"/>-->
+
+    </data>
+</odoo>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <!-- Add your custom changes here -->
+        <xpath expr="//div[@id='informations']/div[@name='invoice_date']" position="replace">
+            <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                <!-- Custom Logic Here -->
+                <t t-if="o.is_claim"><strong>Claim Date:</strong></t>
+                <t t-elif="o.move_type == 'out_invoice'"><strong>Invoice Date:</strong></t>
+                <t t-elif="o.move_type == 'out_refund'"><strong>Credit Note Date:</strong></t>
+                <t t-elif="o.move_type == 'out_receipt'"><strong>Receipt Date:</strong></t>
+                <t t-else=""><strong>Date:</strong></t>
+                <p class="m-0" t-field="o.invoice_date"/>
+            </div>
+        </xpath>
+        <xpath expr="//h2" position="replace">
+            <h2>
+                <t t-if="o.is_claim">
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Claim</span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Draft Claim</span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">Cancelled Claim</span>
+                    <span t-if="o.move_type == 'out_refund'">Credit Note</span>
+                    <span t-if="o.move_type == 'in_refund'">Claim Credit Note</span>
+                    <span t-if="o.move_type == 'in_invoice'">Vendor Claim</span>
+                </t>
+                <t t-else="">
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Invoice</span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+                    <span t-if="o.move_type == 'out_refund'">Credit Note</span>
+                    <span t-if="o.move_type == 'in_refund'">Vendor Credit Note</span>
+                    <span t-if="o.move_type == 'in_invoice'">Vendor Bill</span>
+                </t>
+                <span t-if="o.name != '/'" t-field="o.name"/>
+            </h2>
+        </xpath>
+
+        <xpath expr="//div[@class='row']" position="after">
+            <!-- Left column -->
+            <div class="col-6" style="margin-top:-300px;">
+                <p class="m-0">
+                    <t t-if="o.is_claim">
+                        <strong>Customer: <t t-esc="o.partner_id.name"/></strong><br/>
+                        <t t-esc="o.partner_id.street"/>
+                        <t t-if="o.partner_id.street2">, <t t-esc="o.partner_id.street2"/></t><br/>
+                        <t t-if="o.partner_id.city">, <t t-esc="o.partner_id.city"/></t>
+                        <t t-if="o.partner_id.state_id">, <t t-esc="o.partner_id.state_id.name"/></t>
+                        <t t-if="o.partner_id.country_id">, <t t-esc="o.partner_id.country_id.name"/></t>
+                        <br/>
+                        <!-- Telephone number with label -->
+                        <strong>Telephone:</strong> <t t-esc="o.partner_id.phone"/><br/>
+                        <strong>Billing To:</strong> <t t-esc="o.partner_id.name"/><br/>
+                        <strong>Shipper:</strong> <t t-esc="o.freight_operation_id.shipper_id.name"/><br/>
+                        <strong>Consignee:</strong><t t-esc="o.freight_operation_id.consignee_id.name"/>
+                    </t>
+                    <t t-else="">
+                        <strong>Vendor: <t t-esc="o.partner_id.name"/></strong><br/>
+                        <t t-esc="o.partner_id.street"/>
+                        <t t-if="o.partner_id.street2">, <t t-esc="o.partner_id.street2"/></t><br/>
+                        <t t-if="o.partner_id.city">, <t t-esc="o.partner_id.city"/></t>
+                        <t t-if="o.partner_id.state_id">, <t t-esc="o.partner_id.state_id.name"/></t>
+                        <t t-if="o.partner_id.country_id">, <t t-esc="o.partner_id.country_id.name"/></t>
+                        <br/>
+                        <!-- Telephone number with label -->
+                        <strong>Telephone:</strong> <t t-esc="o.partner_id.phone"/><br/>
+                        <strong>Billing To:</strong> <t t-esc="o.partner_id.name"/><br/>
+                        <strong>Shipper:</strong> <t t-esc="o.freight_operation_id.shipper_id.name"/><br/>
+                        <strong>Consignee:</strong><t t-esc="o.freight_operation_id.consignee_id.name"/>
+                    </t>
+
+                </p>
+            </div>
+        </xpath>
+        <xpath expr="//div[@name='address_same_as_shipping']" position="replace">
+            <t t-if="o.is_claim">
+                <div class=" col-8" style="margin-left:400px;margin-bottom: 100px;">
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">Claim No:</strong>
+                        <t t-esc="o.name"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">Claim Date:</strong>
+                        <t t-esc="o.invoice_date"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">Claim REF:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">OPERATION FILE:</strong>
+                        <t t-esc="o.freight_operation_id.name"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">OPERATION S/N:</strong>
+                        <t t-esc="o.freight_operation_id.name"/>
+                    </div>
+                    <br/>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">MAWB/MB-L#:</strong>
+                        <t t-esc="o.freight_operation_id.master.name"/>
+
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">HAWB/HB-L#:</strong>
+                        <t t-esc="o.freight_operation_id.housing"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">ORIGIN:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">DESTINATION:</strong>
+                        <t t-esc="o.destination_location_id.name"/>
+
+                    </div>
+                    <br/>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">PIECES:</strong>
+                        <t t-esc="o.freight_operation_id.pieces"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">WEIGHT:</strong>
+                        <t t-esc="o.freight_operation_id.net_weight"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">SHIPPING MODE:</strong>
+                        <t t-esc="o.freight_operation_id.ocean_shipment_type"/>
+
+
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">CARRIER:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">FLIGHT DETAILS:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">CURRENCY:</strong>
+                        <t t-esc="o.currency_id.name"/>
+
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <div class=" col-8" style="margin-left:400px;margin-bottom: 100px;">
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">Invoice No:</strong>
+                        <t t-esc="o.name"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">Invoice Date:</strong>
+                        <t t-esc="o.invoice_date"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">Invoice REF:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">OPERATION FILE:</strong>
+                        <t t-esc="o.freight_operation_id.name"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">OPERATION S/N:</strong>
+                        <t t-esc="o.freight_operation_id.name"/>
+                    </div>
+                    <br/>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">MAWB/MB-L#:</strong>
+                        <t t-esc="o.freight_operation_id.master.name"/>
+
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">HAWB/HB-L#:</strong>
+                        <t t-esc="o.freight_operation_id.housing"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">ORIGIN:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">DESTINATION:</strong>
+                        <t t-esc="o.destination_location_id.name"/>
+
+                    </div>
+                    <br/>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">PIECES:</strong>
+                        <t t-esc="o.freight_operation_id.pieces"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">WEIGHT:</strong>
+                        <t t-esc="o.freight_operation_id.net_weight"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">SHIPPING MODE:</strong>
+                        <t t-esc="o.freight_operation_id.ocean_shipment_type"/>
+
+
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">CARRIER:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">FLIGHT DETAILS:</strong>
+                        <t t-esc="o.payment_reference"/>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; ">
+                        <strong style="width: 150px; text-align: left;">CURRENCY:</strong>
+                        <t t-esc="o.currency_id.name"/>
+
+                    </div>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//p[@name='payment_communication']" position="after">
+            <!-- Add Bank Details -->
+            <div style="margin-top: 5px;">
+                <h4><strong>Bank Details:</strong></h4>
+                <div>
+                    <strong style="width: 150px; display: inline-block;">Bank Name:</strong>
+                    <span t-field="o.partner_bank_id.bank_name"/>
+                </div>
+                <div>
+                    <strong style="width: 150px; display: inline-block;">SWIFT Code:</strong>
+                    <!--                    <span t-field="o.partner_bank_id.swift_code"/>-->
+                </div>
+                <div>
+                    <strong style="width: 150px; display: inline-block;">Account Number:</strong>
+                    <!--                    <span t-field="o.partner_bank_id.acc_number"/>-->
+                </div>
+            </div>
+            <div style="margin-top: 5px;">
+                <p style="margin: 0;">
+                    Please make all checks payable to <b><span t-field="o.partner_id.name"/></b>.
+                </p>
+                <p style="margin: 0;">
+                    Total Due: <b>0</b> days. Unless stated above.
+                </p>
+                <p style="margin: 0;">
+                    Overdue accounts are subject to a service charge of <b>1.5%</b> from 0-15 days, <b>3.0%</b> from 16-30 days, and over <b>6.00%</b> per <b>Monthly</b>.
+                </p>
+            </div>
+        </xpath>
+
+        <!--        <xpath expr="//div[@name='no_shipping']" position="replace">-->
+        <!--            <div style="text-align: center; margin-top: 20px;">-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">Invoice No:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.name"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">Invoice Date:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.invoice_date"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">Invoice REF:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.payment_reference"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">OPERATION FILE:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.freight_operation_id.name"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">OPERATION S/N:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.freight_operation_id.name"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <br/>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">MAWB/MB-L#:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.freight_operation_id.master.name"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">HAWB/HB-L#:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.freight_operation_id.housing"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">ORIGIN:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        &lt;!&ndash;                      <t t-esc="o.payment_reference"/>&ndash;&gt;-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">DESTINATION:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.destination_location_id.name"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <br/>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">PIECES:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.freight_operation_id.pieces"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">WEIGHT:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.freight_operation_id.net_weight"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">SHIPPING MODE:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.freight_operation_id.ocean_shipment_type"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">CARRIER:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        &lt;!&ndash;                      <t t-esc="o.payment_reference"/>&ndash;&gt;-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">FLIGHT DETAILS:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        &lt;!&ndash;                         <t t-esc="o.payment_reference"/>&ndash;&gt;-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">-->
+        <!--                    <strong style="width: 150px; text-align: left;">CURRENCY:</strong>-->
+        <!--                    <p class="m-0" style="margin: 0; margin-left: 10px;">-->
+        <!--                        <t t-esc="o.currency_id.name"/>-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--            </div>-->
+
+        <!--        </xpath>-->
+
+
+    </template>
+</odoo>

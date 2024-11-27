@@ -1,0 +1,121 @@
+<odoo>
+    <data>
+
+        <!--Tree View : Way Bill -->
+        <record id="view_way_bill_tree" model="ir.ui.view">
+            <field name="name">Way Bill</field>
+            <field name="model">way.bill</field>
+            <field name="arch" type="xml">
+                <tree string="Way Bill" >
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="customer_id"/>
+                    <field name="vehicle_no"/>
+                    <field name="deriver_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Form View : Way Bill -->
+        <record id="view_way_bill_form" model="ir.ui.view">
+            <field name="name">Way Bill Form</field>
+            <field name="model">way.bill</field>
+            <field name="arch" type="xml">
+                <form string="Way Bill">
+                    <sheet>
+                        <group col="2">
+                            <group>
+                                <field name="transport_line_id" invisible="1"/>
+                                <field name="vessel_id"/>
+                                <field name="name"/>
+                                <field name="shipment_id" readonly="1"/>
+                                <field name="today_date" />
+                                <field name="shipper_id" />
+                                <field name="consignee_id" />
+                                <field name="notify" />
+                                <field name="pick_up"/>
+                                <field name="drop_location"/>
+                                <field name="from_location" />
+                                <field name="to_location" />
+                            </group>
+                            <group>
+                                <field name="source_location_id" />
+                                <field name="destination_location_id" />
+                                <field name="agent_id" />
+                                <field name="forwarder_id" />
+                                <field name="freight_payable"/>
+                                <field name="notation" />
+                                <field name="no_trucks" />
+                                <field name="issued_at" />
+                                <field name="issued_on" />
+                                <field name="issued_No" />
+                                <field name="teems_carriage" />
+                                <field name="type" />
+                            </group>
+
+                        </group>
+                        <!--                        <group string="Vehicle">-->
+                        <!--                            <group>-->
+                        <!--                                <field name="vehicle_no"/>-->
+                        <!--                                <field name="deriver_id"/>-->
+                        <!--                                <field name="card_no"/>-->
+                        <!--                                <field name="creator"/>-->
+                        <!--                            </group>-->
+                        <!--                            <group>-->
+                        <!--                                <field name="license_no"/>-->
+                        <!--                                <field name="created_from"/>-->
+                        <!--                                <field name="date"/>-->
+                        <!--                                <field name="customer_id"/>-->
+
+                        <!--                            </group>-->
+                        <!--                        </group>-->
+                        <!--                        <group string="Dates">-->
+                        <!--                            <group>-->
+                        <!--                                <field name="expected_arrival_date"/>-->
+                        <!--                                <field name="expected_departure_date"/>-->
+                        <!--                            </group>-->
+                        <!--                            <group>-->
+                        <!--                                <field name="expected_arrival_hour"/>-->
+                        <!--                                <field name="expected_departure_hour"/>-->
+                        <!--                                <field name="delay_reason"/>-->
+                        <!--                            </group>-->
+                        <!--                        </group>-->
+                        <notebook>
+                            <page string="Details" >
+                                <field name="transport_ids" >
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="qty"/>
+                                        <field name="volume"/>
+                                        <field name="gross_weight"/>
+                                        <field name="net_weight"/>
+                                        <field name="package"/>
+                                        <field name="source_location_id"/>
+                                        <field name="destination_location_id"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+
+                            <page string="Customer Notes" name="note">
+                                <field name="note"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!--Action View : Way Bill -->
+        <record id="action_way_bill_view" model="ir.actions.act_window">
+            <field name="name">Way Bill</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">way.bill</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!--Action View : Custody-->
+
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="els_event_tree" model="ir.ui.view">
+            <field name="name">els.events.tree</field>
+            <field name="model">els.events</field>
+            <field name="arch" type="xml">
+                <tree string="Events" editable="bottom" decoration-info="state == 'draft'">
+                    <field name="is_console" optional="show"/>
+                    <field name="date" optional="show"/>
+                    <field name="user_id" widget="many2one_avatar_user"/>
+                    <field name="operator_service" required="1"/>
+                    <field name="operator_service_domain" invisible="1"/>
+                    <field name="state_id" domain="operator_service_domain"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="branch_id" optional="show"/>
+                    <field name="freight_id_domain" invisible="1"/>
+                    <!--                    <field name="console_id_domain" invisible="1"/>-->
+                    <field name="freight_operation_id" attrs="{'readonly':[('is_console','=',True)]}" domain="freight_id_domain" optional="show"/>
+                    <!--                    <field name="console_id" attrs="{'readonly':[('is_console','=',False)]}" domain="console_id_domain" optional="show"/>-->
+                    <field name="comment" optional="show"/>
+                    <field name="state" optional="show" decoration-info="state == 'draft'" decoration-success="state in ['done']" widget="badge"/>
+                    <button name="action_submit" type="object" string="Submit" class="float-end btn-secondary" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button name="action_close" type="object" string="Close" class="float-end btn-secondary" attrs="{'invisible':[('state','!=','submit')]}"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="els_event_action" model="ir.actions.act_window">
+            <field name="name">Events</field>
+            <field name="res_model">els.events</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new event
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_els_event" name="Events" parent="hr_expense.menu_hr_expense_my_expenses" action="els_event_action"/>
+        <menuitem id="menu_console_els_event" name="Events"  parent="freight.freight_root" sequence="5" action="els_event_action"/>
+        <menuitem id="menu_menu_expenses" name="Expenses"  parent="freight.freight_root" sequence="5"/>
+        <menuitem id="menu_custody_fre" name="Custody Request" parent="menu_menu_expenses" action="action_view_custody"/>
+        <menuitem id="menu_els_event_fre" name="Events" parent="menu_menu_expenses" action="custom_hr_expense.els_event_action"/>
+        <menuitem id="menu_vendor_bill_fre" name="Vendor Bill" parent="menu_menu_expenses" action="custom_hr_expense.vendor_bill_cover_action"/>
+        <menuitem id="menu_cover_letter_fre" name="Coverage Letter" parent="menu_menu_expenses" action="custom_hr_expense.hr_cover_letter_action"/>
+
+
+    </data>
+</odoo>

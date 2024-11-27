@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_expense_type,access.hr.expense.type,model_hr_expense_type,base.group_user,1,1,1,1
+access_hr_expense_service,access.hr.expense.service,model_hr_expense_service,base.group_user,1,1,1,1
+access_hr_cover_letter.user,access.hr.cover.letter.user,model_hr_cover_letter,custom_hr_expense.group_cover_letter_user,1,1,1,1
+access_hr_cover_letter.manager,access.hr.cover.letter.manager,model_hr_cover_letter,custom_hr_expense.group_cover_letter_manager,1,1,1,1
+access_hr_cover_letter_expense,access.hr.cover.letter.expense,model_hr_cover_letter_expense,base.group_user,1,1,1,1
+access_hr_cover_letter_official,access.hr.cover.letter.official,model_hr_cover_letter_official,base.group_user,1,1,1,1
+access_hr_cover_letter_line,access.hr.cover.letter.line,model_hr_cover_letter_line,base.group_user,1,1,1,1
+access_custody_custody,access.custody.custody,model_custody_custody,base.group_user,1,1,1,1
+access_custody_custody_wizard,access.custody.custody.wizard,model_custody_custody_wizard,base.group_user,1,1,1,1
+access_els_events,access.els.events,model_els_events,base.group_user,1,1,1,1
+access_els_event_state,access.els.event.state,model_els_event_state,base.group_user,1,1,1,1
+access_event_state_type,access.event.state.type,model_event_state_type,base.group_user,1,1,1,1
+access_treasury_manager_wizard,access.treasury.manager.wizard,model_treasury_manager_wizard,base.group_user,1,1,1,1
+access_cover_account_type,access.cover.account.type,model_cover_account_type,base.group_user,1,1,1,1

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_missions,access.hr.missions,model_hr_missions,,1,1,1,1
+access_mission_wizard,access.mission.wizard,model_mission_wizard,,1,1,1,1
+access_hr_mission_expense,access.hr.mission.expense,model_hr_mission_expense,,1,1,1,1
+access_hr_mission_bill,access.hr.mission.bill,model_hr_mission_bill,,1,1,1,1

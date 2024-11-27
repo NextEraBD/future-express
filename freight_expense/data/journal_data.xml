@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record model="hr.expense.type" id="official_receipt_record">
+        <field name="name">Official Receipt</field>
+    </record>
+
+    <record model="hr.expense.type" id="expense_record">
+        <field name="name">Expens</field>
+    </record>
+
+    <!--  journals for claims  -->
+    <record model="account.journal" id="els_claim_customer_journal">
+        <field name="name">Claims For Customer</field>
+        <field name="type">sale</field>
+        <field name="company_id">1</field>
+        <field name="code">CLA</field>
+    </record>
+    <record model="account.journal" id="els_claim_vendor_journal">
+        <field name="name">Claims For Vendor</field>
+        <field name="type">purchase</field>
+        <field name="company_id">1</field>
+        <field name="code">CLV</field>
+    </record>
+
+
+</odoo>

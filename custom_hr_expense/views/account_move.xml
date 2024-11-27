@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="account_move_account_form" model="ir.ui.view">
+            <field name="name">account.move.account.coverage.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_register_payment']" position="after">
+                    <button name="action_generate"  string="Generate" type="object" class="btn-primary" attrs="{'invisible':['|',('official_counter','!=',0),('state','!=','posted')]}"/>
+                    <!--                    <button name="action_bil_paid"  string="Paid" type="object" class="btn-primary" attrs="{'invisible':['|','|',('cover_letter_id','!=',False),('payment_state','=','paid'),('state','!=','posted')]}"/>-->
+                </xpath>
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" name="action_viw_official"  attrs="{'invisible':[('official_counter','=',0)]}"
+                            type="object" icon="fa-money">
+                        <field name="official_counter" string="Official Receipt" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                </div>
+                <xpath expr="//div[@name='journal_div']" position="after">
+                    <field name="is_cover_letter" invisible="1"/>
+                    <field name="employee_id" invisible="0" />
+                    <field name="cover_letter_id" invisible="0" />
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="shipment_number_domain" invisible="1"/>
+                    <field name="shipment_number"
+                           attrs="{'column_invisible': [('parent.move_type', '=', 'out_invoice')]}" optional="show" domain="shipment_number_domain" />
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="after">
+                    <field name="shipment_number_domain" invisible="1"/>
+                    <field name="shipment_number"
+                           attrs="{'column_invisible': [('parent.move_type', '=', 'out_invoice')]}" optional="show" domain="shipment_number_domain" />
+                </xpath>
+                <!--            <xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="after">-->
+                <!--                <field name="shipment_number" optional="show" force_save="1" />-->
+                <!--            </xpath>-->
+            </field>
+        </record>
+
+        <record id="vendor_bill_cover_action" model="ir.actions.act_window">
+            <field name="name">Vendor Bill</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_is_cover_letter': True,'default_move_type': 'in_invoice'}</field>
+            <field name="domain">[('move_type', '=', 'in_invoice'),('is_cover_letter','=',True)]</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new cover vendor bill
+                </p>
+            </field>
+        </record>
+
+        <!--        Invoice Inh-->
+        <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
+            <field name="name">Invoices</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" ref="account.view_out_invoice_tree"/>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="domain">[('move_type', '=', 'out_invoice'),('is_claim', '=', False)]</field>
+            <field name="context">{'default_move_type': 'out_invoice'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a customer invoice
+                </p>
+                <p>
+                    Create invoices, register payments and keep track of the discussions with your customers.
+                </p>
+            </field>
+        </record>
+        <!--        Claims-->
+        <!--        Tree-->
+        <record id="view_out_claim_tree" model="ir.ui.view">
+            <field name="name">account.out.invoice.tree</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="banner_route">/account/account_invoice_onboarding</attribute>
+                </xpath>
+                <field name="currency_id" position="attributes">
+                    <attribute name="string">Claim Currency</attribute>
+                </field>
+                <xpath expr="//field[@name='invoice_date'][2]" position="attributes">
+
+                    <attribute name="string">Claim Date</attribute>
+                </xpath>
+                <xpath expr="//field[@name='invoice_date'][2]" position="after">
+                    <field name="freight_operation_id"/>
+                </xpath>
+            </field>
+        </record>
+        <!--action claim-->
+        <record id="action_after_sales_is_claim" model="ir.actions.act_window">
+            <field name="name">Claims</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('move_type', '=', 'out_invoice'),('is_claim', '=', True)]</field>
+            <field name="context">{'default_is_claim': True,
+                'default_move_type': 'out_invoice'
+                }
+            </field>
+            <field name="view_id" ref="view_out_claim_tree"/>
+        </record>
+        <!-- menu-->
+        <menuitem id="after_sales_is_claim_menu" name="Claims"
+                  parent="account.menu_finance_receivables" action="action_after_sales_is_claim" sequence="58"/>
+        <menuitem id="menu_vendor_bill" name="Vendor Bill" parent="hr_expense.menu_hr_expense_my_expenses" action="custom_hr_expense.vendor_bill_cover_action"/>
+        <!--        <menuitem id="menu_vendor_bill" name="Vendor Bill" parent="hr_expense.menu_hr_expense_my_expenses"  action="vendor_bill_cover_action"/>-->
+
+    </data>
+</odoo>

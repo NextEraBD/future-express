@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="expense_type_action" model="ir.actions.act_window">
+            <field name="name">Expense Type</field>
+            <field name="res_model">hr.expense.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new expense type
+                </p>
+            </field>
+      </record>
+
+    <record id="expense_service_action" model="ir.actions.act_window">
+            <field name="name">Expense Service</field>
+            <field name="res_model">hr.expense.service</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new expense service
+                </p>
+            </field>
+      </record>
+
+
+    <menuitem id="menu_expense_service_type"  name="Expense Type" parent="hr_expense.menu_hr_expense_configuration" action="expense_type_action"/>
+<!--    <menuitem id="menu_expense_service_service"  name="Expense Service" parent="hr_expense.menu_hr_expense_configuration" action="expense_service_action"/>-->
+</odoo>

@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="expense_type_action" model="ir.actions.act_window">
+            <field name="name">Expense Type</field>
+            <field name="res_model">hr.expense.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new expense type
+                </p>
+            </field>
+      </record>
+
+    <record id="expense_service_action" model="ir.actions.act_window">
+            <field name="name">Expense Service</field>
+            <field name="res_model">hr.expense.service</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new expense service
+                </p>
+            </field>
+      </record>
+
+
+    <menuitem id="menu_expense_service_type"  name="Expense Type" parent="hr_expense.menu_hr_expense_configuration" action="expense_type_action"/>
+<!--    <menuitem id="menu_expense_service_service"  name="Expense Service" parent="hr_expense.menu_hr_expense_configuration" action="expense_service_action"/>-->
+
+    <record id="hr_cover_letter_expense_form" model="ir.ui.view">
+            <field name="name">hr.cover.letter.expense.form</field>
+            <field name="model">hr.cover.letter.expense</field>
+            <field name="arch" type="xml">
+                    <form>
+                        <header>
+<!--                            <button name="action_approve_operator" type="object"-->
+<!--                                    string="OPT Approve" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+<!--                    <button name="action_approve" type="object"-->
+<!--                                    string="Approve" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+<!--                    <button name="action_refuse" type="object"-->
+<!--                        string="Refuse" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+
+                        <button name="action_create_journal" attrs="{'invisible': [('expens_journal_created', '=', True)]}" string="Create Entry" groups="hr.group_hr_user" class="btn-primary"  type="object"/>
+                         <field name="line_state"  widget="statusbar" statusbar_visible="draft,approved,refused"/>
+
+                    </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="expense_service_type"/>
+<!--                                    <field name="clearance_company" attrs="{'invisible': [('expense_service_type', '!=', 'clearance')]}"/>-->
+<!--                                    <field name="tracking_agent" attrs="{'invisible': [('expense_service_type', '!=', 'transportation')]}"/>-->
+<!--                                    <field name="agent_id" attrs="{'invisible': [('expense_service_type', '!=', 'freight')]}"/>-->
+                                    <field name="date"/>
+                                    <field name="company_id" readonly="1"/>
+                                    <field name="expens_journal_created" invisible="1"/>
+<!--                                    <field name="branch_id" invisible="1"/>-->
+                                    <field name="cover_letter_id"/>
+                                    <field name="shipment_number"/>
+                                    <field name="journal_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="account_id"/>
+                                    <field name="claim_status"/>
+                                </group>
+                                <group>
+                                    <field name="delegate_name" />
+                                     <field name="id_number"/>
+                                    <field name="employee_id"/>
+                                    <field name="customer_id" invisible="0" />
+                                    <field name="operator_id" />
+                                    <field name="cover_letter_type" invisible="1"/>
+                                    <field name="tax_id"/>
+                                    <field name="quantity"/>
+                                    <field name="sale_currency_id"/>
+                                   <field name="amount_sale" />
+                                    <field name="total_sale" />
+                                    <field name="currency_id" string="Cost Currency"/>
+                                    <field name="amount_cost"/>
+                                    <field name="total_cost"/>
+                                    <field name="taxed_amount" invisible="1"/>
+                                    <field name="taxed_amount_cost" invisible="1"/>
+                                    <field name="container_id"/>
+                                </group>
+                            </group>
+                        </sheet>
+                        <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                    </form>
+            </field>
+        </record>
+
+    <record id="hr_cover_letter_exp_tree" model="ir.ui.view">
+            <field name="name">hr.cover.letter.tree</field>
+            <field name="model">hr.cover.letter.expense</field>
+            <field name="arch" type="xml">
+                <tree string="Cover Letter Lines">
+<!--                  <button name="open_invoice_wizard" string="Create Bill" groups="hr.group_hr_user" class="btn-primary"  type="object"/>-->
+                    <field name="reference"/>
+                    <field name="date" optional="show"/>
+                    <field name="product_id"/>
+                    <field name="employee_id"/>
+                    <field name="container_id" optional="hide"/>
+                    <field name="company_id" optional="hide"/>
+                    <field name="description" optional="hide"/>
+                    <field name="line_state" optional="hide"/>
+                    <field name="shipment_number" />
+                    <field name="port_id" optional="hide"/>
+                    <field name="currency_id" optional="show"/>
+                    <field name="amount_sale" optional="hide" />
+                    <field name="amount_cost" optional="hide" />
+                    <field name="taxed_amount_cost" optional="hide"/>
+<!--                    <field name="total_sale" optional="hide"/>-->
+<!--                    <field name="total_cost" optional="hide"/>-->
+
+<!--                    <button name="action_approve" type="object"-->
+<!--                                    string="Approve" attrs="{'invisible': [('line_state', '!=', 'approved_operator')]}"/>-->
+<!--                    <button name="action_refuse" type="object"-->
+<!--                        string="Refuse" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+
+                </tree>
+            </field>
+        </record>
+<!--        KANBAN VIEW-->
+        <record id="cover_letter_expense_view_kanban" model="ir.ui.view">
+            <field name="name">hr.cover.letter.expense.kanban</field>
+            <field name="model">hr.cover.letter.expense</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="reference"/>
+                    <field name="date"/>
+                    <field name="activity_ids"/>
+                    <field name="activity_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+
+                                    </ul>
+                                </div>
+                               <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="reference"/>
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <field name="shipment_number"/>
+                                    </div>
+                                    <div>
+                                       MAWB: <field name="master"/>
+                                    </div>
+                                   <div>
+                                       HAWB: <field name="housing"/>
+                                    </div>
+
+                                    Date:
+                                    <span t-attf-class="#{red}">
+                                        <i>
+                                            <field name="date"/>
+                                        </i>
+                                    </span>
+                                    <br/>
+                                    <div class="oe_kanban_bottom_right">
+                                        <div class="o_kanban_inline_block">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_clear"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+<!--        LIST VIEW-->
+        <record id="hr_cover_letter_expense_search" model="ir.ui.view">
+            <field name="name">hr.cover.letter.expense.search</field>
+            <field name="model">hr.cover.letter.expense</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="expense_type_id"/>
+                    <field name="expense_service_type"/>
+                    <field name="container_id"/>
+                <group expand="1" string="Group By">
+                        <filter string="Employee" name="employee" context="{'group_by':'employee_id'}"/>
+                        <filter string="Reference" name="reference" context="{'group_by':'reference'}"/>
+                        <filter string="Currency" name="currency_id" context="{'group_by':'currency_id'}"/>
+                        <filter string="Expense Service" name="expense_service_type" context="{'group_by':'expense_service_type'}"/>
+                    <separator orientation="vertical"/>
+                        <filter string="Date" name="date" context="{'group_by':'date'}"
+                                help="Date of Request"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="hr_cover_letter_off_tree" model="ir.ui.view">
+            <field name="name">hr.cover.letter.tree</field>
+            <field name="model">hr.cover.letter.official</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <header>
+                        <button name="action_print_report"  string="Print" class="btn-primary"
+                            type="object"/>
+                    </header>
+<!--                    <field name="type"/>-->
+                    <field name="reference"/>
+                    <field name="product_id"/>
+                    <field name="expense_type_id" invisible="1" force_save="1"/>
+                    <field name="expense_service_type" required="1" string="Official Receipt Type" optional="show" force_save="1"/>
+                    <field name="employee_id"/>
+                    <field name="container_id" optional="hide"/>
+                    <field name="date" optional="show"/>
+                    <field name="shipment_number" />
+                    <field name="currency_id" optional="show"/>
+                    <field name="amount_sale" optional="hide" sum="Total Sale"/>
+                    <field name="amount_cost" optional="hide" sum="Total Cost"/>
+                    <field name="tax_id" optional="hide"/>
+                    <field name="taxed_amount_cost" optional="hide" sum="Total"/>
+                    <field name="claim_status" optional="hide" />
+                    <field name="line_state" optional="hide" />
+
+<!--                    <button name="action_approve" type="object"-->
+<!--                                    string="Approve" attrs="{'invisible': [('line_state', '!=', 'approved_operator')]}"/>-->
+<!--                        <button name="action_refuse" type="object"-->
+<!--                        string="Refuse" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+
+
+                </tree>
+            </field>
+        </record>
+
+          <record id="hr_cover_letter_off_form" model="ir.ui.view">
+            <field name="name">hr.cover.letter.off.form</field>
+            <field name="model">hr.cover.letter.official</field>
+            <field name="arch" type="xml">
+                    <form>
+                        <header>
+<!--                            <button name="action_approve_operator" type="object"-->
+<!--                                    string="OPT Approve" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+<!--                    <button name="action_approve" type="object"-->
+<!--                                    string="Approve" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+<!--                        <button name="action_refuse" type="object"-->
+<!--                        string="Refuse" attrs="{'invisible': [('line_state', '!=', 'draft')]}"/>-->
+
+                        <button name="action_create_journal" attrs="{'invisible': [('journal_created', '=', True)]}" string="Create Entry" groups="hr.group_hr_user" class="btn-primary"  type="object"/>
+                         <field name="line_state"  widget="statusbar" statusbar_visible="draft,approved,refused"/>
+
+                    </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                   <field name="expense_service_type" string="Official Receipt Service Type" />
+<!--                                    <field name="clearance_company" attrs="{'invisible': [('expense_service_type', '!=', 'clearance')]}"/>-->
+<!--                                    <field name="tracking_agent" attrs="{'invisible': [('expense_service_type', '!=', 'transportation')]}"/>-->
+<!--                                    <field name="agent_id" attrs="{'invisible': [('expense_service_type', '!=', 'freight')]}"/>-->
+                                    <field name="date"/>
+                                    <field name="company_id" readonly="1"/>
+<!--                                    <field name="branch_id" readonly="1"/>-->
+                                    <field name="cover_letter_id"/>
+                                    <field name="shipment_number"/>
+                                    <field name="journal_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="account_id"/>
+                                    <field name="claim_status"/>
+                                </group>
+                                <group>
+                                    <field name="employee_id"/>
+                                    <field name="journal_created" invisible="1" />
+                                    <field name="customer_id" invisible="0" />
+<!--                                    <field name="operator_id" />-->
+                                    <field name="cover_letter_type"/>
+<!--                                    <field name="uom_id"/>-->
+                                    <field name="tax_id"/>
+                                     <field name="sale_currency_id"/>
+                                    <field name="amount_sale" />
+                                    <field name="currency_id" string="Cost Currency"/>
+                                    <field name="amount_cost"/>
+<!--                                    <field name="taxed_amount_cost"/>-->
+                                    <field name="container_id"/>
+                                </group>
+                            </group>
+                        </sheet>
+                        <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                    </form>
+            </field>
+        </record>
+
+
+        <record id="hr_cover_letter_official_search" model="ir.ui.view">
+            <field name="name">hr.cover.letter.official.search</field>
+            <field name="model">hr.cover.letter.official</field>
+            <field name="arch" type="xml">
+                <search>
+
+                    <field name="expense_type_id"/>
+                    <field name="expense_service"/>
+                    <field name="container_id"/>
+                <group expand="1" string="Group By">
+                        <filter string="Employee" name="employee_id" context="{'group_by':'employee_id'}"/>
+                        <filter string="Reference" name="reference" context="{'group_by':'reference'}"/>
+                        <filter string="Currency" name="currency_id" context="{'group_by':'currency_id'}"/>
+                        <filter string="Expense Type" name="cover_letter_type" context="{'group_by':'cover_letter_type'}"/>
+                        <filter string="Expense Service" name="expense_service" context="{'group_by':'expense_service'}"/>
+                        <filter string="Claim Status" name="claim_status" context="{'group_by':'claim_status'}"/>
+
+                    <separator orientation="vertical"/>
+                        <filter string="Date" name="date" context="{'group_by':'date'}"
+                                help="Date of Request"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--        KANBAN VIEW-->
+        <record id="cover_letter_official_view_kanban" model="ir.ui.view">
+            <field name="name">hr.cover.letter.official.kanban</field>
+            <field name="model">hr.cover.letter.official</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="reference"/>
+                    <field name="date"/>
+                    <field name="activity_ids"/>
+                    <field name="activity_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+
+                                    </ul>
+                                </div>
+                               <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="reference"/>
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <field name="shipment_number"/>
+                                    </div>
+                                     <div>
+                                       MAWB: <field name="master"/>
+                                    </div>
+                                   <div>
+                                       HAWB: <field name="housing"/>
+                                    </div>
+
+                                    Date:
+                                    <span t-attf-class="#{red}">
+                                        <i>
+                                            <field name="date"/>
+                                        </i>
+                                    </span>
+                                    <br/>
+                                    <div class="oe_kanban_bottom_right">
+                                        <div class="o_kanban_inline_block">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_clear"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+<!--        LIST VIEW-->
+
+
+<!--        <record id="expense_create_so_server_action" model="ir.actions.server">-->
+<!--            <field name="name">Create SO</field>-->
+<!--            <field name="model_id" ref="freight_expense.model_hr_cover_letter_expense"/>-->
+<!--            <field name="binding_model_id" ref="freight_expense.model_hr_cover_letter_expense"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">-->
+<!--                records.action_create_so()-->
+<!--            </field>-->
+<!--        </record>-->
+
+     <record id="action_open_invoice_wizard" model="ir.actions.act_window">
+            <field name="name">Create Invoice</field>
+            <field name="res_model">invoice.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_cover_letter_expense"/>
+            <field name="binding_type">action</field>
+            <field name="binding_view_types">list</field>
+
+        </record>
+
+    <record id="action_open_bill_wizard" model="ir.actions.act_window">
+            <field name="name">Create Bill</field>
+            <field name="res_model">bill.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_cover_letter_expense"/>
+            <field name="binding_type">action</field>
+            <field name="binding_view_types">list</field>
+
+        </record>
+
+    <record id="action_open_official_invoice_wizard" model="ir.actions.act_window">
+            <field name="name">Create PO</field>
+            <field name="res_model">official.purchase.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_cover_letter_official"/>
+            <field name="binding_type">action</field>
+            <field name="binding_view_types">list</field>
+
+        </record>
+
+    <record id="action_open_official_bill_wizard" model="ir.actions.act_window">
+            <field name="name">Create SO</field>
+            <field name="res_model">official.quotation.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_hr_cover_letter_official"/>
+            <field name="binding_type">action</field>
+            <field name="binding_view_types">list</field>
+
+        </record>
+
+    <record id="action_open_official_claim_po_wizard" model="ir.actions.act_window">
+            <field name="name">Create Claim</field>
+            <field name="res_model">official.bill.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_purchase_order"/>
+            <field name="binding_type">action</field>
+            <field name="binding_view_types">list</field>
+
+        </record>
+    <record id="action_open_official_claim_so_wizard" model="ir.actions.act_window">
+            <field name="name">Create Claim</field>
+            <field name="res_model">claim.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_sale_order"/>
+            <field name="binding_type">action</field>
+            <field name="binding_view_types">list</field>
+
+        </record>
+
+</odoo>

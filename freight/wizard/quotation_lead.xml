@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    OPeration Wizard-->
+     <record id="view_create_quotation_lead_line" model="ir.ui.view">
+        <field name="name">quotation.lead.wizard.form</field>
+        <field name="model">quotation.lead.wizard</field>
+        <field name="arch" type="xml">
+            <form >
+                <group>
+                   <field name="partner_domain_ids" widget="many2many_tags" invisible="1"/>
+                    <field name="customer_id" domain="[('id', 'in', partner_domain_ids)]" invisible="1"/>
+                </group>
+                <group name="name" col="4">
+<!--                    <field name="name"/>-->
+                    <field name="lead_id" invisible="1"/>
+
+                </group>
+
+                <footer>
+                    <button name="action_confrim" string="Apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_select_quotation_lead_line" model="ir.actions.act_window">
+        <field name="name">quotation.lead.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">quotation.lead.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_create_quotation_lead_line"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

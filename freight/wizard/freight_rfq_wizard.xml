@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_freight_rfq_wizard" model="ir.ui.view">
+        <field name="name">crm.freight.rfq.wizard</field>
+        <field name="model">freight.rfq.wizard</field>
+        <field name="arch" type="xml">
+            <form string="RFQ">
+                <sheet>
+                    <notebook>
+                        <page string="Select Vendor ..">
+                            <group>
+                                <group name="name">
+                                    <field name="freight_line_id" invisible="1"/>
+                                    <field name="vendor_id"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+                <footer>
+                    <button name="action_apply" string="Confirm" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_freight_shipment_form">
+        <field name="name">freight.shipment.form</field>
+        <field name="model">freight.shipment</field>
+        <field name="arch" type="xml">
+            <form string="Shipment">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="operation_id"/>
+                            <field name="housing"/>
+                            <field name="shipper_id"/>
+                            <field name="consignee_id"/>
+                            <field name="transport"/>
+                            <field name="notify"/>
+                            <field name="source_location_id"/>
+                            <field name="destination_location_id"/>
+                            <field name="other_charge"/>
+                            <field name="truching_charge"/>
+                            <field name="delivery"/>
+                            <field name="special_instructions"/>
+                            <field name="voyage_no"/>
+                            <field name="vessel_id"/>
+                            <!--                            <field name="company_id"/>-->
+                        </group>
+                        <group>
+                            <!--                            <field name="date_of_creation"/>-->
+
+                            <field name="actual_time_departure"/>
+                            <field name="estimated_time_arrival"/>
+                            <field name="today_date"/>
+                            <field name="other_charge"/>
+                            <field name="truching_charge"/>
+                            <field name="delivery"/>
+                            <field name="pieces"/>
+                            <field name="net_weight" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="weight" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="total_g_w" />
+                            <field name="total_n_w"/>
+                            <field name="total_no_of_pieces" />
+                            <field name="total_number_of_containers"/>
+                            <field name="volume"/>
+                            <field name="type"/>
+                        </group>
+                    </group>
+                    <notebook>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_freight_shipment">
+        <field name="name">freight.shipment.tree</field>
+        <field name="model">freight.shipment</field>
+        <field name="arch" type="xml">
+            <tree string="Shipment">
+                <field name="operation_id"/>
+                <field name="shipper_id"/>
+                <field name="consignee_id" optional="hide"/>
+                <field name="source_location_id"/>
+                <field name="destination_location_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="view_freight_shipment_action">
+        <field name="name">Shipment</field>
+        <field name="res_model">freight.shipment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new shipment.
+            </p>
+        </field>
+    </record>
+
+<!--    <menuitem id="menu_shipment" name="Shipment" parent="freight.freight_root"  sequence="7" action="freight.view_freight_shipment_action"/>-->
+
+</odoo>

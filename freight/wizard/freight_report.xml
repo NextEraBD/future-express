@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_freight_profitability_report_xlx" model="ir.actions.report">
+            <field name="name">Activity Profitability Report</field>
+            <field name="model">freight.operation</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">freight.action_freight_profitability_report_xlx</field>
+            <field name="report_file">freight.action_freight_profitability_report_xlx</field>
+            <field name="print_report_name">'Activity Profitability Report'</field>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="action_freight_trx_report_xlx" model="ir.actions.report">
+            <field name="name">Activity Freight Report</field>
+            <field name="model">freight.operation</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">freight.action_freight_trx_report_xlx</field>
+            <field name="report_file">freight.action_freight_trx_report_xlx</field>
+            <field name="print_report_name">'Trx Freight Report'</field>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="action_freight_trx_report_expenses_xlsx" model="ir.actions.report">
+            <field name="name">Activity Freight Expenses Report</field>
+            <field name="model">freight.operation</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">freight.action_freight_trx_report_expenses_xlsx</field>
+            <field name="report_file">freight.action_freight_trx_report_expenses_xlsx</field>
+            <field name="print_report_name">'Trx Freight Report'</field>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="action_freight_trx_report_xlsx" model="ir.actions.report">
+            <field name="name">Activity Freight Official Report</field>
+            <field name="model">freight.operation</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">freight.action_freight_trx_report_xlsx</field>
+            <field name="report_file">freight.action_freight_trx_report_xlsx</field>
+            <field name="print_report_name">'Trx Freight Report'</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Define the wizard view -->
+        <record id="view_freight_profitability_report_form" model="ir.ui.view">
+            <field name="name">freight.profitability.report.form</field>
+            <field name="model">freight.profitability.report</field>
+            <field name="arch" type="xml">
+                <form string="Freight Report">
+                    <sheet>
+                        <group>
+                            <label for="date_start" string="From"/>
+                            <div class="o_row">
+                                <field name="date_start" widget="daterange" options='{"related_end_date": "date_end"}'/>
+                                <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                                <field name="date_end" widget="daterange" options='{"related_start_date": "date_start"}'/>
+                            </div>
+                        </group>
+                        <group>
+                            <group col="4">
+                                <field name="details"/>
+                                <field name="claim_created_filter"/>
+                                <field name="official_receipt"/>
+                                <field name="official_expenses"/>
+                                <field name="max_operation"/>
+                                <field name="direction"/>
+                                <field name="import_stage_ids" widget="many2many_tags"
+                                       attrs="{'invisible': [('direction', '!=', 'import')]}"/>
+                                <field name="export_stage_ids" widget="many2many_tags"
+                                       attrs="{'invisible': [('direction', '!=', 'export')]}"/>
+                            </group>
+
+                            <div class="o_row" col="1">
+                                <label for="customer_ids" string="Customer"/>
+                                <field name="customer_ids" widget="many2many_tags"/>
+                            </div>
+                        </group>
+                        <footer>
+                            <button name="action_print_trx_excel" attrs="{'invisible':['|','|',('details','=',True),('official_receipt','=',True),('official_expenses','=',True)]}" string="Print Excel" type="object" class="btn-primary"/>
+                            <button name="action_print_excel" attrs="{'invisible':['|','|',('details','=',False),('official_receipt','=',True),('official_expenses','=',True)]}" string="Print Excel" type="object" class="btn-primary"/>
+                            <button name="generate_report" attrs="{'invisible':[('official_receipt','!=',True)]}" string="Print Excel" type="object" class="btn-primary"/>
+                            <button name="generate_report_expenses" attrs="{'invisible':[('official_expenses','!=',True)]}" string="Print Excel" type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-secondary" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Freight Report Action -->
+        <record id="action_els_freight_report_wizard" model="ir.actions.act_window">
+            <field name="name">Freight Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">freight.profitability.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Define the menu item for the wizard -->
+        <menuitem id="menu_freight_els_report_root"
+                  name="Reporting"
+                  parent="freight.freight_root"
+                  sequence="100"
+        />
+
+        <menuitem id="menu_els_freight_report"
+                  name="Freight Report"
+                  parent="menu_freight_els_report_root"
+                  sequence="10"
+                  action="action_els_freight_report_wizard"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_payment_register_form_inherit_custom_account" model="ir.ui.view">
+        <field name="name">account.payment.register.form.inherit.custom_account</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="default_account_type" invisible="1"/>
+                <field name="journal_account_id" />
+            </field>
+            <field name="journal_id" position="replace">
+
+                <field name="journal_id" />
+            </field>
+        </field>
+    </record>
+    
+    <!--      Cover Expense Account Type-->
+       <record id="cover_account_type_view_form" model="ir.ui.view">
+            <field name="name">Cover Journal Type</field>
+            <field name="model">cover.account.type</field>
+            <field name="arch" type="xml">
+                <form string="Cover Journal Type">
+                    <sheet>
+
+                      <group>
+                         <group>
+                             <field name="name"/>
+                             <field name="journal_id"/>
+                        </group>
+                      </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cover_account_type_list" model="ir.ui.view" >
+          <field name="name">Cover Journal Type List</field>
+          <field name="model">cover.account.type</field>
+          <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="journal_id"/>
+            </tree>
+          </field>
+        </record>
+
+
+       <!-- action -->
+        <record model="ir.actions.act_window" id="cover_account_type_action">
+          <field name="name">Cover Journal Type</field>
+          <field name="res_model">cover.account.type</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+  <menuitem id="cover_account_type_action_menu" sequence="8" action="cover_account_type_action" name="Cover Journal Type" parent="hr_expense.menu_hr_expense_configuration" />
+
+
+</odoo>

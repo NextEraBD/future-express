@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="delivery_header_66">
+             <hr style="border:1px solid black;"></hr>
+            <div>
+                <div style="width:50%;float:left">
+                    <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                       <b>Delivery Letter</b>
+                    </p>
+                </div>
+              <div style="width:50%;float:right;text-align:right" align="right" dir="rtl">
+                  <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                     <b> خطاب تنازل</b>
+                  </p>
+                </div>
+         </div>
+
+            <div>
+<!--                <div style="width:50%;float:left">-->
+<!--                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">-->
+<!--                    <span class="mb-5">Egyptian Transport and Commercial Services CO. S.A.E.</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">Integrated Global Transport Services and Solution</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">Commercial Registry:16974 Port Said</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">11 KAMEL MORSY ST., EL SHATBY, ALEXANDRIA</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">Telephone: +203-5914696</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">Fax: +203-5900193</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">Email: alexoperations@egytrans.com</span>-->
+<!--                    </font>-->
+<!--                </div>-->
+
+<!--                <div style="width:50%;float:right;text-align:right" align="right" dir="rtl">-->
+<!--                    <div>-->
+<!--                <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">-->
+<!--                    <span class="mb-5">الشركة المصرية لخدمات النقل و التجارة ش.م.م</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">خدمات و حلول النقل المتكامل عالميا</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">سجل تجاري بورسعيد 16974</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">شارع كامل مرسي الشاطبي الاسكندرية 11</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">تيلفون: خط(+203)5914696</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">فاكس: +203-5900193</span>-->
+<!--                    <br/>-->
+<!--                    <span class="mb-5">البريد الالكتروني: alexoperations@egytrans.com</span>-->
+<!--                </font>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+            <br/>
+            <div  align="center" style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                 <span class="mb-5">رقم 0194 </span>
+            </div>
+            <hr style="border:1px solid black;"></hr>
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0"/>
+            </div>
+            <div class="footer">
+              <div class="text-center">
+                  <hr style="border:1px solid black;"></hr>
+                  <font  style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">
+                  <span align="center">ALL BUSINESS IS TRANSACTED ACCORDING TO THE COMPANY'S STANDARD TRADING CONDITIONS-COPY AVAILABLE UPON REQUEST </span>
+                 <br/>
+                   <span align="center">كافة الاعمال يمكن تنفيذهاطبقا للشروط التجارية العامة للشركة -نسخة الشروط متوفرة عند الطلب </span>
+                    <br/>
+                   <span align="center">(EGY-F-CN006)</span>
+                  </font>
+              </div>
+            </div>
+        </template>
+        <template id="report_delivery_forma">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <t t-call="freight.delivery_header_66"/>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                <div class="page" style="font-family: &quot;Times New Roman&quot;, serif;">
+                  <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">
+                    <div style="width:100%">
+                       <p align="right" dir="rtl">
+                            <span>رقم العملية / </span>
+                                <span t-field="doc.name"/>
+                       </p>
+                         <p align="right" dir="rtl">
+                            <span> التاريخ / </span>
+                                <span t-field="doc.date_from"/>
+                       </p>
+                      <p align="right" dir="rtl">
+                            <span> الي السادة / </span>
+                                <span t-field="doc.shipper_id.name"/>
+                       </p>
+                      <p align="right" dir="rtl">
+                            <span>الرجاء تسليم السادة / </span>
+                                <span t-field="doc.customer_id.name"/>
+                                <br/>
+                       </p>
+                      <p align="right" dir="rtl">
+                            <span>البضاعة المذكورة ادناه الواردة علي الباخرة / </span>
+                                <span t-field="doc.vessel_id.name"/>
+                       </p>
+
+                       <p>
+                            <span style="width:25%;float:right;text-align:right" align="right" dir="rtl">من ميناء / </span>
+                                <span style="width:25%;float:right;text-align:right" t-field="doc.name"/>
+                           <span style="width:30%;float:left;text-align:left" align="right" dir="rtl">بتاريخ / <span t-field="doc.date_from"/> </span>
+
+                       </p>
+                        <br/>
+                         <p align="right" dir="rtl">
+                            <span style="width:30%;float:right;text-align:right"> بوليصة كلية رقم / <span t-field="doc.master.name"/> </span>
+
+                       </p>
+                       <br/>
+                         <p align="right" dir="rtl">
+                            <span style="width:30%;float:right;text-align:right"> بوليصة فرعية رقم / <span t-field="doc.housing"/></span>
+
+                       </p>
+                    </div>
+                    <br/>
+                    <table class="table table-sm table-condensed" name="account_lines_table" style="border:1px solid gray; width:100%; margin-top: 30px">
+                                <thead>
+                                    <tr style="border:1px solid gray;">
+                                        <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                                        <td style="border:1px solid gray;" class="text-center">
+                                            <strong><font style="font-family:'serif';">ماركات و ارقام</font></strong>
+                                            <br/>
+                                               <strong> Marks and Nos.</strong>
+                                        </td>
+                                        <td style="border:1px solid gray;" class="text-center" colspan="3">
+                                            <strong><font style="font-family:'serif';">عدد الطرود و وصف البضاعة</font></strong>
+                                            <br/>
+                                            <strong>Number of Packages, Description of Goods</strong>
+                                        </td>
+                                        <td style="border:1px solid gray; " class="text-center">
+                                            <strong><font style="font-family:'serif';">وزن</font></strong>
+                                            <br/>
+                                            <strong>Weight</strong>
+                                        </td>
+                                        <td style="border:1px solid gray;" class="text-center">
+                                            <strong><font style="font-family:'serif';">مقاس</font></strong>
+                                            <br/>
+                                            <strong>Measurement</strong>
+                                        </td>
+                                        </font>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.transport_line_ids" t-as="line">
+                                        <tr>
+                                           <td class="text-center"><span style="text-align:center" t-field="line.name"/></td>
+                                           <td class="text-center" colspan="3"><span style="text-align:center" t-field="line.volume"/></td>
+                                           <td class="text-center"><span style="text-align:center" t-field="line.gross_weight"/></td>
+                                           <td class="text-center"> <span style="text-align:center" t-field="line.qty"/></td>
+                                       </tr>
+                                    </t>
+                                </tbody>
+                    </table>
+                      <br/>
+<!--              <p align="right" dir="rtl">-->
+<!--                 ايجيترانس غير مسئول عن الوزن والمقاس المبين باعلاه و البضاعة تم تفريغها علي مسئولية و لحساب الشاحن و المستلم-->
+<!--              </p>-->
+           <div>
+<!--               <div style="float:right;text-align:right" align="right" dir="rtl">-->
+<!--                    <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">-->
+<!--                       عن شركة ايجيترانس كؤكلاء فقط-->
+<!--                    </p>-->
+<!--                </div>-->
+
+<!--              <div style="float:center;text-align:center" align="center" dir="rtl">-->
+<!--                  <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">-->
+<!--                      توقيع-->
+<!--                  </p>-->
+<!--                </div>-->
+
+<!--                <div style="float:left;text-align:left" align="left" dir="rtl">-->
+<!--                  <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">-->
+<!--                      ختم-->
+<!--                  </p>-->
+<!--                </div>-->
+         </div>
+
+
+                  </font>
+                </div>
+            </t>
+            </t>
+            </t>
+        </template>
+
+
+
+        <record id="action_report_els_delivery_letter" model="ir.actions.report">
+            <field name="name">Delivery Letter</field>
+            <field name="model">freight.operation</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">freight.report_delivery_forma</field>
+            <field name="report_file">freight.report_delivery_forma</field>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+    </data>
+</odoo>

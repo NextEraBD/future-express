@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record model="ir.ui.view" id="view_freight_manifest_form">
+            <field name="name">freight.manifest.form</field>
+            <field name="model">freight.manifest</field>
+            <field name="arch" type="xml">
+                <form string="Manifest">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="operation_id"/>
+                                <field name="housing"/>
+                                <field name="master"/>
+                                <field name="shipper_id"/>
+                                <field name="consignee_id"/>
+                                <field name="agent_id"/>
+                                <field name="customer_id"/>
+                                <field name="transport"/>
+                            </group>
+                            <group>
+                                <field name="pieces"/>
+                                <field name="net_weight" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="net_weight_type" options="{'no_create': True, 'no_open': True}"/>
+
+                                <field name="weight" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="weight_type" options="{'no_create': True, 'no_open': True}"/>
+
+                                <field name="chargeable_weight" attrs="{'invisible':[('transport','!=','air')]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="volume"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                        <notebook>
+
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_manifest">
+            <field name="name">freight.manifest.tree</field>
+            <field name="model">freight.manifest</field>
+            <field name="arch" type="xml">
+                <tree string="Manifest">
+                    <field name="operation_id"/>
+                                <field name="shipper_id"/>
+                                <field name="housing"/>
+                                <field name="master"/>
+                                <field name="consignee_id" optional="hide"/>
+                                <field name="agent_id"/>
+                                <field name="customer_id"/>
+                                <field name="source_location_id"/>
+                                <field name="destination_location_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_freight_manifest_action">
+            <field name="name">Manifest</field>
+            <field name="res_model">freight.manifest</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new manifest.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_manifest" name="Manifest" parent="freight.freight_root"  sequence="7" action="freight.view_freight_manifest_action"/>
+
+
+
+
+</odoo>

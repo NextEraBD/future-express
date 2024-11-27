@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--      Form View-->
+        <record id="clearance_rate_price_form_view_inherit" model="ir.ui.view">
+            <field name="name">clearance.rate.price.form.view.inherit</field>
+            <field name="model">clearance.rate.price</field>
+            <field name="inherit_id" ref="freight.clearance_rate_price_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]" position="inside">
+                    <field name="inside_outside" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

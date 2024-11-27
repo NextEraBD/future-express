@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!--Adding a salary rule for loan-->
+	<data noupdate="0">
+
+		<record id="hr_rule_insurance_custom_cpi" model="hr.salary.rule">
+            <field name="code">CIP</field>
+            <field name="name">Company's Percentage of Insurance</field>
+            <field name="category_id" ref="hr_payroll_community.COMP"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.company_insurance_percentage)</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="sequence" eval="190"/>
+        </record>
+		<record id="hr_rule_insurance_custom_epi" model="hr.salary.rule">
+            <field name="code">EIP</field>
+            <field name="name">Employee's Percentage of Insurance</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.employee_insurance_percentage)</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="sequence" eval="190"/>
+        </record>
+		<record id="hr_rule_insurance_custom_hi" model="hr.salary.rule">
+            <field name="code">HI</field>
+            <field name="name">Health Insurance</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.health_insurance)</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="sequence" eval="190"/>
+        </record>
+		<record id="hr_rule_insurance_custom_mf" model="hr.salary.rule">
+            <field name="code">MF</field>
+            <field name="name">Martyrs Fund</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.martyrs_fund)</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="sequence" eval="190"/>
+        </record>
+
+		<record id="hr_rule_insurance_custom_md" model="hr.salary.rule">
+            <field name="code">MD</field>
+            <field name="name">Mobile Deduction</field>
+            <field name="category_id" ref="hr_payroll_community.DED"/>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.mobile_deduction)</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="sequence" eval="190"/>
+        </record>
+
+
+	</data>
+</odoo>

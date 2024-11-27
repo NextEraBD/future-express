@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    OPeration Wizard-->
+     <record id="view_create_container_line" model="ir.ui.view">
+        <field name="name">container.wizard.form</field>
+        <field name="model">container.wizard</field>
+        <field name="arch" type="xml">
+            <form >
+                <group>
+                    <field name="number" required="1"/>
+                </group>
+                <group name="name" col="4">
+<!--                    <field name="name"/>-->
+                    <field name="shipment_id" invisible="1"/>
+                    <field name="line_id" required="1" invisible="1"/>
+                    <field name="package" invisible="1"/>
+                    <field name="container_no_id" invisible="1"/>
+                    <field name="package" invisible="1"/>
+                    <field name="qty" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                </group>
+
+                <footer>
+                    <button name="action_apply" string="Apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_select_container_line" model="ir.actions.act_window">
+        <field name="name">container.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">container.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_create_container_line"/>
+        <field name="target">new</field>
+    </record>
+<!--    CRM Wizard-->
+    <record id="view_create_container_lead_line" model="ir.ui.view">
+        <field name="name">container.lead.wizard.form</field>
+        <field name="model">container.wizard</field>
+        <field name="arch" type="xml">
+            <form >
+                <group>
+                    <field name="number" required="1"/>
+                </group>
+                <group name="name" col="4">
+<!--                    <field name="name"/>-->
+                    <field name="lead_id" invisible="1"/>
+                    <field name="line_id" required="1" invisible="1"/>
+                    <field name="package" invisible="1"/>
+                    <field name="container_no_id" invisible="1"/>
+                    <field name="package" invisible="1"/>
+                    <field name="qty" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                </group>
+
+                <footer>
+                    <button name="action_apply" string="Apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_select_container_line_line" model="ir.actions.act_window">
+        <field name="name">container.lead.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">container.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_create_container_lead_line"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_offer_document">
+            <t t-call="web.basic_layout">
+                <div class="header">
+                    <div class="row">
+                        <center>
+                            <span style="font-weight:bold;font-size:25px;">OFFER <span style="font-weight:bold;font-size:25px;" class="ml-1" t-field="doc.name"/></span>
+                        </center>
+                    </div>
+                        <div style="width:50%;float:left">
+                            <div align="left">
+                                <img src="/freight/static/images/icon.png" alt="Logo"/>
+                            </div>
+                        </div>
+<!--                        <div class="col-4 text-center" style="width:50%;float:right">-->
+<!--                            <div class="row"><span>Invoice To:</span></div>-->
+<!--                            <div class="row"><span t-field="doc.partner_id"/></div>-->
+<!--                        </div>-->
+                    </div>
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+                <br/>
+
+                <div class="page" style="position: relative;">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col"><span>Status :</span><span style="margin-left:25px;" t-field="doc.state"/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span>Sales Person :</span><span style="margin-left:25px;" t-field="doc.user_id"/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span>Sales Person Mobile :</span><span t-field="doc.user_id.mobile" style="margin-left:25px;"/></div>
+                            </div>
+<!--                            <div class="row">-->
+<!--                                <div class="col"><span>Price By :</span><span t-field="doc.freight_operation_id.pricing_user" style="margin-left:25px;"/></div>-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col"><span>Sales Expected GP :</span><span style="margin-left:25px;"/></div>-->
+<!--                            </div>-->
+                            <div class="row">
+                                <div class="col"><span>Contact Person :</span><span t-field="doc.contact_id" style="margin-left:25px;"/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span>Contact Email :</span><span t-field="doc.contact_id.email" style="margin-left:25px;"/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span>Contact Mobile :</span><span t-field="doc.contact_id.mobile" style="margin-left:25px;"/></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col"><span>Commodity </span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span>Rate Validity :</span><span t-field="doc.freight_operation_id.date_end" style="margin-left:25px;"/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span>Incoterm :</span><span t-field="doc.freight_operation_id.incoterm_id" style="margin-left:25px;"/></div>
+                            </div>
+<!--                            <div class="row">-->
+<!--                                <div class="col"><span>Carrier :</span><span style="margin-left:25px;"/></div>-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col"><span>Agent :</span><span t-field="doc.freight_operation_id.agent_id" style="margin-left:25px;"/></div>-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col"><span>Shipper Details :</span><span t-field="doc.freight_operation_id.shipper_id" style="margin-left:25px;"/></div>-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col"><span>Shipper PIC :</span><span style="margin-left:25px;"/></div>-->
+<!--                            </div>-->
+                            <div class="row">
+                                <div class="col"><span>Customer Terms of Payment :</span><span t-field="doc.payment_term_id" style="margin-left:25px;"/></div>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    <div class="row">-->
+<!--                        <span>Service Supplied <span style="margin-left:20px;"/> </span>-->
+<!--                    </div>-->
+<!--                    <div class="row">-->
+<!--                        <span>Additional Services<span style="margin-left:20px;"/> </span>-->
+<!--                    </div>-->
+                <br/>
+                <table class="table">
+                    <thead  style="direction: ltr;border:0;background-color: #429bf5">
+                        <tr style="border:0;;height:70px;" claas="text-center">
+                            <th style="width:40%;direction: ltr;text-align:left;vertical-align: middle;border:0">Item</th>
+                            <th style="text-align:center;border:0;vertical-align: middle;">Price Unit</th>
+                            <th style="text-align:center;border:0;vertical-align: middle;">Qty</th>
+                            <th style="text-align:center;border:0;vertical-align: middle;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody style="direction: ltr;border:none;">
+                        <t t-set="counter" t-value="0"/>
+                        <t t-foreach="doc.order_line" t-as="line">
+                            <t t-set="counter" t-value="counter + 1"/>
+                            <tr style="border : none">
+                                <td class="text-left" style="direction: ltr;text-align:left;font-weight:bold;border : 0">
+                                    <span><t t-esc="counter"/></span><span style="margin-left:2px" t-field="line.sudo().product_id.name"/>
+                                </td>
+                                <td class="text-center" style="font-weight:bold;border:0">
+                                    <span t-field="line.price_unit"/>
+                                </td>
+                                <td class="text-center" style="font-weight:bold;border:0">
+                                    <span t-field="line.product_uom_qty"/>
+                                </td>
+
+                                <td class="text-right" style="direction: rtl;border:0">
+                                    <span t-field="line.price_subtotal"/>
+                                </td>
+
+                            </tr>
+                        </t>
+                        <t t-set="dif" t-value="10 - counter"/>
+                        <t t-if="dif > 0">
+                            <t t-foreach="range(dif)" t-as="num">
+                                <tr style="border : 0">
+                                    <td style="border : 0"></td>
+                                    <td style="border:0"></td>
+                                </tr>
+                            </t>
+                        </t>
+                            <tr style="border:0">
+                                <td style="border:0"></td>
+                                <td style="border:0"></td>
+                                <td style="border-bottom:0;border-top:1px solid grey;border-right:0;border-left:0;"></td>
+                                <td class="text-center" style="border-bottom:0;border-top:1px solid grey;border-right:0;border-left:0;">Total : <t t-esc="doc.amount_total"/> </td>
+                            </tr>
+                    </tbody>
+                </table>
+                    <br/>
+                <div style="font-weight:bold;font-size:20px">Terms And Conditions:</div>
+
+                <div class="row">
+                    <div style="font-weight:bold;font-size:20px"><span t-field="doc.note"/> </div>
+                </div>
+                 <p style="page-break-after:always;"/>
+                </div>
+
+            </t>
+        </template>
+
+        <template id="report_offer_forma">
+                <t t-set="data_report_margin_top" t-value="20"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="freight.report_offer_document"/>
+                </t>
+
+        </template>
+
+        <record id="action_report_freight_offer" model="ir.actions.report">
+            <field name="name">Freight Offer</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">freight.report_offer_forma</field>
+            <field name="report_file">freight.report_offer_forma</field>
+            <field name="print_report_name">(object.name)</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

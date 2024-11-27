@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <data>
+    <template id="report_operation_official_templates">
+    <t t-call="web.html_container">
+        <t t-set="data_report_margin_top" t-value="2"/>
+        <t t-set="data_report_header_spacing" t-value="2"/>
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                    <h2 class="text-center">Official Receipt</h2>
+                    <div class="row mt32 mb32" id="informations">
+                        <div class="col-12">
+
+                            <table class="table  table-round-border">
+                                <thead>
+                                    <th>Reference</th>
+                                    <th>Cover Letter</th>
+                                    <th>Shipment Number</th>
+                                    <th>Category</th>
+                                    <th>Service Type</th>
+                                    <th>Employee</th>
+                                    <th>Date</th>
+                                    <th>Currency</th>
+                                    <th>Amount Cost</th>
+                                    <th>Claim Status</th>
+                                    <th>State</th>
+                                </thead>
+                                <t t-foreach="docs" t-as="doc">
+                                    <tr>
+                                        <td><span t-field="doc.reference"/></td>
+                                        <td><span t-field="doc.cover_letter_id"/></td>
+                                        <td><span t-field="doc.shipment_number"/></td>
+                                        <td><span t-field="doc.product_id"/></td>
+                                        <td><span t-field="doc.expense_service_type"/></td>
+                                        <td><span t-field="doc.employee_id"/></td>
+                                        <td><span t-field="doc.date"/></td>
+                                        <td><span t-field="doc.currency_id"/></td>
+                                        <td><span t-field="doc.amount_cost"/></td>
+                                        <td><span t-field="doc.claim_status"/></td>
+                                        <td><span t-field="doc.line_state"/></td>
+
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </div>
+
+            </div>
+        </t>
+     </t>
+
+
+    </template>
+
+     <record id="paperformat_official_receipt" model="report.paperformat">
+            <field name="name">A4 Landscape Official</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">9</field>
+            <field name="dpi">110</field>
+         </record>
+
+
+    <record id="action_report_official_receipt_templates" model="ir.actions.report">
+        <field name="name">Official Receipt</field>
+        <field name="model">hr.cover.letter.official</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">freight_expense.report_operation_official_templates</field>
+        <field name="report_file">freight_expense.report_operation_official_templates</field>
+        <field name="binding_model_id" ref="model_hr_cover_letter_official"/>
+        <field name="paperformat_id" ref="paperformat_official_receipt"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
+     </data>
+</odoo>
+

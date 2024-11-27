@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data noupdate="1">
+<!--        <record id="mission_salary_rule_categ" model="hr.salary.rule.category">-->
+<!--            <field name="name">Mission Overtime</field>-->
+<!--            <field name="code">MISS_OVR</field>-->
+<!--        </record>-->
+        <record model="product.product" id="meal_mission_product">
+            <field name="name">Meal</field>
+            <field name="type">service</field>
+            <field name="is_mission">True</field>
+            <field name="can_be_mission">True</field>
+            <field name="purchase_line_warn">warning</field>
+            <field name="sale_line_warn">no-message</field>
+        </record>
+        <record model="product.product" id="accommodation_mission_product">
+            <field name="name">Accommodation</field>
+            <field name="type">service</field>
+            <field name="is_mission">True</field>
+            <field name="can_be_mission">True</field>
+            <field name="purchase_line_warn">warning</field>
+            <field name="sale_line_warn">no-message</field>
+        </record>
+        <record model="product.product" id="transportation_mission_product">
+            <field name="name">Transportation</field>
+            <field name="type">service</field>
+            <field name="is_mission">True</field>
+            <field name="can_be_mission">True</field>
+            <field name="purchase_line_warn">warning</field>
+            <field name="sale_line_warn">no-message</field>
+        </record>
+
+       <record id="mission_request" model="ir.sequence">
+            <field name="name">mission request</field>
+            <field name="code">hr.mission</field>
+            <field name="prefix">Mission/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="active">True</field>
+            <field eval="1" name="number_increment"/>
+        </record>
+    </data>
+</odoo>

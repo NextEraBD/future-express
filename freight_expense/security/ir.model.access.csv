@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_expense_type,access.hr.expense.type,model_hr_expense_type,base.group_user,1,1,1,1
+access_hr_expense_service,access.hr.expense.service,model_hr_expense_service,base.group_user,1,1,1,1
+access_hr_cover_letter_expense,access.hr.cover.letter.expense,model_hr_cover_letter_expense,base.group_user,1,1,1,1
+access_hr_cover_letter_official,access.hr.cover.letter.official,model_hr_cover_letter_official,base.group_user,1,1,1,1
+access_cover_account_type,access.cover.account.type,model_cover_account_type,base.group_user,1,1,1,1
+access_distribute_bill,access.distribute.bill,model_distribute_bill,,1,1,1,1
+access_distribute_bill_operation,access.distribute.bill.operation,model_distribute_bill_operation,,1,1,1,1
+access_invoice_wizard,access.invoice.wizard,model_invoice_wizard,,1,1,1,1
+access_bill_wizard,access.bill.wizard,model_bill_wizard,,1,1,1,1
+access_claim_wizard,access.claim.wizard,model_claim_wizard,,1,1,1,1
+access_official_bill_wizard,access.official.bill.wizard,model_official_bill_wizard,,1,1,1,1
+access_official_quotation_wizard,access.official_quotation_wizard,model_official_quotation_wizard,,1,1,1,1
+access_official_purchase_wizard,access.official_purchase_wizard,model_official_purchase_wizard,,1,1,1,1
+access_hr_cover_letter,access.hr.cover.letter,model_hr_cover_letter,base.group_user,1,1,1,1

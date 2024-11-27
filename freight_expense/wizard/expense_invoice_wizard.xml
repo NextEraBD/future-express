@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Define the wizard view -->
+    <record id="view_purchase_wizard_form" model="ir.ui.view">
+        <field name="name">official.purchase.wizard.form</field>
+        <field name="model">official.purchase.wizard</field>
+        <field name="arch" type="xml">
+           <form string="purchase">
+                <sheet>
+<!--                <group>-->
+<!--                    <field name="customer_id"  required="1"/>-->
+<!--                </group>-->
+
+
+        <footer>
+            <button name="action_confirm" string="Apply" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+                </sheet>
+           </form>
+      </field>
+    </record>
+
+    <!-- Define the wizard view -->
+    <record id="view_bill_wizard_form" model="ir.ui.view">
+        <field name="name">bill.wizard.form</field>
+        <field name="model">bill.wizard</field>
+        <field name="arch" type="xml">
+           <form string="Bill">
+                <sheet>
+                    <group>
+                    <field name="partner_id"/>
+                    <field name="journal_id"/>
+
+                    </group>
+
+        <footer>
+            <button name="action_create_journal_expense" string="Create Bill" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+                </sheet>
+           </form>
+      </field>
+    </record>
+
+</odoo>

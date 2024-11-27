@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_freight_service_form">
+            <field name="name">freight.service.form</field>
+            <field name="model">freight.service</field>
+            <field name="arch" type="xml">
+                <form string="Service">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="service_id"/>
+                                <field name="name" required="1"/>
+                                <field name="partner_id"/>
+                                <field name="qty"/>
+                            </group>
+                            <group>
+                                <field name="cost"/>
+                                <field name="sale"/>
+                                <field name="currency_id"/>
+                                <field name="shipment_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_service_tree">
+            <field name="name">freight.service.tree</field>
+            <field name="model">freight.service</field>
+            <field name="arch" type="xml">
+                <tree string="Service">
+                    <field name="service_id"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="cost"/>
+                    <field name="sale"/>
+                    <field name="currency_id"/>
+                    <field name="shipment_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_freight_service_action">
+            <field name="name">Service</field>
+            <field name="res_model">freight.service</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new service.
+                </p>
+            </field>
+        </record>
+        <menuitem name="Service" parent="freight.freight_configuration" id="menu_freight_service_id"
+                  action="view_freight_service_action" sequence="3"/>
+
+
+    </data>
+</odoo>

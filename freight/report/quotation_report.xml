@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <template id="report_sale_order_document_inherit" inherit_id="sale.report_saleorder_document">
+    <xpath expr="//div[@class='page']//table[last()]" position="after">
+        <table class="table table-sm o_main_table mt-4">
+            <thead style="display: table-row-group">
+                <tr>
+                    <th name="th_description" class="text-start">Description</th>
+                    <th name="th_quantity" class="text-end">Quantity</th>
+                    <th name="th_priceunit" class="text-end">Unit Price</th>
+                </tr>
+            </thead>
+            <tbody class="sale_tbody">
+                <t t-foreach="doc.clearance_inspection_line_ids" t-as="line">
+                    <tr t-att-class="'bg-200 fw-bold o_line_section'">
+                        <td name="td_name"><span t-field="line.name"/></td>
+                        <td name="td_quantity" class="text-end">
+                            <span t-field="line.qty"/>
+                        </td>
+                        <td name="td_priceunit" class="text-end">
+                            <span t-field="line.price"/>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+    </xpath>
+</template>
+
+    </data>
+</odoo>

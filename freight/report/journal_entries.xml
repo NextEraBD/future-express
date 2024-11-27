@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="journal_entries_header">
+            <div>
+                <div style="width:50%;float:left;text-align:left">
+                    <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
+
+                    <div style="font-size:16px;font-weight:bold">Invoice Reference</div>
+                    <div style="font-size:16px"><t t-esc="doc.name"/> </div>
+
+                    <br/>
+                    <div style="font-size:16px;font-weight:bold">Operation reference</div>
+                    <div style="font-size:16px"></div>
+
+                    <br/>
+                    <div style="font-size:16px;font-weight:bold">Customer Reference</div>
+                    <div style="font-size:16px"><t t-esc="doc.partner_id.name"/> </div>
+
+                    <div style="font-size:16px;font-weight:bold">Address</div>
+                    <div style="font-size:16px"><span><t t-esc="doc.partner_id.street"/>,</span><span><t t-esc="doc.partner_id.city"/>,</span> <span><t t-esc="doc.partner_id.country_id.name"/> </span></div>
+                    <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div style="font-size:16px;font-weight:bold"><span>Our Bank Details: </span><span> </span></div>
+
+                </div>
+                <div style="width:50%;float:right">
+                    <div class="col-4 text-center">
+                        <img src="/freight/static/images/icon.png" alt="Logo"/>
+                    </div>
+                </div>
+                <div style="font-size:16px;font-weight:bold"><span>Date: </span><span style="font-size:16px;"><t t-esc="doc.date"/> </span></div>
+            </div>
+
+        </template>
+
+        <template id="report_move_document">
+            <t t-call="web.basic_layout">
+                <header>
+                    <t t-call="freight.journal_entries_header"/>
+                </header>
+
+                <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
+
+                <div class="page" style="position: relative;">
+                    <div class="oe_structure"/>
+                    <div/>
+                    <div class="row">
+                        <div class="col-6"><span>Number of Units :</span><span></span></div>
+                        <div class="col-6"><span>Total Gross Weight :</span><span><t t-esc="doc.weight"/></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6"><span>Total Freight Tons :</span><span><t t-esc="doc.freight_operation_id.net_weight"/> </span></div>
+                        <div class="col-6"><span>Total Volume :</span><span><t t-esc="doc.freight_operation_id.volume"/></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6"><span>Description of Goods :</span><span></span></div>
+                        <div class="col-6"><span>Total Amount :</span><span><t t-esc="doc.amount_total"/> </span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div>Operation Details:</div>
+                            <div><span>Nessel :</span><span></span></div>
+                            <div><span>Port of Loading:</span><span><t t-esc="doc.source_location_id.name"/> </span></div>
+                        </div>
+                        <div class="col-4">
+                            <div><span>Arrival Date:</span><span><t t-esc="doc.freight_operation_id.datetime"/></span></div>
+                            <div><span>Port of Discharge:</span><span><t t-esc="doc.destination_location_id.name"/></span></div>
+                        </div>
+                        <div class="col-4">
+                            <div><span>HBL No.:</span><span><t t-esc="doc.freight_operation_id.housing"/> </span></div>
+                            <div><span>MBL No.:</span><span><t t-esc="doc.freight_operation_id.master.name"/></span></div>
+                        </div>
+                    </div>
+                      <br/>
+                    <table class="table">
+                    <thead style="direction: ltr;border:1px thin black">
+                        <tr>
+                            <th style="width:70%;direction: ltr;text-align:left;">Charge Details</th>
+                            <th style="direction: ltr;text-align:left;">Amount in <span style="font-weight:bold">USD</span></th>
+                        </tr>
+                    </thead>
+                    <tbody style="direction: ltr;border:1px thin black">
+                        <t t-set="counter" t-value="0"/>
+                        <t t-foreach="doc.invoice_line_ids" t-as="line">
+                            <t t-set="counter" t-value="counter + 1"/>
+                            <tr style="border : 0">
+                                <td style="font-size: 20px;direction: ltr;text-align:left;font-weight:bold;border : 0">
+                                    <span><t t-esc="counter"/>. </span><span style="margin-left:2px" t-field="line.sudo().product_id.name"/>
+                                </td>
+                                <td class="text-right" style="font-size: 20px;direction: rtl;font-weight:bold;border-right:0;border-top:0;border-bottom:0;border-left:1px thin black">
+                                    <span t-field="line.price_subtotal"/>
+                                </td>
+
+                            </tr>
+                        </t>
+                        <t t-set="dif" t-value="23 - counter"/>
+                        <t t-if="dif > 0">
+                            <t t-foreach="range(dif)" t-as="num">
+                                <tr style="border : 0">
+                                    <td style="border : 0"></td>
+                                    <td style="border:0"></td>
+                                </tr>
+                            </t>
+                        </t>
+
+                        <tr>
+                            <td>Total Amount</td>
+                            <td class="text-center" style="font-size: 20px;direction: rtl;font-weight:bold">
+                                <span t-field="doc.amount_total"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border : 0">Amount in Words :<span></span></td>
+                            <td style="border : 0"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                    <br/>
+                <div>Notes :</div>
+                <br/>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="row">Signature</div>
+                        <div class="row"><span></span></div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row">Checked By</div>
+                        <div class="row"><span></span></div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row">Approved</div>
+                        <div class="row"><span></span></div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row">‫ايجيترانس‬
+EGYTRANS</div>
+                        <div class="row"><span></span></div>
+                    </div>
+                </div>
+                    <br/>
+                    <br/>
+                    <br/>
+
+                <footer style="position: absolute;bottom: 0;">
+                    E.O.&amp;E ALL PAYMENTS MUST BE AGANEST OUR OFFICIAL RECEIPTS <span style="margin-left:350px">ORIGINAL</span>
+                    <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
+                    <div class="row mt32 mb32" id="sale">
+                       <div class="col-auto mw-100 mb-2">
+                          <p align="left" dir="ltr" style="font-size:15px">
+                              ALL BUSINESS IS TRANSACTED ACCORDING TO THE COMPANY'S STANDARD TRADING CONDITIONS-COPY AVAILABLE UPON REQUEST
+                          </p>
+                           <p class="text-center"  style="font-size:15px">
+كافه الاعمال يتم تنفيذها طبقا للشروط التجاريه العامه للشركه-نسخه الشروط متوفره عند الطلب
+                          </p>
+                           <p class="text-center"  style="font-size:15px">
+يرجى عدم خصم ضريبه ارباح تجاريه حيث ان الشركه تتطبق نظام الدفعات المقدمه
+                          </p>
+                           <p class="text-center"  style="font-size:15px">
+EGY-F-F1041                          </p>
+                        </div>
+                    </div>
+                </footer>
+                 <p style="page-break-after:always;"/>
+                </div>
+
+            </t>
+        </template>
+
+        <template id="report_move_forma">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="freight.report_move_document"/>
+                </t>
+
+        </template>
+
+<!--        <record id="action_report_journal_entry" model="ir.actions.report">-->
+<!--            <field name="name">Freight Entries</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="report_type">qweb-pdf</field>-->
+<!--            <field name="report_name">freight.report_move_forma</field>-->
+<!--            <field name="report_file">freight.report_move_forma</field>-->
+<!--            <field name="print_report_name">(object.name)</field>-->
+<!--            <field name="binding_model_id" ref="account.model_account_move"/>-->
+<!--            <field name="binding_type">report</field>-->
+<!--        </record>-->
+    </data>
+</odoo>

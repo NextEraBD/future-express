@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="cover_letter_header_66">
+            <hr style="border:1px solid black;"></hr>
+            <div>
+                    <div style="width:50%;float:left">
+                        <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                           <b>Cover Letter</b>
+                        </p>
+                    </div>
+                    <div style="width:50%;float:right;text-align:right" align="right" dir="rtl">
+                      <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                         <b>طلب تسويه عهده</b>
+                      </p>
+                    </div>
+                </div>
+            <div  align="center" style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                <img src="/freight/static/images/icon.png" alt="Logo" style="width:150px; height:50;"/>
+            </div>
+
+            <div>
+                <div style="width:50%;float:left">
+                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                    <span class="mb-5">Egyptian Transport and Commercial Services CO. S.A.E.</span>
+                    <br/>
+                    <span class="mb-5">Commercial Registry:16974 Port Said</span>
+                    <br/>
+                    <span class="mb-5">11 KAMEL MORSY ST., EL SHATBY, ALEXANDRIA</span>
+                    <br/>
+                    <span class="mb-5">Telephone: 035914696(14 LINES)</span>
+                    <br/>
+                    <span class="mb-5">Fax: 035900193</span>
+                    <br/>
+                    <span class="mb-5">Email: ALEX@EGYTRANS.COM</span>
+                    </font>
+                </div>
+
+                <div style="width:50%;float:right;text-align:right" align="right" dir="rtl">
+                    <div>
+                <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                    <span class="mb-5">الشركة المصرية لخدمات النقل و التجارة ش.م.م</span>
+                    <br/>
+                    <span class="mb-5">سجل تجاري بورسعيد 16974</span>
+                    <br/>
+                    <span class="mb-5">شارع كامل مرسي الشاطبي الاسكندرية 11</span>
+                    <br/>
+                    <span class="mb-5">تيلفون: خط(+203)5914696</span>
+                    <br/>
+                    <span class="mb-5">فاكس: 035900193</span>
+                    <br/>
+                    <span class="mb-5">البريد الالكتروني: ALEX@EGYTRANS.COM</span>
+                </font>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div  align="center" style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                 <span class="mb-5">Letter No./ <span t-field="doc.name"/> </span>
+            </div>
+            <hr style="border:1px solid black;"></hr>
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0"/>
+            </div>
+            <div class="footer">
+              <div class="text-center">
+                  <hr style="border:1px solid black;"></hr>
+                  <font  style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">
+                  <span align="center">ALL BUSINESS IS TRANSACTED ACCORDING TO THE COMPANY'S STANDARD TRADING CONDITIONS-COPY AVAILABLE UPON REQUEST </span>
+                 <br/>
+                   <span align="center">كافة الاعمال يمكن تنفيذهاطبقا للشروط التجارية العامة للشركة -نسخة الشروط متوفرة عند الطلب </span>
+                    <br/>
+                   <span align="center">EGY-F-I035</span>
+                  </font>
+              </div>
+            </div>
+        </template>
+
+        <template id="report_cover_letter_forma">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <t t-call="freight_expense.cover_letter_header_66"/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="page" style="font-family: &quot;Times New Roman&quot;, serif;">
+                        <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">
+                            <table dir="ltr" class="table table-borderless">
+                        <tr >
+                            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               Date:
+                            </td>
+                            <td  class="text-left" colspan="2" align="left">
+                                <span t-field="doc.date"/>
+                            </td>
+                             <td class="text-left"  colspan="2" align="left">
+                                Employee
+                            </td>
+                            <td class="text-left" align="left">
+                                <span t-field="doc.employee_id"/>
+                            </td>
+                            </font>
+                        </tr>
+                         <tr >
+                            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               Company:
+                            </td>
+                            <td  class="text-left" colspan="2" align="left">
+                                <span t-field="doc.company_id"/>
+                            </td>
+
+                            <td class="text-left" align="left" colspan="2">
+                                Branch
+
+                            </font>
+                        </tr>
+                         <tr >
+                            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               Total Sale Amount:
+                            </td>
+                            <td  class="text-left" colspan="2" align="left">
+                                <span t-field="doc.total_cost_amount"/>
+                            </td>
+
+                            <td class="text-left" colspan="2" align="left">Total In GL</td>
+                                <td  class="text-left" align="left">
+                                <span t-field="doc.total_gl"/>
+                            </td>
+                            </font>
+                        </tr>
+                     </table>
+
+                            <br/>
+<!--                      <div class="row">-->
+<!--                        <div class="col2" style="text-align: center;">توقيع المستلم</div>-->
+<!--                        <div class="col-3" style="text-align: center;">توقيع مشرف الحسابات</div>-->
+<!--                        <div class="col-3" style="text-align: center;">توقيع أمين الخزينة</div>-->
+<!--                     </div>-->
+
+<!--                      Content-->
+                      <div class="row">
+                          <bold><span class="mb-1">Expenses</span></bold>
+                      </div>
+                      <table class="table table-bordered mt32">
+                          <thead>
+                              <th>Operator</th>
+                              <th>Shipment</th>
+                              <th>Service Type</th>
+                              <th>Currency</th>
+                              <th>AMT Sale</th>
+                              <th>AMT Cost</th>
+                          </thead>
+                          <tbody>
+                              <t t-foreach="doc.expense_line_ids" t-as="line">
+                                  <tr>
+                                      <td><span t-field="line.operator_id"/> </td>
+                                      <td><span t-field="line.shipment_number"/> </td>
+                                      <td><span t-field="line.expense_service_type"/> </td>
+                                      <td><span t-field="line.currency_id"/> </td>
+                                      <td><span t-field="line.amount_sale"/> </td>
+                                      <td><span t-field="line.amount_cost"/> </td>
+                                  </tr>
+                              </t>
+                              <tr>
+                                  <td colspan="5">Total Expense Sale Amount</td>
+                                  <td ><span t-field="doc.total_ex_sale_amount"/> </td>
+                              </tr>
+                              <tr>
+                                  <td colspan="5">Total Expense Cost Amount</td>
+                                  <td ><span t-field="doc.total_ex_cost_amount"/> </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <br/><br/>
+                        <div class="row">
+                          <bold><span class="mb-1">Official Receipt</span></bold>
+                      </div>
+                      <table class="table table-bordered mt32">
+                          <thead>
+                              <th>Operator</th>
+                              <th>Shipment</th>
+                              <th>Service Type</th>
+                              <th>Currency</th>
+                              <th>AMT Sale</th>
+                              <th>AMT Cost</th>
+                          </thead>
+                          <tbody>
+                              <t t-foreach="doc.official_line_ids" t-as="line">
+                                  <tr>
+                                      <td><span t-field="line.operator_id"/> </td>
+                                      <td><span t-field="line.shipment_number"/> </td>
+                                      <td><span t-field="line.expense_service_type"/> </td>
+                                      <td><span t-field="line.currency_id"/> </td>
+                                      <td><span t-field="line.amount_sale"/> </td>
+                                      <td><span t-field="line.amount_cost"/> </td>
+                                  </tr>
+                              </t>
+                              <tr>
+                                  <td colspan="5">Total Official Sale Amount</td>
+                                  <td ><span t-field="doc.total_of_sale_amount"/> </td>
+                              </tr>
+                              <tr>
+                                  <td colspan="5">Total Official Cost Amount</td>
+                                  <td ><span t-field="doc.total_of_cost_amount"/> </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                            <br/><br/>
+
+                     <div class="row">
+                          <bold><span class="mb-1">Vendor Bill</span></bold>
+                      </div>
+                      <table class="table table-bordered mt32">
+                          <thead>
+                              <th>Shipment</th>
+                              <th>Service</th>
+                              <th>Currency</th>
+                              <th>Price Unit</th>
+                              <th>Total</th>
+                          </thead>
+                          <tbody>
+                              <t t-set="total_bill" t-value="0"/>
+                              <t t-foreach="doc.move_line_ids" t-as="line">
+                                  <t t-set="total_bill" t-value="total_bill+line.price_total"/>
+                                  <tr>
+                                      <td><span t-field="line.shipment_number"/> </td>
+                                      <td><span t-field="line.product_id"/> </td>
+                                      <td><span t-field="line.currency_id"/> </td>
+                                      <td><span t-field="line.price_unit"/> </td>
+                                      <td><span t-field="line.price_total"/> </td>
+                                  </tr>
+                              </t>
+                              <tr>
+                                  <td colspan="4">Total Bill Amount</td>
+                                  <td ><t t-esc="total_bill"/></td>
+                              </tr>
+                          </tbody>
+                      </table>
+                            <br/><br/>
+
+
+<!--                      <div class="row" style="position: relative;font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">-->
+<!--                        <div class="col-3" >-->
+<!--                            <div class="row">توقيع المستلم</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-5" >-->
+<!--                            <div class="row">توقيع مشرف الحسابات</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-5" >-->
+<!--                            <div class="row" >توقيع أمين الخزينة</div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                      <table dir="ltr" class="table table-borderless">-->
+<!--                      <tr>-->
+<!--                            <td>-->
+
+<!--                            </td>-->
+<!--                          <td>-->
+<!--                                <div class="col" style="flex: 1;">توقيع المستلم</div>-->
+<!--                            </td>-->
+<!--                            <td class="text-center">-->
+<!--                                <div class="col" style="flex: 1;">توقيع مشرف الحسابات</div>-->
+<!--                            </td>-->
+<!--                            <td class="text-right">-->
+<!--                               <div class="col" style="flex: 1;">توقيع أمين الخزينة</div>-->
+<!--                            </td>-->
+<!--                          <td class="text-right">-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                      </table>-->
+<!--                      <br/>-->
+<!--                      <div>-->
+<!--                          <t t-esc="doc.text"/>-->
+<!--                      </div>-->
+
+
+                  </font>
+                </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+
+        <record id="action_report_els_cover_letter" model="ir.actions.report">
+            <field name="name">Cover Letter</field>
+            <field name="model">hr.cover.letter</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">freight_expense.report_cover_letter_forma</field>
+            <field name="report_file">freight_expense.report_cover_letter_forma</field>
+            <field name="binding_model_id" ref="freight_expense.model_hr_cover_letter"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+    </data>
+</odoo>

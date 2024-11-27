@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Define the wizard view -->
+    <record id="view_official_invoice_wizard_form" model="ir.ui.view">
+        <field name="name">invoice.wizard.form</field>
+        <field name="model">claim.wizard</field>
+        <field name="arch" type="xml">
+           <form string="Claim">
+                <sheet>
+                    <group>
+                    <field name="partner_id"/>
+<!--                    <field name="journal_id"/>-->
+
+                    </group>
+
+        <footer>
+            <button name="action_create_journal_invoice_official" string="Create Claim" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+                </sheet>
+           </form>
+      </field>
+    </record>
+
+    <!-- Define the wizard view -->
+    <record id="view_official_bill_wizard_form" model="ir.ui.view">
+        <field name="name">bill.wizard.form</field>
+        <field name="model">official.bill.wizard</field>
+        <field name="arch" type="xml">
+           <form string="Bill">
+                <sheet>
+                    <group>
+                    <field name="partner_id"/>
+<!--                    <field name="journal_id"/>-->
+
+                    </group>
+
+        <footer>
+            <button name="action_create_journal_official" string="Create Claim" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+                </sheet>
+           </form>
+      </field>
+    </record>
+
+</odoo>

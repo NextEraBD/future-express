@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="shipper_header_66">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+            <div class="footer">
+                 <div class="letter-footer" style="text-align: right">
+                    Original
+                </div>
+                <div class="text-center">
+                    <hr style="border:1px solid black;"/>
+                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                        <span align="center">ALL BUSINESS IS TRANSACTED ACCORDING TO THE COMPANY'S STANDARD TRADING
+                            CONDITIONS-COPY AVAILABLE UPON REQUEST
+                        </span>
+                        <br/>
+                        <span align="center">كافة الاعمال يمكن تنفيذهاطبقا للشروط التجارية العامة للشركة -نسخة الشروط
+                            متوفرة عند الطلب
+                        </span>
+                        <br/>
+                        <span align="center">(EGY-F-EX001)</span>
+                    </font>
+                </div>
+            </div>
+        </template>
+        <template id="report_shipping_declaration_forma">
+             <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <t t-call="freight.shipper_header_66"/>
+                        <div>
+                            <div style="width:50%;float:left">
+                                <hr style="border:1px solid black;"/>
+                                <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                                    Shipper
+                                    <br/>
+                                    <span style="text-align:center" t-field="doc.shipper_id.name"/>
+                                    <br/>
+                                    <span style="text-align:center" t-field="doc.shipper_id.street"/>
+                                    <br/>
+                                    <span style="text-align:center" t-field="doc.shipper_id.city"/>
+                                    <br/>
+                                    <span style="text-align:center" t-field="doc.shipper_id.vat"/>
+                                    <br/>
+                                    <span style="text-align:center" t-field="doc.shipper_id.country_id.name"/>
+                                </p>
+                                <hr style="border:1px solid black;"/>
+                                <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                                    Consignee: <span style="text-align:center" t-field="doc.consignee_id.name"/>
+                                    <br/>
+                                    <b>TEL:</b><span style="text-align:center" t-field="doc.consignee_id.mobile"/>
+                                    <br/>
+                                    <b>FAX:</b><span style="text-align:center" t-field="doc.consignee_id.email"/>
+
+                                    <br/>
+                                    <hr style="border:1px solid black;"/>
+                                    Notify: <span style="text-align:center" t-field="doc.notify"/>
+                                    <br/>
+                                     <br/>
+                                    <b>TEL:</b>:
+                                </p>
+
+                            </div>
+                            <div style="width:50%;float:right;text-align:left" align="right" dir="ltr">
+                                <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 28px;">
+                                    <b>Shipping Declaration</b>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                </p>
+                                <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 12px;">
+                                    <span class="mb-5">Egyptian Transport and Commercial Services CO. S.A.E.
+                                    </span>
+                                    <br/>
+                                    <span class="mb-5">Integrated Global Transport Services and Solution</span>
+                                    <br/>
+                                    <span class="mb-5">Commercial Registry:16974 Port Said</span>
+                                    <br/>
+                                    <span class="mb-5">11 KAMEL MORSY ST., EL SHATBY, ALEXANDRIA</span>
+                                    <br/>
+                                    <span class="mb-5">Telephone: +203-5914696</span>
+                                    <br/>
+                                    <span class="mb-5">Fax: +203-5900193</span>
+                                    <br/>
+                                    <span class="mb-5">Email: alexoperations@egytrans.com</span>
+                                    <br/>
+                                    <span class="mb-5">Date:
+                                        <span t-esc="datetime.datetime.now().strftime('%Y-%m-%d %H:%M')"/>
+                                    </span>
+
+                                    <br/>
+                                    <br/>
+                                    <span>Messers</span>
+                                    <br/>
+                                    <span>
+                                        <b>UNI FREIGHT GLOBAL LOGISTICS COMPANY-ALEXANDRIA</b>
+                                    </span>
+
+
+                                </font>
+                            </div>
+
+                        </div>
+
+                      <br/>
+                        <br/>
+                          <br/>
+                        <div> <p class="mb-5">Attention</p></div>
+                        <div>
+
+                            <hr style="border:1px black;"/>
+
+                            <table dir="ltr" class="table table-borderless">
+                                <tr>
+                                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 12px;">
+                                        <td class="text-left">
+                                            Vessel
+                                        </td>
+                                        <td class="text-left" colspan="3">
+                                            Port of Loading
+                                        </td>
+                                        <td class="text-left">
+                                            ETS
+                                        </td>
+                                    </font>
+                                </tr>
+                                <tr>
+                                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 12px;">
+                                        <td class="text-left">
+                                            <b>
+                                                <span style="text-align:center" t-field="doc.vessel_id.name"/>
+                                            </b>
+                                        </td>
+                                        <td class="text-left" colspan="3">
+                                            <b>
+                                                <span style="text-align:center" t-field="doc.source_location_id.name"/>
+                                            </b>
+                                        </td>
+                                        <td class="text-left">
+                                            <b>
+                                                <span style="text-align:center" t-field="doc.actual_time_departure"/>
+                                            </b>
+                                        </td>
+                                    </font>
+                                </tr>
+                                <!--                        Row2-->
+                                <tr>
+                                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 12px;">
+                                        <td class="text-left">
+                                            Port of Discharge
+                                        </td>
+
+                                        <td class="text-left" colspan="3">
+                                            ETA
+                                        </td>
+                                        <td class="text-left">
+                                            Our File
+                                        </td>
+
+                                    </font>
+                                </tr>
+                                <tr>
+                                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 12px;">
+                                        <td class="text-left">
+                                            <b>
+                                                <span style="text-align:center" t-field="doc.destination_location_id.name"/>
+                                            </b>
+                                        </td>
+                                        <td class="text-left" colspan="3">
+                                            <b>
+                                                <span style="text-align:center" t-field="doc.estimated_time_arrival"/>
+                                            </b>
+                                        </td>
+                                        <td class="text-left">
+                                            <b>
+                                                <span style="text-align:center" t-field="doc.name"/>
+                                            </b>
+                                        </td>
+                                    </font>
+                                </tr>
+                            </table>
+                            <hr style="border:1px black;"/>
+
+                            <table dir="ltr" class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <font style="font-family: 'GEDinkum-Medium', serif; font-size: 12px;">
+                                            <td class="text-left">
+                                                <strong>Marks and Nos.</strong>
+                                            </td>
+                                            <td class="text-left" colspan="2">
+                                                <strong>No. and kind of packages, description of goods</strong>
+                                            </td>
+                                            <td class="text-left">
+                                                <strong>Gross Weight</strong>
+                                            </td>
+                                            <td class="text-left">
+                                                <strong>Net Weight</strong>
+                                            </td>
+                                            <td class="text-left">
+                                                <strong>Measurement</strong>
+                                            </td>
+                                        </font>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: pre-line;" class="text-left">
+                                            <t t-esc="doc.volume"/>
+                                        </td>
+                                        <td colspan="2" style="white-space: pre-line;" class="text-left">
+                                            <t t-esc="doc.pieces"/>
+                                        </td>
+                                        <td style="white-space: pre-line;" class="text-left">
+                                            <t t-esc="doc.weight"/>
+                                        </td>
+                                        <td style="white-space: pre-line;" class="text-left">
+                                            <t t-esc="doc.net_weight"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>
+                                <strong>Total No. of Package(s):</strong>
+                                <t t-esc="doc.total_no_of_pieces"/>
+                            </p>
+                            <p>
+                                <strong>Total Gross Weight:</strong>
+                                <t t-esc="doc.total_g_w"/>
+                            </p>
+                            <p>
+                                <strong>Total Volume:</strong>
+                                <t t-esc="doc.total_n_w"/>
+                            </p>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <hr style="border:1px  black;"/>
+                            <table dir="ltr" class="table table-borderless">
+                                <tr>
+                                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 12px;">
+                                        <td class="text-left">
+                                               SPECIAL INSTRUCTIONS
+                                        </td>
+                                        <td class="text-left" colspan="2">
+
+                                        </td>
+                                        <td class="text-left">
+                                               AUTHORIZED SIGNATURE
+                                            <hr/>
+                                        </td>
+                                    </font>
+                                </tr>
+                                <tr>
+                                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 12px;">
+                                        <td class="text-left">
+                                              1.Freight Payable at: PREPAID
+                                              <br/>
+                                                2.Freight to be declared on Bill of Lading: No
+                                                <br/>
+                                                3.Number of Bill of Lading: 1 Originals 1 Copies
+                                        </td>
+                                        <td class="text-left" colspan="2">
+
+                                        </td>
+                                        <td class="text-left">
+
+
+                                               STAMP
+
+                                        </td>
+                                    </font>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_els_shipping_declaration" model="ir.actions.report">
+            <field name="name">Shipping Declaration</field>
+            <field name="model">freight.shipment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">freight.report_shipping_declaration_forma</field>
+            <field name="report_file">freight.report_shipping_declaration_forma</field>
+            <field name="binding_model_id" ref="model_freight_shipment"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

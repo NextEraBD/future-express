@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_partner_form_inherit_freight" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit_new</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_sale_order']" position="after">
+                    <button class="oe_stat_button" name="action_open_freight"
+                            type="object" icon="fa-bars" attrs="{'invisible': [('freight_count', '=', 0)]}">
+                        <field name="freight_count" string="Freight" widget="statinfo" icon="fa-usd"/>
+                    </button>
+
+                </xpath>
+                <field name="name" position="after">
+                        <field name="ar_name" placeholder="Arabic Name"/>
+                    </field>
+
+                <field name="vat" position="after">
+                    <field name="customer_service_id"/>
+
+                </field>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="shipper"/>
+                    <field name="consignee"/>
+                    <field name="agent"/>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_title')]/field[@name='company_type']" position="after">
+                    <group>
+                        <group>
+                            <label for="is_shipping_line" string="Is Shipping Line" invisible="1"/>
+                            <div>
+                                <field name="is_shipping_line" invisible="1"/>
+                            </div>
+                            <label for="is_tracking_agent" string="Is Trucking Agent" invisible="1"/>
+                            <div>
+                                <field name="is_tracking_agent" invisible="1"/>
+                            </div>
+                            <label for="is_driver" string="Is a Driver" invisible="1"/>
+                            <div>
+                                <field name="is_driver" invisible="1"/>
+                            </div>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Agent Serial">
+                        <group>
+                            <group>
+                                <field name="tracking_agent_serial"/>
+                                <field name="serial_seq"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!--      add shipping line to search view-->
+        <record id="shipping_line_res_partner_search_view" model="ir.ui.view">
+            <field name="name">shipping.line.res.partner.search.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='type_person']" position="after">
+                    <filter string="Is Shipping Line" name="shipping_line" domain="[('is_shipping_line','=',True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_view_tree_inherit_freight_crm" model="ir.ui.view">
+            <field name="name">res.partner.view.tree.inherit.freight</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="contact_action" model="ir.actions.act_window">
+            <field name="name">Contact</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="domain">[('is_company','=',False)]</field>
+        </record>
+        <record id="account_action" model="ir.actions.act_window">
+            <field name="name">Account</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+            <field name="domain">[('is_company','=',True)]</field>
+        </record>
+
+        <menuitem
+                id="contact_menu"
+                name="Contacts"
+                parent="crm.crm_menu_root"
+                action="contact_action"
+                sequence="6"/>
+        <menuitem
+                id="account_menu"
+                name="Account"
+                parent="crm.crm_menu_root"
+                action="account_action"
+                sequence="6"/>
+
+
+    </data>
+</odoo>

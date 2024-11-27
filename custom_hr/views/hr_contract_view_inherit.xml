@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit the hr_contract view form -->
+        <record id="view_hr_contract_form_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add new page inside notebook -->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Insurance">
+                        <group>
+                            <field name="insurance_salary"/>
+                            <field name="company_insurance_percentage"/>
+                            <field name="employee_insurance_percentage"/>
+                            <field name="health_insurance"/>
+                            <field name="martyrs_fund"/>
+                            <field name="mobile_deduction"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

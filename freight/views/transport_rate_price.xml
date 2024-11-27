@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="transport_rate_price_form_view" model="ir.ui.view">
+            <field name="name">transport.rate.price.form.view</field>
+            <field name="model">transport.rate.price</field>
+            <field name="arch" type="xml">
+                <form string="Transport">
+                    <header>
+                        <field name="state" widget="statusbar" force_save="1" decoration-danger="state == 'expired'"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Transport Name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="is_compute" invisible="1"/>
+                                <field name="product_id"/>
+                                <field name="country_id"/>
+                                <field name="city_id"/>
+                                <field name="currency_id"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="agent_id" string="Vendor"/>
+                                <field name="direction"/>
+                                <field name="source_location_id"/>
+                                <field name="destination_location_id"/>
+                                <field name="transport"/>
+                                <field name="ocean_shipment_type" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+
+<!--                                <field name="truck_type_id"/>-->
+                                <field name="package"/>
+                                <field name="container_id" attrs="{'invisible': [('transport','=','air')]}"/>
+                            </group>
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="remaining_days"/>
+                                <field name="action"/>
+                            </group>
+                            <group>
+                                <field name="amount_cost"/>
+                                <field name="amount_sale" attrs="{'invisible': [('transport','=','air')]}"/>
+                                <field name="other_kg" attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <field name="other_air_sale" attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                         <notebook>
+                            <page string="Price Air" attrs="{'invisible': [('transport','!=','air')]}">
+                                <field name="price_air_ids" widget="section_and_note_one2many">
+                                    <tree string="Price Air Line" editable="bottom">
+                                        <field name="amount_from"/>
+                                        <field name="amount_to"/>
+                                        <field name="amount_sale"/>
+                                        <field name="amount_cost"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="transport_rate_price_tree_view" model="ir.ui.view">
+            <field name="name">transport.rate.price.tree.view</field>
+            <field name="model">transport.rate.price</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="transport"/>
+                    <field name="product_id"/>
+                    <field name="transport" invisible="1"/>
+                    <field name="container_id" attrs="{'column_invisible': [('transport','=','air')]}"/>
+                    <field name="package" attrs="{'column_invisible': [('transport','!=','air')]}"/>
+                    <field name="currency_id"/>
+                    <field name="country_id"/>
+                    <field name="city_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="user_id" readonly="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_transport_rate_price" model="ir.actions.act_window">
+            <field name="name">Transport Rates</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">transport.rate.price</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to create a new Transport Rate.
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_transport_rate_price"
+                  name="Transport Rates"
+                  groups="freight.group_crm_use_pricing_user"
+                  action="action_transport_rate_price"
+                  parent="freight.pricing_menu"
+                  sequence="3"/>
+
+        <record id="truck_type_view_form" model="ir.ui.view">
+            <field name="name">truck.type_view_form</field>
+            <field name="model">truck.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="max_weight"/>
+                                <field name="max_volume"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.hr.attendance</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="80"/>
+            <field name="inherit_id" ref="hr_attendance.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='pincode_setting_container']" position="after">
+                    <h2>Mission Settings</h2>
+                    <div class="row mt16 o_settings_container" name="config_mission_rate_overtime">
+                        <div class="col-12 col-lg-6 o_setting_box" title="Set Overtime in Mission Rate.">
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="mt8">
+                                        <label for="config_mission_rate_overtime"/>
+                                        <field name="config_mission_rate_overtime"/>
+                                    </div>
+                                    <div class="mt8">
+                                        <label for="config_mission_rate_weekend"/>
+                                        <field name="config_mission_rate_weekend"/>
+                                    </div>
+                                    <div class="mt8">
+                                        <label for="mission_journal_id"/>
+                                        <field name="mission_journal_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+     <record model="ir.ui.view" id="hr_employee_mission_inherit_form_view">
+        <field name="name">hr.employee.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="expense_manager_id" position="after">
+                <field name="mission_manager_id" />
+             </field>
+
+        </field>
+    </record>
+         <record id="hr_contract_mission_form_inherit_form_view" model="ir.ui.view">
+            <field name="name">hr_contract_view_form.inherit_form_view</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[2]" position="after">
+                    <page string="Missions">
+                        <group col="4">
+                            <field name="mission_per_day_amount" string="Meal Allowance" readonly="0"/>
+                            <field name="mission_travel_allowance" string="Travel Allowance" readonly="0"/>
+                            <field name="mission_with_accommodation_amount" readonly="0"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+         </record>
+<!--        Hr Job-->
+          <record id="inh_mission_hr_job_employee" model="ir.ui.view">
+            <field name="name">employee_hr_job_employee</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//notebook/page[2]" position="after">
+                    <page string="Missions">
+                        <group col="4">
+                            <field name="mission_per_day_amount" />
+                            <field name="mission_with_accommodation_amount" />
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+          </record>
+
+
+
+        <record id="mission_branch_res_branch_view_form" model="ir.ui.view">
+            <field name="name">branch.res.branch.view.form</field>
+            <field name="model">res.branch</field>
+            <field name="inherit_id" ref="branch.branch_res_branch_view_form" />
+              <field name="type">form</field>
+                <field name="arch" type="xml">
+                <field name="address" position="after">
+                    <field name="account_mission_ids" widget="many2many_tags"/>
+                    <field name="administrative_affairs_ids" widget="many2many_tags"/>
+                 </field>
+
+            </field>
+        </record>
+
+        <record id="mission_stock_product_normal_action" model="ir.actions.act_window">
+            <field name="name">Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('can_be_mission','=',True)]</field>
+            <field name="context">{'default_can_be_mission': True}</field>
+            <field name="search_view_id" ref="stock.stock_product_search_form_view"/>
+        </record>
+
+        <menuitem id="mission_product_product_menu" name="Configuration"
+        parent="hr_missions_menu_root" sequence="70"/>
+
+        <menuitem id="misstion_action_product_product_menu" name="Expense Product" action="mission_stock_product_normal_action"
+        parent="mission_product_product_menu" sequence="2" groups="product.group_product_variant"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_users_form_inherit_freight" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='security']" position="after">
+                    <page name="user_service_type" string="User Service Type">
+                        <group string="User Type">
+                            <field name="customer_service"/>
+                            <field name="operator"/>
+                        </group>
+                        <group string="Operator Service" attrs="{'invisible': [('operator','=',False)]}">
+                            <field name="freight_check"/>
+                            <field name="transport_check"/>
+                            <field name="clearance_check"/>
+                            <field name="transit_check"/>
+                            <field name="warehousing_check"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

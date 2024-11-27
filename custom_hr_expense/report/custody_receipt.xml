@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="custody_header_66">
+             <hr style="border:1px solid black;"></hr>
+            <div>
+                <div style="width:50%;float:left">
+                    <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                       <b>Cash Payment Receipt</b>
+                    </p>
+                </div>
+              <div style="width:50%;float:right;text-align:right" align="right" dir="rtl">
+                  <p style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                     <b>إذن صرف نقدية</b>
+                  </p>
+                </div>
+         </div>
+              <div  align="center" style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                <img src="/freezone/static/src/icon.png" alt="Logo" style="width:150px; height:50;"/>
+            </div>
+
+            <div>
+                <div style="width:50%;float:left">
+                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                    <span class="mb-5">Egyptian Transport and Commercial Services CO. S.A.E.</span>
+                    <br/>
+                    <span class="mb-5">Commercial Registry:16974 Port Said</span>
+                    <br/>
+                    <span class="mb-5">11 KAMEL MORSY ST., EL SHATBY, ALEXANDRIA</span>
+                    <br/>
+                    <span class="mb-5">Telephone: 035914696(14 LINES)</span>
+                    <br/>
+                    <span class="mb-5">Fax: 035900193</span>
+                    <br/>
+                    <span class="mb-5">Email: ALEX@EGYTRANS.COM</span>
+                    </font>
+                </div>
+
+                <div style="width:50%;float:right;text-align:right" align="right" dir="rtl">
+                    <div>
+                <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                    <span class="mb-5">الشركة المصرية لخدمات النقل و التجارة ش.م.م</span>
+                    <br/>
+                    <span class="mb-5">سجل تجاري بورسعيد 16974</span>
+                    <br/>
+                    <span class="mb-5">شارع كامل مرسي الشاطبي الاسكندرية 11</span>
+                    <br/>
+                    <span class="mb-5">تيلفون: خط(+203)5914696</span>
+                    <br/>
+                    <span class="mb-5">فاكس: 035900193</span>
+                    <br/>
+                    <span class="mb-5">البريد الالكتروني: ALEX@EGYTRANS.COM</span>
+                </font>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div  align="center" style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                 <span class="mb-5">Payment No./ <span t-field="doc.name"/> </span>
+            </div>
+            <hr style="border:1px solid black;"></hr>
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+              <t t-raw="0"/>
+            </div>
+            <div class="footer">
+              <div class="text-center">
+                  <hr style="border:1px solid black;"></hr>
+                  <font  style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">
+                  <span align="center">ALL BUSINESS IS TRANSACTED ACCORDING TO THE COMPANY'S STANDARD TRADING CONDITIONS-COPY AVAILABLE UPON REQUEST </span>
+                 <br/>
+                   <span align="center">كافة الاعمال يمكن تنفيذهاطبقا للشروط التجارية العامة للشركة -نسخة الشروط متوفرة عند الطلب </span>
+                    <br/>
+                   <span align="center">EGY-F-I035</span>
+                  </font>
+              </div>
+            </div>
+        </template>
+        <template id="report_custody_forma">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <t t-call="custom_hr_expense.custody_header_66"/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                <div class="page" style="font-family: &quot;Times New Roman&quot;, serif;">
+                  <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">
+                     <table dir="ltr" class="table table-borderless">
+                        <tr >
+                            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               Date:
+                            </td>
+                            <td  class="text-left" colspan="2" align="left">
+                                <span t-field="doc.date"/>
+                            </td>
+                             <td class="text-right"  colspan="2" align="right">
+                                <span t-field="doc.date"/>
+                            </td>
+                            <td class="text-right" align="right">
+                                تحريرا في
+                            </td>
+                            </font>
+                        </tr>
+                         <tr >
+                            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               Pay To:
+                            </td>
+                            <td  class="text-left" colspan="4" align="left">
+                                <span t-field="doc.employee_id.name"/>
+                            </td>
+
+                            <td class="text-right" align="right">
+                                صرفنا الي
+                            </td>
+                            </font>
+                        </tr>
+                         <tr >
+                            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               Total Amount:
+                            </td>
+                            <td  class="text-left" colspan="4" align="left">
+                                <span t-field="doc.amount"/>
+                            </td>
+
+                            <td class="text-right" align="right">
+مبلغا و قدره                            </td>
+                            </font>
+                        </tr>
+                         <tr >
+                            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               For:
+                            </td>
+                            <td  class="text-left" colspan="4" align="left">
+<!--                                <span t-field="doc.name"/>-->
+                            </td>
+
+                            <td class="text-right" align="right">
+                                خصما علي حساب
+                            </td>
+                            </font>
+                        </tr>
+                         <tr>
+                             <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+                             <td class="text-left" align="left">
+                               Description:
+                            </td>
+                            <td  class="text-left" colspan="4" align="left">
+                                <span t-field="doc.description"/>
+                            </td>
+
+                            <td class="text-right" align="right">
+                                الوصف
+                            </td>
+                            </font>
+
+                         </tr>
+                     </table>
+
+                      <br/>
+
+<!--                      <div class="row">-->
+<!--                        <div class="col2" style="text-align: center;">توقيع المستلم</div>-->
+<!--                        <div class="col-3" style="text-align: center;">توقيع مشرف الحسابات</div>-->
+<!--                        <div class="col-3" style="text-align: center;">توقيع أمين الخزينة</div>-->
+<!--                     </div>-->
+
+<!--                      <div class="row" style="position: relative;font-family: 'GEDinkum-Medium', 'serif';font-size: 14px;">-->
+<!--                        <div class="col-3" >-->
+<!--                            <div class="row">توقيع المستلم</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-5" >-->
+<!--                            <div class="row">توقيع مشرف الحسابات</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-5" >-->
+<!--                            <div class="row" >توقيع أمين الخزينة</div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+                      <table dir="ltr" class="table table-borderless">
+                      <tr>
+                            <td>
+
+                            </td>
+<!--                          <td>-->
+<!--                                <div class="col" style="flex: 1;">توقيع المستلم</div>-->
+<!--                              <br/> <t t-if="doc.cheaf_clearance.sign_signature">-->
+<!--                                <br />-->
+<!--                                <t t-out="doc.cheaf_clearance.signature or ''">&#45;&#45;  <br/>-->
+<!--                                </t>-->
+<!--                            </t>-->
+<!--                            </td>-->
+                            <td class="text-center">
+                                <div class="col" style="flex: 1;">توقيع مشرف الحسابات</div>
+                            </td>
+                            <td class="text-right">
+                               <div class="col" style="flex: 1;">توقيع أمين الخزينة</div>
+                            </td>
+                          <td class="text-right">
+                            </td>
+                        </tr>
+                      </table>
+                      <br/>
+
+
+
+                  </font>
+                </div>
+            </t>
+            </t>
+            </t>
+        </template>
+
+
+
+        <record id="action_report_els_custody_letter" model="ir.actions.report">
+            <field name="name">Payment Receipt</field>
+            <field name="model">custody.custody</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">custom_hr_expense.report_custody_forma</field>
+            <field name="report_file">custom_hr_expense.report_custody_forma</field>
+            <field name="binding_model_id" ref="custom_hr_expense.model_custody_custody"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+    </data>
+</odoo>

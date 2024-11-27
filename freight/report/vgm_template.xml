@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Define the QWeb report template -->
+        <template id="vgm_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h2 style="text-align: center;">VGM Certificate</h2>
+                            <br/>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Container No</th>
+                                        <th>Container Type</th>
+                                        <th>Commodity</th>
+                                        <th>Gross Weight</th>
+<!--                                        <th>Net Weight</th>-->
+                                        <th>Tara Weight</th>
+                                        <th>VGM</th>
+                                        <th>Signature</th>
+                                    </tr>
+                                </thead>
+                                <div class="watermark" style="position:absolute;opacity:0.25;font-size:3em;width:100%;text-align:center;z-index:1000;">
+                                    <img src="/freight/static/images/sgl.jpeg" alt="Logo"/>
+                                </div>
+                                <tbody>
+                                    <t t-foreach="doc.freight_orders" t-as="order">
+                                        <tr>
+                                            <td>
+                                                <t t-foreach="order.container_no_ids" t-as="container">
+                                                    <span t-field="container.name"/>
+                                                    <br/>
+                                                </t>
+                                            </td>
+                                            <td><span t-field="order.container_id.name"/></td>
+                                            <td><span t-field="order.commodity_id.name"/></td>
+                                            <td><span t-field="order.gross_weight"/></td>
+<!--                                            <td><span t-field="order.net_weight"/></td>-->
+                                            <td><span t-field="order.tara_weight"/></td>
+                                            <td><span t-field="order.vgm"/></td>
+                                            <td>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- End of the report content -->
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

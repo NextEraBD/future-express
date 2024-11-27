@@ -1,0 +1,113 @@
+<odoo>
+    <data>
+
+
+        <record id="tree_view_custody_custody" model="ir.ui.view">
+            <field name="name">name.custody.custody.tree</field>
+            <field name="model">custody.custody</field>
+            <field name="arch" type="xml">
+                <tree string="Custody">
+                    <field name="name"/>
+                    <field name="employee_id" />
+                    <field name="branch_id"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="form_view_custody_custody" model="ir.ui.view">
+            <field name="name">name.custody.custody.form</field>
+            <field name="model">custody.custody</field>
+            <field name="arch" type="xml">
+                <form string="Custody">
+                    <header>
+
+                        <button name="action_submit" string="Submit" groups="hr.group_hr_user" class="btn-primary" states="draft" type="object"/>
+<!--                        <button name="action_manager_approve" string="Approve" groups="hr.group_hr_user" class="btn-primary" states="submitted" type="object"/>-->
+<!--                        <button name="action_branch_approve" string="Approve" groups="hr.group_hr_user" class="btn-primary" states="approved" type="object"/>-->
+<!--                        <button name="action_account_approve" string="Accounting Approve" groups="hr.group_hr_user" class="btn-primary" states="branch_approve" type="object"/>-->
+<!--                        <button name="action_change_branch" string="Change Branch" groups="hr.group_hr_user" class="btn-primary" states="account_approve" type="object"/>-->
+                        <button name="action_done" string="Paid" groups="hr.group_hr_user" class="btn-primary" states="submitted" type="object"/>
+                        <button name="action_refuse" string="Refuse" groups="hr.group_hr_user" class="btn-primary" states="reported,submitted" type="object"/>
+
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1 class="d-flex">
+                                <field name="name" readonly="True"/>
+                            </h1>
+                        </div>
+                        <group col="2">
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company"  readonly="True"/>
+                                <field name="total_gl" string="Total in GL"/>
+<!--                                <field name="remaining_balance"/>-->
+<!--                                <field name="cheaf_clearance" />-->
+<!--                                <field name="user_domain_ids" widget="many2many_tags" invisible="1"/>-->
+                            </group>
+                            <group>
+                                <field name="date"  attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="amount"/>
+
+<!--                                <field name="branch_id" groups="branch.group_branch_user"  readonly="True"/>-->
+                                <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_currency"/>
+                                <field name="move_id" states="account_approve,done"  readonly="True"/>
+
+                            </group>
+
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <notebook>
+                            <page string="Other Info" attrs="{'invisible':[('state','!=','refused')]}">
+                                <group>
+                                    <field name="refuse_user_id"/>
+                                    <field name="refuse_date"/>
+                                    <field name="refuse_reason" attrs="{'required':[('state','=','refused')]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_view_custody" model="ir.actions.act_window">
+            <field name="name">Custody</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">custody.custody</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_custody" name="Custody Request" parent="hr_expense.menu_hr_expense_my_expenses" action="action_view_custody"/>
+
+
+        <!-- account approval        -->
+        <record id="act_custody_request_approve" model="ir.actions.act_window">
+        <field name="res_model">custody.custody</field>
+        <field name="name">Custody Request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in',['approved'])]</field>
+    </record>
+<!--    <menuitem id="menu_custody_approval"  parent="custom_main_account.menu_account_approval" action="act_custody_request_approve"  name="Custody" sequence="3"/>-->
+
+    </data>
+</odoo>

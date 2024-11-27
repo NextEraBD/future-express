@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_freight_transit_form">
+            <field name="name">freight.transit.form</field>
+            <field name="model">freight.transit</field>
+            <field name="arch" type="xml">
+
+                <form string="Operations" delete="false">
+                    <header>
+                        <field name="stage_id_import" widget="statusbar"
+                               attrs="{'invisible': [('direction','=','export')]}"/>
+                        <field name="stage_id_export" widget="statusbar"
+                               attrs="{'invisible': [('direction','=','import')]}"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <div>
+                                <field name="name" readonly="1"/>
+                            </div>
+                        </h1>
+                        <group string="shipment">
+                            <group>
+                                <field name="operation" invisible="0" required="1"/>
+                                <field name="direction" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="transport" widget="radio"/>
+                                <field name="ocean_shipment_type" widget="radio"
+                                       attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <field name="inland_shipment_type" widget="radio"
+                                       attrs="{'invisible': [('transport','!=','land')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Shipper">
+                                <field name="shipper_id" required="1"/>
+                            </group>
+                            <group string="Consignee">
+                                <field name="consignee_id" required="1"/>
+                            </group>
+                        </group>
+                        <group string="Main Carriage">
+                            <group>
+                                <label for="source_location_id" string="From"
+                                       attrs="{'invisible': [('transport','!=','land')]}"/>
+                                <div attrs="{'invisible': [('transport','!=','land')]}">
+                                    <field name="source_location_id"/>
+                                </div>
+                                <label for="source_location_id" string="Loading Port"
+                                       attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <div attrs="{'invisible': [('transport','!=','ocean')]}">
+                                    <field name="source_location_id"/>
+                                </div>
+                                <label for="source_location_id" string="Gateway"
+                                       attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <div attrs="{'invisible': [('transport','!=','air')]}">
+                                    <field name="source_location_id"/>
+                                </div>
+                                <field name="voyage_no" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <field name="vessel_id" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <field name="mawb_no" attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <field name="obl" attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                            </group>
+                            <group>
+                                <label for="source_location_id" string="To"
+                                       attrs="{'invisible': [('transport','!=','land')]}"/>
+                                <div attrs="{'invisible': [('transport','!=','land')]}">
+                                    <field name="destination_location_id"/>
+                                </div>
+                                <label for="source_location_id" string="Discharge Port"
+                                       attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                                <div attrs="{'invisible': [('transport','!=','ocean')]}">
+                                    <field name="destination_location_id"/>
+                                </div>
+                                <label for="source_location_id" string="Destination"
+                                       attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <div attrs="{'invisible': [('transport','!=','air')]}">
+                                    <field name="destination_location_id"/>
+                                </div>
+                                <field name="airline_id" attrs="{'invisible': [('transport','!=','air')]}"/>
+                                <field name="datetime"/>
+                                <field name="truck_ref" attrs="{'invisible': [('transport','!=','land')]}"/>
+                                <field name="trucker" attrs="{'invisible': [('transport','!=','land')]}"/>
+                                <field name="trucker_number" attrs="{'invisible': [('transport','!=','land')]}"/>
+                            </group>
+                        </group>
+                        <group string="General">
+                            <group>
+                                <field name="agent_id"/>
+                                <field name="operator_id"/>
+                                <field name="freight_pc"/>
+                                <field name="other_pc"/>
+                                <field name="notes"/>
+                                <field name="declaration_number"/>
+                                <field name="declaration_date"/>
+                            </group>
+                            <group>
+                                <field name="dangerous_goods"/>
+                                <field name="dangerous_goods_notes"
+                                       attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                <field name="tracking_number"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Transit">
+                                <field name="trans_line_ids" nolabel="1">
+                                    <tree string="Transit" editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="source_location_id"/>
+                                        <field name="destination_location_id"/>
+                                        <field name="custom_fees"/>
+                                        <field name="percentage_id"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_freight_transit_tree">
+            <field name="name">freight.transit.tree</field>
+            <field name="model">freight.transit</field>
+            <field name="arch" type="xml">
+                <tree string="Operations">
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="shipper_id"/>
+                    <field name="consignee_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="freight_transit_import_view_kanban" model="ir.ui.view">
+            <field name="name">freight.transit.kanban</field>
+            <field name="model">freight.transit</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id_import" class="o_kanban_small_column">
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="operation"/>
+                    <field name="color"/>
+                    <field name="transport"/>
+                    <field name="activity_ids"/>
+                    <field name="datetime"/>
+                    <field name="activity_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+                                        <li>
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            <field name="direction"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <field name="operation"/>
+                                    </div>
+                                    <t t-if="record.datetime.raw_value and record.datetime.raw_value &lt; (new Date())"
+                                       t-set="red">oe_kanban_text_red
+                                    </t>
+                                    Date:
+                                    <span t-attf-class="#{red}">
+                                        <i>
+                                            <field name="datetime"/>
+                                        </i>
+                                    </span>
+                                    <br/>
+                                    <div class="oe_kanban_bottom_right">
+                                        <div class="o_kanban_inline_block">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="freight_transit_export_view_kanban" model="ir.ui.view">
+            <field name="name">freight.transit.kanban</field>
+            <field name="model">freight.transit</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id_export" class="o_kanban_small_column">
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="operation"/>
+                    <field name="color"/>
+                    <field name="transport"/>
+                    <field name="activity_ids"/>
+                    <field name="datetime"/>
+                    <field name="activity_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+                                        <li>
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            <field name="direction"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <field name="operation"/>
+                                    </div>
+                                    <t t-if="record.datetime.raw_value and record.datetime.raw_value &lt; (new Date())"
+                                       t-set="red">oe_kanban_text_red
+                                    </t>
+                                    Date:
+                                    <span t-attf-class="#{red}">
+                                        <i>
+                                            <field name="datetime"/>
+                                        </i>
+                                    </span>
+                                    <br/>
+                                    <div class="oe_kanban_bottom_right">
+                                        <div class="o_kanban_inline_block">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="transit_percent_view_form" model="ir.ui.view">
+            <field name="name">transit_percent_view_form</field>
+            <field name="model">transit.percent</field>
+            <field name="arch" type="xml">
+                <form string="transit_percent_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="percentage_amount"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="transit_percent_action" model="ir.actions.act_window">
+            <field name="name">Transit Percentage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">transit.percent</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+
+        <record model="ir.actions.act_window" id="view_import_transit_all_action">
+            <field name="name">Import</field>
+            <field name="res_model">freight.transit</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="freight_transit_import_view_kanban"/>
+            <field name="domain">[('direction','=','import')]</field>
+            <field name="context">{'default_direction':'import'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Transit Import.
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_export_transit_all_action">
+            <field name="name">Export</field>
+            <field name="res_model">freight.transit</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="freight_transit_export_view_kanban"/>
+            <field name="domain">[('direction','=','export')]</field>
+            <field name="context">{'default_direction':'export'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Transit Export.
+                </p>
+            </field>
+        </record>
+
+
+<!--        <menuitem-->
+<!--                id="menu_freight_transit"-->
+<!--                name="Transit"-->
+<!--                parent="freight_root"-->
+<!--                sequence="4"/>-->
+        <!-- This Menu Item must have a parent and an action -->
+<!--        <menuitem id="menu_export_action" name="Export" parent="menu_freight_transit"-->
+<!--                  action="view_export_transit_all_action" sequence="1"/>-->
+<!--        &lt;!&ndash; This Menu Item must have a parent and an action &ndash;&gt;-->
+<!--        <menuitem id="menu_import_action" name="Import" parent="menu_freight_transit"-->
+<!--                  action="view_import_transit_all_action" sequence="2"/>-->
+<!--        &lt;!&ndash; This Menu Item Must have a parent &ndash;&gt;-->
+        <menuitem id="transit_menu_categ" name="Transit" parent="freight.freight_configuration" sequence="3"/>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="transit_percent_menu_action" name="Transit Percentage" parent="freight.transit_menu_categ"
+                  action="transit_percent_action" sequence="5"/>
+
+
+    </data>
+</odoo>

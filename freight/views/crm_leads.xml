@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="crm_lead_view_form_leads_inherit" model="ir.ui.view">
+            <field name="name">crm_lead_view_form_leads_inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_title']" position="before">
+                    <h1>
+                        <div>
+                            <field name="name_seq" readonly="1" attrs="{'invisible':[('type','=','lead')]}"/>
+                        </div>
+                    </h1>
+                </xpath>
+                <xpath expr='//group[5]//field[@name="user_id"]' position="after">
+                    <field name="create_id"/>
+                </xpath>
+                <xpath expr='//group[5]//field[@name="user_id"]' position="attributes">
+                    <attribute name="string">Lead Owner</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="last_stage_id" invisible="1"/>
+                    <field name="is_pricing" invisible="1"/>
+
+                    <field name="pricing_user_id" widget="many2one_avatar_user"/>
+
+                </xpath>
+
+
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="string">Opportunity Owner</attribute>
+                </xpath>
+                <!--                 <xpath expr="//field[@name='partner_name']" position="after">-->
+                <!--                    <field name="company_type_id"/>-->
+
+                <!--                </xpath>-->
+
+                <xpath expr="//button[@name='%(crm.action_crm_lead2opportunity_partner)d']" position="attributes">
+                    <attribute name="string">Convert</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_sale_quotations_new']" position="replace">
+                    <button name="select_all" type="object" class="btn-primary"
+                            attrs="{'invisible': [('type', '=', 'lead')]}"
+                            string="Select All"/>
+                    <button name="action_open_create_quotation" type="object" class="btn-primary"
+                            attrs="{'invisible': [('type', '=', 'lead')]}"
+                            string="Create SO"/>
+                    <button name="action_open_create_rfq" type="object" class="btn-primary"
+                            string="Create PO" attrs="{'invisible': [('type', '=', 'lead')]}"/>
+
+
+                </xpath>
+                <xpath expr="//button[@name='action_schedule_meeting']" position="replace">
+                    <button name="action_schedule_meeting" type="object" class="oe_stat_button" icon="fa-calendar"
+                            context="{'partner_id': partner_id}">
+                        <div class="o_stat_info">
+                            <field name="calendar_event_count" class="o_stat_value"/>
+                            <span class="o_stat_text" attrs="{'invisible': [('calendar_event_count', '&lt;', 2)]}">
+                                Visits
+                            </span>
+                            <span class="o_stat_text" attrs="{'invisible': [('calendar_event_count', '&gt;', 1)]}">
+                                Visits
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <xpath expr="//button[@name='action_schedule_meeting']" position="after">
+
+                    <button class="oe_stat_button" name="action_open_freight"
+                            type="object" icon="fa-bars" attrs="{'invisible': [('freight_count', '=', 0)]}">
+                        <field name="freight_count" string="Operation" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                    <button class="oe_stat_button" name="button_customer_purchase"
+                            type="object" icon="fa-bars" attrs="{'invisible': [('type', '=', 'lead')]}">
+                        <field name="purchase_count" string="Purchase" widget="statinfo" icon="fa-usd"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_open_els_calls"
+                            type="object" icon="fa-mobile">
+                        <field name="els_call_count" string="Calls" widget="statinfo" icon="fa-mobile"/>
+                    </button>
+
+                </xpath>
+
+
+                <xpath expr="//field[@name='lead_properties']" position="after">
+
+                    <group col="3">
+                        <field name="clearance_qty_count" invisible="1"/>
+                        <field name="transport_qty_count" invisible="1"/>
+
+                    </group>
+                    <group name="freight" string="Freight"
+                           attrs="{'invisible': [('type', '=', 'lead')]}">
+                        <group name="col1">
+                            <!--                            <field name="operation"/>-->
+                            <field name="direction"/>
+                            <field name="volume"/>
+                            <label for="weight"/>
+                            <div name="journal_div" class="d-flex">
+                                <field name="weight" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="weight_type"/>
+                            </div>
+                            <label for="net_weight" attrs="{'invisible':[('transport','=','air')]}"/>
+                            <div name="journal_div" class="d-flex" attrs="{'invisible':[('transport','=','air')]}">
+                                <field name="net_weight" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="net_weight_type"/>
+                            </div>
+                            <field name="chargeable_weight" attrs="{'invisible':[('transport','!=','air')]}"/>
+                            <field name="pieces"/>
+                            <field name="source_location_id"/>
+                            <field name="pickup_address" attrs="{'invisible': [('transport_check','!=',True)]}"/>
+                            <field name="source_country_id" attrs="{'invisible': [('transport_check','!=',True)]}"/>
+                            <field name="custom_id"/>
+                            <field name="release_type"/>
+
+                        </group>
+                        <group name="col2">
+                            <field name="transport"/>
+                            <field name="operation_type"/>
+                            <field name="ocean_shipment_type"
+                                   attrs="{'invisible': [('transport','!=','ocean')]}"/>
+                            <field name="inland_shipment_type"
+                                   attrs="{'invisible': [('transport','!=','land')]}"/>
+                            <field name="teu"
+                                   attrs="{'invisible': ['|',('ocean_shipment_type','!=','fcl'),('transport','!=','ocean')]}"/>
+                            <field name="faw"
+                            />
+                            <field name="cbm"
+                                   attrs="{'invisible': ['|',('ocean_shipment_type','!=','lcl'),('transport','!=','ocean')]}"/>
+                            <field name="frt"
+                                   attrs="{'invisible': ['|',('ocean_shipment_type','not in',('bulk','break')),('transport','!=','ocean')]}"/>
+                            <!--                            <field name="up_to_incoterm_id"/>-->
+
+                            <field name="destination_location_id" string="Port of Destination"/>
+
+                            <field name="delivery_address" attrs="{'invisible': [('transport_check','!=',True)]}"/>
+                            <field name="destination_country_id"
+                                   attrs="{'invisible': [('transport_check','!=',True)]}"/>
+                            <field name="incoterm_id"/>
+                            <field name="jaffi_no" attrs="{'invisible': [('transit_check','!=',True)]}"/>
+
+                        </group>
+                    </group>
+                    <group string="Commodity Information" invisible="1">
+                        <group>
+                            <field name="commodity_id"/>
+                            <field name="commodity_origin"/>
+                        </group>
+                        <group>
+                            <field name="dangerous_goods"/>
+
+                        </group>
+                    </group>
+
+                    <group invisible="1">
+
+                        <group>
+                            <field name="dry_type"  string="Equipment Type"/>
+                        </group>
+                        <group>
+                            <field name="stackable_type"/>
+                        </group>
+                    </group>
+                    <group string="Service" name="service" col="3" attrs="{'invisible': [('type', '=', 'lead')]}">
+                        <group>
+                            <field name="to_compute_vas" invisible="1"/>
+                            <field name="vas" invisible="1"/>
+                            <field name="transport_check"/>
+                            <field name="clearance_check"/>
+                            <field name="freight_check"/>
+                            <field name="transit_check"/>
+                            <field name="freight_term" attrs="{'invisible':[('freight_check','!=',True)]}"/>
+                            <!--                            <field name="container_check"/>-->
+                            <!--                            <field name="package_check"/>-->
+
+                        </group>
+                        <group>
+
+                            <field name="documentation_check"/>
+                            <field name="insurance_check"/>
+                            <field name="warehousing_check"/>
+                            <field name="picking_packing_check"/>
+                            <field name="handling_check"/>
+                        </group>
+                    </group>
+                    <group name="Shipper" attrs="{'invisible': [('type', '=', 'lead')]}">
+                        <group string="Shipper">
+                            <field name="shipper_id"/>
+                            <field name="carrier_id"/>
+                            <!--                             <field name="shipping_line_id" attrs="{'invisible': [('transport','=','air')]}"/>-->
+                            <!--                             <field name="shipping_line_id" string="Air Line" attrs="{'invisible': [('transport','!=','air')]}"/>-->
+
+
+                        </group>
+                        <group string="Consignee">
+                            <field name="consignee_id"/>
+                            <field name="agent_id"/>
+
+                            <!--                            <field name="customer_id"/>-->
+                        </group>
+                    </group>
+
+                </xpath>
+
+                <xpath expr="//page[@name='internal_notes']" position="before">
+                    <page string="Containers"
+                          attrs="{'invisible': ['|',('transport','=','air'),('type', '=', 'lead')]}">
+                        <field name="container_line_ids" nolabel="1" widget="one2many_list">
+                            <tree string="Containers" editable="bottom">
+                                <field name="container_id" optional="show"/>
+
+                                <field name="name"/>
+
+                                <field name="package"/>
+                                <field name="qty"/>
+                                <field name="commodity_id"/>
+                                <field name="type"/>
+                                <field name="seal_no"/>
+                                <field name="login_of_date" string="Loading of Date"/>
+
+                                <field name="temp" attrs="{'readonly': [('type','=','dry')]}" optional="hide"/>
+                                <field name="hum" attrs="{'readonly': [('type','!=','reefer')]}" optional="hide"/>
+                                <field name="vent" attrs="{'readonly': [('type','!=','reefer')]}" optional="hide"/>
+                                <field name="teu"
+                                       optional="hide" sum="Teu"
+                                       attrs="{'column_invisible': ['|',('parent.ocean_shipment_type','!=','fcl'),('parent.transport','!=','ocean')]}"/>
+
+                                <field name="volume" optional="hide" sum="Volume" readonly="0"/>
+                                <field name="gross_weight" sum="Total Gross" optional="hide"/>
+                                <field name="net_weight" sum="Total Net" optional="hide"/>
+                                <button name="action_duplicate_line" string="Duplicate" type="object"
+                                        class="oe_highlight"/>
+                            </tree>
+                            <form string="Containers">
+                                <group>
+                                    <group>
+                                        <field name="container_id"/>
+                                        <field name="package"/>
+                                        <field name="type"/>
+                                    </group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="seal_no"/>
+                                        <field name="commodity_id"/>
+                                        <field name="login_of_date"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="temp" attrs="{'readonly': [('type','=','dry')]}" />
+                                        <field name="hum" attrs="{'readonly': [('type','!=','reefer')]}" />
+                                        <field name="vent" attrs="{'readonly': [('type','!=','reefer')]}" />
+                                        <field name="teu"
+                                               attrs="{'invisible': ['|',('parent.ocean_shipment_type','!=','fcl'),('parent.transport','!=','ocean')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="volume" optional="hide" sum="Volume" readonly="0"/>
+                                        <field name="gross_weight" sum="Total Gross" optional="hide"/>
+                                        <field name="net_weight" sum="Total Net" optional="hide"/>
+
+                                    </group>
+                                </group>
+                            </form>
+
+                        </field>
+                        <group invisible="1">
+                            <field name="is_container_computed"/>
+                        </group>
+                        <separator string="Total Container" style="font-size: medium; "/>
+                        <field name="total_container_ids" mode="tree" create="0" edit="0" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="container_id"/>
+                                <field name="container_count" force_save="1"/>
+                            </tree>
+                        </field>
+
+                    </page>
+                    <page name="Package" string="Package" attrs="{'invisible': [('type', '=', 'lead')]}">
+                        <button string="Generate from orders" name="generate_from_the_orders" type="object"/>
+                        <field name="packages_line_ids" nolabel="1" widget="one2many_list">
+                            <tree string="Package">
+                                <field name="name" optional="hide"/>
+                                <field name="package"/>
+
+
+                                <field name="container_id"
+                                       attrs="{'invisible': ['|',('parent.transport','=','air'),('parent.ocean_shipment_type','=','lcl')]}"/>
+                                <field name="container_no_ids"
+                                       attrs="{'invisible': ['|',('parent.transport','=','air'),('parent.ocean_shipment_type','=','lcl')]}"
+                                       widget="many2many_tags"/>
+
+                                <field name="commodity_id"/>
+                                <field name="width" optional="hide"/>
+                                <field name="height" optional="hide"/>
+                                <field name="size" optional="hide"/>
+
+                                <field name="volume" readonly="0" sum="Total Volume" optional="hide"/>
+                                <field name="gross_weight" sum="Total Gross" optional="hide"/>
+                                <field name="charger_weight" sum="Total Chargeable"
+                                       attrs="{'column_invisible': [('parent.transport', '!=', 'air')]}"/>
+
+                            </tree>
+                            <form string="Package">
+                                <group>
+                                    <group>
+                                        <field name="package"/>
+                                        <field name="name"/>
+                                        <field name="qty"/>
+
+                                        <field name="container_id"
+                                               attrs="{'invisible': ['|',('parent.transport','=','air'),('parent.ocean_shipment_type','=','lcl')]}"/>
+                                        <field name="container_no_ids"
+                                               attrs="{'invisible': ['|',('parent.transport','=','air'),('parent.ocean_shipment_type','=','lcl')]}"
+                                               widget="many2many_tags"/>
+                                        <field name="commodity_id"/>
+                                    </group>
+                                    <group>
+                                        <field name="volume" readonly="0" sum="Total Volume" optional="hide"/>
+                                        <field name="gross_weight" sum="Total Gross" optional="hide"/>
+                                        <field name="net_weight"
+                                               attrs="{'invisible':[('parent.transport','=','air')]}"/>
+                                        <field name="charger_weight"
+                                               attrs="{'invisible': [('parent.transport', '!=', 'air')]}"/>
+
+
+                                        <field name="dangerous_goods"/>
+                                        <field name="class_number"
+                                               attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                        <field name="un_number"
+                                               attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                        <field name="Package_group"
+                                               attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                        <field name="imdg_code"
+                                               attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                        <field name="flash_point"
+                                               attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                        <field name="material_description"
+                                               attrs="{'invisible': [('dangerous_goods','!=',True)]}"/>
+                                        <field name="size"/>
+                                        <field name="width"/>
+                                        <field name="height"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+
+                    <page name="freight" string="Freight"
+                          attrs="{'invisible': [('freight_check','!=',True)]}">
+                        <button name="select_all_freight_line_ids" type="object" string="Select All"
+                                attrs="{'invisible': [('type', '=', 'lead')]}"
+                        />
+                        <field name="freight_line_ids" nolabel="1" widget="section_and_note_one2many">
+                            <tree string="Freight">
+                                <field name="check"/>
+                                <field name="product_id"/>
+                                <field name="sale_id" invisible="1" optional="hide" readonly="1"/>
+                                <field name="package" optional="hide"
+                                       attrs="{'column_invisible': [('parent.transport','!=','air')]}"/>
+                                <field name="name" optional="hide"/>
+                                <field name="available_container_id" invisible="1"/>
+                                <field name="container_id" domain="[('id','in',available_container_id)]"
+                                       attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+
+                                <field name="carrier_id" optional="hide"/>
+                                <!--                                <field name="shipping_line_id" optional="hide"/>-->
+                                <field name="agent_id" optional="hide"/>
+                                <field name="currency_id" optional="show"/>
+                                <field name="source_location_id" optional="hide" force_save="1"/>
+                                <field name="destination_location_id" optional="hide" force_save="1"/>
+                                <field name="available_fright_rates_id" optional="hide"/>
+                                <field name="rates_id" optional="hide"
+                                       domain="[('id','in',available_fright_rates_id)]"/>
+                                <field name="free_in_time" optional="hide"/>
+                                <field name="t_time" optional="hide"/>
+                                <field name="vessel_date" optional="hide"/>
+
+                                <field name="qty" sum="Quantity"/>
+                                <field name="price_sale" optional="hide"/>
+                                <field name="price_cost" optional="hide" force_save="1"/>
+
+                                <field name="total_cost" optional="hide"/>
+                                <field name="total_sale" optional="hide"/>
+                                <!--                                <field name="volume" readonly="0" optional="hide"/>-->
+                                <!--                                <field name="gross_weight" optional="hide"/>-->
+                                <!--                                <field name="net_weight"-->
+                                <!--                                       attrs="{'column_invisible': [('parent.transport', '=', 'air')]}" sum="Net Weight"-->
+                                <!--                                       optional="hide"/>-->
+                                <!--                                <field name="charger_weight"-->
+                                <!--                                       attrs="{'column_invisible': [('parent.transport', '!=', 'air')]}"-->
+                                <!--                                       sum="Net Weight" optional="hide"/>-->
+
+                            </tree>
+                            <form string="Freight">
+                                <group>
+                                    <group>
+                                        <field name="product_id"/>
+                                        <field name="rates_id" optional="hide"
+                                               domain="[('id','in',available_fright_rates_id)]"/>
+                                    </group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="qty"/>
+                                    </group>
+                                </group>
+                                <group string="Pricing">
+                                    <group>
+                                        <field name="price_cost"/>
+                                        <field name="currency_id" string="Cost Currency"/>
+                                        <field name="total_cost" readonly="1"/>
+                                        <!--                                        <field name="vendor_id"/>-->
+                                    </group>
+                                    <group>
+                                        <field name="price_sale"/>
+                                        <field name="sale_currency_id"/>
+                                        <field name="total_sale" readonly="1"/>
+                                        <field name="customer_id"/>
+                                    </group>
+                                </group>
+
+                                <group string="Location">
+                                    <group>
+                                        <field name="source_location_id"/>
+                                        <field name="agent_id"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="destination_location_id"/>
+                                        <field name="carrier_id"/>
+                                    </group>
+                                </group>
+                                <group string="Weight">
+                                    <group>
+                                        <field name="available_container_id" invisible="1" widget="many2many_tags"/>
+                                        <field name="container_id" domain="[('id','in',available_container_id)]"
+                                               attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                        <field name="container_no_id" domain="[('container_id','=',container_id)]"
+                                               attrs="{'invisible': [('parent.transport','=','air')]}"/>
+                                        <field name="package" optional="hide"
+                                               domain="[('id','in',available_package_id)]"
+                                               attrs="{'invisible': [('parent.ocean_shipment_type','!=','lcl')]}"/>
+                                        <field name="available_package_id" widget="many2many_tags"
+                                               invisible="1"/>
+
+
+
+                                    </group>
+                                    <group>
+                                        <field name="volume" readonly="0" force_save="1"/>
+                                        <field name="gross_weight"/>
+                                        <field name="net_weight"
+                                               attrs="{'invisible': [('parent.transport', '=', 'air')]}"/>
+                                        <field name="charger_weight"
+                                               attrs="{'invisible': [('parent.transport', '!=', 'air')]}"
+                                               sum="Net Weight" optional="hide"/>
+                                        <!--                                        <field name="main_measure"/>-->
+                                    </group>
+                                </group>
+
+                                <group string="Time">
+                                    <group>
+                                        <field name="expiration_date" readonly="0"/>
+                                        <field name="free_in_time"/>
+                                        <field name="t_time"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="vessel_date"/>
+                                        <field name="second_date"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <field name="available_fright_rates_id" force_save="1" nolabel="1">
+                                        <tree string="Freight">
+                                            <field name="name"/>
+                                            <field name="partner_id" domain="[('is_shipping_line','=',True)]"
+                                                   optional="hide"/>
+                                            <field name="agent_id" optional="show"/>
+                                            <field name="product_id" optional="show"/>
+                                            <field name="freight_price" optional="show"/>
+                                            <field name="air_freight_per_kg" optional="show"/>
+                                            <field name="currency_id" optional="show"/>
+                                            <field name="remaining_days" optional="show"/>
+                                            <field name="user_id" readonly="1" optional="show"/>
+                                            <field name="state" optional="show"/>
+                                        </tree>
+                                    </field>
+                                </group>
+
+                            </form>
+
+                        </field>
+                    </page>
+
+                    <!--                   Transport-->
+                    <page string="Transportation"
+                          attrs="{'invisible': [('transport_check','!=',True)]}">
+                        <button name="select_all_transport_line_ids" type="object" string="Select All"
+                                attrs="{'invisible': [('type', '=', 'lead')]}"
+                        />
+                        <field name="transport_line_ids" widget="section_and_note_one2many" style="max-width: 1250px;"
+                               nolabel="1"
+                        >
+                            <tree string="Transportation">
+                                <field name="check"/>
+                                <field name="product_id"/>
+                                <field name="sale_id" invisible="1" optional="hide" readonly="1"/>
+
+                                <field name="container_id"
+                                       attrs="{'column_invisible': [('parent.ocean_shipment_type','=','lcl')]}"/>
+                                <field name="package"
+                                       attrs="{'column_invisible': [('parent.ocean_shipment_type','!=','lcl')]}"/>
+
+                                <field name="currency_id" optional="show"/>
+
+                                <field name="name" optional="hide"/>
+                                <field name="tracking_agent" optional="hide"/>
+                                <field name="source_location_id" string="Point of Loading" optional="hide"/>
+                                <field name="destination_location_id" string="Point of Destination" optional="hide"/>
+                                <field name="qty" invisible="0" sum="Quantity"/>
+                                <!--                                <field name="target_price" optional="hide"/>-->
+                                <field name="cost_price" optional="show"/>
+                                <field name="sale_price" optional="show"/>
+                                <field name="total_cost" optional="hide"/>
+                                <field name="total_sale" optional="hide"/>
+                                <!--                                <field name="volume" optional="hide"/>-->
+                                <!--                                <field name="net_weight" optional="hide"/>-->
+                                <!--                                <field name="gross_weight" optional="hide" sum="Gross Weight"/>-->
+                            </tree>
+                            <form string="Transportation">
+                                <group>
+                                    <group>
+
+                                        <field name="product_id"/>
+                                        <field name="sale_id" readonly="1"/>
+                                        <field name="compass" string="BOSLA"/>
+                                        <field name="compass_address" string="BOSLA Address"
+                                               attrs="{'invisible':[('compass','!=',True)]}"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="qty"/>
+
+
+                                    </group>
+                                </group>
+                                <group string="Pricing">
+                                    <group>
+                                        <field name="cost_price" />
+                                        <field name="currency_id"  string="Cost Currency"/>
+                                        <field name="total_cost"  readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sale_price"/>
+                                        <field name="sale_currency_id"/>
+                                        <field name="total_sale" readonly="1"/>
+                                        <field name="customer_id" />
+                                    </group>
+                                </group>
+
+                                <group string="Location">
+                                    <group>
+                                        <field name="source_location_id" string="Point of Loading"/>
+                                        <field name="pickup_address"/>
+                                        <field name="tracking_agent" string="Tracking Vendor"
+                                        />
+                                        <field name="login_of_date" string="Loading of Date"/>
+                                    </group>
+                                    <group>
+                                        <field name="destination_location_id" string="Point of Destination"/>
+                                        <field name="delivery_address" />
+
+                                    </group>
+                                </group>
+                                <group string="Weight">
+                                    <group>
+                                        <field name="available_container_id" invisible="1" widget="many2many_tags"/>
+
+                                        <field name="container_id" domain="[('id','in',available_container_id)]"
+                                               attrs="{'invisible': ['|',('parent.transport','=','air'),('parent.ocean_shipment_type','=','lcl')]}"/>
+                                        <field name="package" domain="[('id','in',available_package_id)]"
+                                               attrs="{'invisible': [('parent.transport','!=','air')]}"/>
+
+                                        <field name="available_package_id" widget="many2many_tags"
+                                               invisible="1"/>
+
+
+
+                                    </group>
+                                    <group>
+                                        <field name="volume" readonly="0" force_save="1"/>
+                                        <field name="gross_weight" />
+                                        <field name="net_weight" attrs="{'invisible': [('parent.transport', '=', 'air')]}"/>
+                                        <field name="chargeable_weight" attrs="{'invisible': [('parent.transport', '!=', 'air')]}"/>
+                                    </group>
+                                </group>
+                            </form>
+
+                        </field>
+                    </page>
+
+
+                    <!--                   Clearance-->
+                    <page string="Clearance"
+                          attrs="{'invisible': [('clearance_check','!=',True)]}">
+                        <button name="select_all_clearance_line_ids" type="object" string="Select All"
+                                attrs="{'invisible': [('type', '=', 'lead')]}"
+                        />
+                        <field name="clearance_line_ids" nolabel="1" widget="section_and_note_one2many"
+                        >
+                            <tree string="Clearance">
+                                <field name="check"/>
+                                <field name="product_id"/>
+                                <field name="sale_id" invisible="1" optional="hide" readonly="1"/>
+                                <field name="package" attrs="{'column_invisible': [('parent.transport','!=','air')]}"/>
+                                <field name="container_id"
+                                       attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+
+                                <field name="currency_id" optional="show"/>
+                                <field name="clearance_company" optional="show"/>
+                                <field name="name" optional="hide"/>
+                                <field name="ocean_shipment_type" optional="hide"/>
+                                <field name="destination_location_id" optional="show"/>
+                                <field name="qty" invisible="1" sum="Quantity"/>
+                                <field name="price" optional="show"/>
+                                <!--                                <field name="volume" optional="hide"/>-->
+                                <!--                                <field name="net_weight" attrs="{'invisible': [('parent.transport','=','air')]}"-->
+                                <!--                                       sum="Net Weight" optional="hide"/>-->
+                                <!--                                <field name="gross_weight" optional="hide"/>-->
+
+                            </tree>
+                            <form string="Clearance">
+                                <group>
+                                    <group>
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="product_id"/>
+                                        <field name="sale_id" readonly="1"/>
+                                        <field name="compass" string="BOSLA"/>
+                                        <field name="compass_address" string="BOSLA Address"
+                                               attrs="{'invisible':[('compass','!=',True)]}"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="qty"/>
+
+
+                                    </group>
+                                </group>
+                                <group string="Pricing">
+                                    <group>
+                                        <field name="cost" />
+                                        <field name="currency_id" string="Cost Currency"/>
+                                        <field name="clearance_company"/>
+                                    </group>
+                                    <group>
+                                        <field name="price"/>
+                                        <field name="sale_currency_id" />
+                                        <field name="customer_id" />
+                                    </group>
+                                </group>
+
+                                <group string="Location">
+                                    <group>
+                                        <field name="destination_location_id" string="Clearance Port"/>
+
+                                    </group>
+                                </group>
+                                <group string="Weight">
+                                    <group>
+                                        <field name="package" domain="[('id','in',available_package_id)]"
+                                               attrs="{'invisible': [('parent.transport','!=','air')]}"/>
+                                        <field name="available_package_id" widget="many2many_tags"
+                                               invisible="1"/>
+                                        <field name="available_container_id" invisible="1" widget="many2many_tags"/>
+                                        <field name="container_id" domain="[('id','in',available_container_id)]"
+                                               attrs="{'invisible': ['|',('parent.transport','=','air'),('parent.ocean_shipment_type','=','lcl')]}"/>
+                                        <field name="qty_from" attrs="{'invisible': ['|',  ('parent.transport', '!=', 'ocean'), ('parent.ocean_shipment_type', '=', 'lcl')]}"/>
+                                        <field name="qty_to" attrs="{'invisible': ['|',  ('parent.transport', '!=', 'ocean'), ('parent.ocean_shipment_type', '=', 'lcl')]}"/>
+                                        <field name="total_qty" attrs="{'invisible': ['|', ('parent.transport', '!=', 'ocean'), ('parent.ocean_shipment_type', '=', 'lcl')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="volume" readonly="0" force_save="1"/>
+                                        <field name="gross_weight" />
+                                        <field name="net_weight" attrs="{'invisible': [('parent.transport', '=', 'air')]}"/>
+                                        <field name="chargeable_weight" attrs="{'invisible': [('parent.transport', '!=', 'air')]}"/>
+                                    </group>
+                                </group>
+
+                            </form>
+                        </field>
+                    </page>
+
+
+                    <page string="Transit"
+                          attrs="{'invisible': [('transit_check','!=',True)]}">
+                        <button name="select_all_transit_line_ids" type="object" string="Select All"
+                                attrs="{'invisible': [('type', '=', 'lead')]}"
+                        />
+                        <field name="transit_line_ids" nolabel="1" widget="section_and_note_one2many"
+                               attrs="{'invisible': [('transit_check','!=',True)]}">
+                            <tree string="Transit">
+                                <field name="check"/>
+                                <field name="product_id"/>
+                                <field name="sale_id" invisible="1" optional="hide" readonly="1"/>
+                                <field name="package" optional="hide"
+                                       attrs="{'column_invisible': [('parent.transport','!=','air')]}"/>
+                                <field name="container_id"
+                                       attrs="{'column_invisible': [('parent.transport','=','air')]}"/>
+                                <field name="name"/>
+                                <field name="currency_id" optional="show"/>
+                                <field name="source_location_id" optional="hide"/>
+                                <field name="destination_location_id" optional="hide"/>
+                                <field name="custom_fees" optional="hide"/>
+                                <field name="percentage_id" optional="hide"/>
+                                <field name="remaining_amount" optional="hide"/>
+                                <field name="amount" optional="show"/>
+                                <field name="visible" invisible="1"/>
+                                <!--                                <field name="volume" optional="hide"/>-->
+                                <!--                                <field name="net_weight" attrs="{'invisible': [('parent.transport','=','air')]}"-->
+                                <!--                                       sum="Net Weight" optional="hide"/>-->
+                                <!--                                <field name="gross_weight" optional="hide"/>-->
+                            </tree>
+                            <form string="Transit">
+                                <group>
+                                    <group>
+                                        <field name="product_id"/>
+                                        <field name="sale_id" invisible="1" readonly="1"/>
+                                        <field name="package" domain="[('id','in',available_package_id)]"
+                                               attrs="{'invisible': [('parent.transport','!=','air')]}"/>
+
+                                        <field name="available_package_id" widget="many2many_tags"
+                                               invisible="1"/>
+                                        <field name="container_id"
+                                               attrs="{'invisible': [('parent.transport','=','air')]}"/>
+
+                                        <field name="name"/>
+                                        <field name="currency_id"/>
+                                        <field name="source_location_id"/>
+                                        <field name="destination_location_id"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="custom_fees"/>
+                                        <field name="percentage_id"/>
+                                        <field name="remaining_amount"/>
+                                        <field name="vendor_id"/>
+                                        <field name="customer_id"/>
+                                        <field name="amount"/>
+                                        <field name="visible" invisible="1"/>
+                                        <!--                                        <field name="volume"/>-->
+                                        <!--                                        <field name="net_weight"-->
+                                        <!--                                               attrs="{'invisible':[('parent.transport','=','air')]}"/>-->
+                                        <!--                                        <field name="gross_weight"/>-->
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                    <page string="Insurance"
+                          attrs="{'invisible': [('insurance_check', '=', False)]}">
+                        <field name="insurance_line_ids" nolabel="1" force_save="1" widget="section_and_note_one2many"
+                               attrs="{'invisible': [('insurance_check','!=',True)]}">
+                            <tree string="Insurance" editable="bottom">
+                                <field name="check"/>
+                                <field name="product_id"/>
+                                <field name="name"/>
+                                <field name="currency_id" optional="hide"/>
+                                <field name="insurance_company" optional="show"/>
+                                <field name="qty" optional="hide"/>
+                                <field name="cost"/>
+                                <field name="price" optional="show"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Warehousing"
+                          attrs="{'invisible': [('warehousing_check','!=',True)]}">
+                        <field name="warehouse_line_ids" nolabel="1" widget="section_and_note_one2many"
+                               attrs="{'invisible': [('warehousing_check','!=',True)]}">
+                            <tree string="Warehousing" editable="bottom">
+                                <field name="check"/>
+                                <field name="product_id"/>
+                                <field name="sale_id" invisible="1" optional="hide" readonly="1"/>
+                                <field name="name" optional="hide"/>
+                                <field name="currency_id"/>
+                                <field name="vendor_id" optional="hide"/>
+                                <field name="package_id" optional="hide"/>
+                                <field name="warehouse_id"/>
+                                <field name="product_uom"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Inspection Clearance"
+                          attrs="{'invisible': [('clearance_check','!=',True)]}">
+                        <field name="clearance_inspection_line_ids" widget="one2many_list">
+                            <tree string="Clearance">
+                                <field name="transport"
+                                />
+                                <field name="product_id"/>
+                                <field name="currency_id" optional="show"/>
+                                <field name="name" optional="hide"/>
+                                <field name="destination_location_id" optional="show"/>
+                                <field name="price" optional="show"/>
+                                <field name="cost" optional="show"/>
+                            </tree>
+                            <form string="Clearance">
+                                <group>
+                                    <group>
+                                        <field name="transport"
+                                        />
+                                        <field name="product_id"/>
+                                        <field name="currency_id"/>
+
+                                    </group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="destination_location_id"/>
+                                        <field name="price"/>
+                                        <field name="cost"/>
+                                    </group>
+                                </group>
+
+                            </form>
+                        </field>
+                    </page>
+                    <!--                    <page name="target_price" string="Target Price" attrs="{'invisible': [('type', '=', 'lead')]}">-->
+                    <!--                        <field name="target_price_ids">-->
+                    <!--                            <tree string="Target Price" editable="bottom">-->
+                    <!--                                <field name="date" attrs="{'readonly':[('id','>', 0)]}"/>-->
+                    <!--                                <field name="container_id" attrs="{'readonly':[('id','>', 0)]}"/>-->
+                    <!--                                <field name="description" attrs="{'readonly':[('id','>', 0)]}"/>-->
+                    <!--                                <field name="target_price" />-->
+                    <!--                                <field name="final_price" attrs="{'readonly':[('id','>', 0)]}"/>-->
+                    <!--                            </tree>-->
+                    <!--                        </field>-->
+                    <!--                    </page>-->
+
+
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="crm_lead_view_search_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.view.search.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search//group" position="inside">
+                    <filter string="Assigned" name="assigned" context="{'group_by':'assigned'}"/>
+                </xpath>
+                <xpath expr="//filter[@name='unassigned']" position="after">
+                    <filter string="Assigned" name="assigned" domain="[('assigned', '=', True)]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">res.partner.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="replace">
+                    <field name="name" string="Name"/>
+                    <field name="parent_id" string="Company"/>
+                </xpath>
+
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" placeholder="e.g. BE0477472701" required="1" readonly="0"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="crm_iap_opportunity_kanban_inehrit" model="ir.ui.view">
+
+            <field name="name">crm.opportunity.inherited.kanban.inehrit</field>
+
+            <field name="model">crm.lead</field>
+
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+
+            <field name="arch" type="xml">
+                <xpath expr="//div[contains(@class, 'oe_kanban_content')]" position="inside">
+                    <div>
+                        Number:
+                        <field name="name_seq"/>
+                    </div>
+
+                    <div>
+                        Activity:
+                        <field name="transport"/>
+                    </div>
+                    <div>
+                        Customer:
+                        <field name="partner_id"/>
+                    </div>
+                </xpath>
+
+
+            </field>
+
+        </record>
+    </data>
+</odoo>

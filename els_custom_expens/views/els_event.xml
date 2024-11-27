@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="els_event_tree_inherit" model="ir.ui.view">
+            <field name="name">els.events.tree</field>
+            <field name="model">els.events</field>
+            <field name="inherit_id" ref="custom_hr_expense.els_event_tree"/>
+            <field name="arch" type="xml">
+                <tree position="inside">
+                    <field name="console_id_domain" invisible="1"/>
+                    <field name="console_id" attrs="{'readonly':[('is_console','=',False)]}" domain="console_id_domain" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

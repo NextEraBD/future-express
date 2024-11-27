@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_calendar_event_visit_form_inherited" model="ir.ui.view">
+        <field name="name">calendar.event.visit.form.calendar_sms</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form//div[hasclass('alert-info')]" position="before">
+                <header>
+                    <button name="action_checkin" string="Checkin" type="object" class="btn-primary" data-hotkey="q"
+                            attrs="{'invisible':[('e_type','!=','visit')]}"/>
+
+                    <button name="action_checkout" string="Checkout" type="object" class="btn-primary" data-hotkey="q"
+                            attrs="{'invisible':[('e_type','!=','visit')]}"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//div[hasclass('align-items-baseline')]" position="inside">
+                <div class="m-6">
+                    <field name="e_type" widget="radio" placeholder="Select Type..."/>
+
+                </div>
+                <field name="sa_name" force_save="1"/>
+            </xpath>
+            <xpath expr="//field[@name='categ_ids']" position="after">
+                <field name="meeting_purpose"/>
+                <field name="meeting_result"/>
+                <field name="sa_name"/>
+            </xpath>
+            <xpath expr="//notebook//page[@name='page_details']" position="attributes">
+                <attribute name="attrs">{'invisible':[('e_type','not in',('meeting'))]}</attribute>
+            </xpath>
+            <xpath expr="//notebook//page[@name='page_details']" position="after">
+                <page name="visit_details" string="Visit Details" attrs="{'invisible':[('e_type','not in',('visit'))]}">
+                    <group>
+                        <group>
+
+                            <field name="start_date" string="Starting at"
+                                   attrs="{'required': [('allday','=',True)], 'invisible': [('allday','=',False)]}"
+                                   force_save="1"/>
+                            <field name="stop_date" string="Ending at"
+                                   attrs="{'required': [('allday','=',True)],'invisible': [('allday','=',False)]}"
+                                   force_save="1"/>
+
+                            <field name="start" string="Starting at"
+                                   attrs="{'required': [('allday','=',False)], 'invisible': [('allday','=',True)]}"/>
+                            <field name="stop" string="Ending At" attrs="{'invisible': [('allday','=',True)]}"/>
+                            <label for="duration" attrs="{'invisible': [('allday','=',True)]}"/>
+                            <div attrs="{'invisible': [('allday','=',True)]}">
+                                <field name="duration" widget="float_time" string="Duration" class="oe_inline"
+                                       attrs="{'readonly': [('id', '!=', False), ('recurrency','=',True)]}"/>
+                                <span>hours</span>
+                            </div>
+                            <field name="event_tz" attrs="{'invisible': [('recurrency', '=', False)]}"/>
+                            <field name="allday" force_save="1"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+
+                        </group>
+                        <group>
+                            <field name="opportunity_id"/>
+                            <field name="alarm_ids" widget="many2many_tags" options="{'no_quick_create': True}"/>
+                            <field name="location"/>
+
+                            <field name="in_longitude" string="Checkin Longitude" readonly="1"/>
+
+                            <field name="out_longitude" string="Checkout Longitude" readonly="1"/>
+
+                            <field name="in_latitude" string="Checkin Latitude" readonly="1"/>
+                            <field name="out_latitude" string="Checkout Latitude" readonly="1"/>
+                            <field name="in_user_id" string="Checkin User" readonly="1"/>
+                            <field name="out_user_id" string="Checkout User" readonly="1"/>
+                            <field name="date_in" string="Date Checkin" readonly="1"/>
+                            <field name="date_out" string="Date Checkout" readonly="1"/>
+
+                            <label for="videocall_location"/>
+                            <div col="2" class="o_row">
+                                <field name="videocall_location" class="oe_inline" string="Videocall URL"
+                                       widget="CopyClipboardChar" force_save="1" readonly="1"
+                                       attrs="{'readonly':[('videocall_source','=', 'discuss')]}"/>
+                                <button name="clear_videocall_location" type="object" class="btn btn-link"
+                                        attrs="{'invisible': [('videocall_location', '=', False)]}"
+                                        context="{'recurrence_update': recurrence_update}">
+                                    <span class="fa fa-times"/>
+                                    <span>Clear meeting</span>
+                                </button>
+                                <button name="set_discuss_videocall_location" type="object" class="btn btn-link"
+                                        attrs="{'invisible':  [('videocall_location', '!=', False)]}"
+                                        context="{'recurrence_update': recurrence_update}">
+                                    <span class="fa fa-plus"/>
+                                    <span>Add Odoo meeting</span>
+                                </button>
+                            </div>
+                            <field name="videocall_source" invisible="1"/>
+                            <field name="access_token" invisible="1" force_save="1"/>
+                            <field name="categ_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="action_lead_visits" model="ir.actions.act_window">
+        <field name="name">Visits</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">tree,form,map</field>
+        <field name="context">{'default_e_type':'visit'}</field>
+        <field name="domain">[('e_type','=','visit')]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to schedule a new Visit.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_visits"
+              name="Visits"
+              parent="crm.crm_menu_root"
+              action="action_lead_visits"
+              sequence="10"/>
+</odoo>

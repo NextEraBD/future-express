@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_freight_move_type_form">
+            <field name="name">freight.move.type.form</field>
+            <field name="model">freight.move.type</field>
+            <field name="arch" type="xml">
+                <form string="Move Types">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name" required=""/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_move_type_tree">
+            <field name="name">freight.move.type.tree</field>
+            <field name="model">freight.move.type</field>
+            <field name="arch" type="xml">
+                <tree string="Move Types">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_freight_move_type_action">
+            <field name="name">Move Types</field>
+            <field name="res_model">freight.move.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new port.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Move Types" parent="freight.freight_configuration" id="menu_freight_move_type_id"
+                  action="view_freight_move_type_action" sequence="6"/>
+
+
+    </data>
+</odoo>

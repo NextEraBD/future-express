@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_freight_port_form">
+            <field name="name">freight.port.form</field>
+            <field name="model">freight.port</field>
+            <field name="arch" type="xml">
+                <form string="Ports">
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name" required="1"/>
+                            <field name="country"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="air"/>
+                            <field name="ocean"/>
+                            <field name="land"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_port_tree">
+            <field name="name">freight.port.tree</field>
+            <field name="model">freight.port</field>
+            <field name="arch" type="xml">
+                <tree string="Ports">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="country"/>
+                    <field name="state"/>
+                    <field name="air"/>
+                    <field name="ocean"/>
+                    <field name="land"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_freight_port_filter" model="ir.ui.view">
+            <field name="name">freight.port.view.search</field>
+            <field name="model">freight.port</field>
+            <field name="arch" type="xml">
+                <search string="Search Operations">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="country"/>
+                    <field name="state"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Country" name="shipper" domain="[]" context="{'group_by':'country'}"/>
+                        <filter string="State" name="job" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="view_freight_port_action">
+            <field name="name">Ports</field>
+            <field name="res_model">freight.port</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new port.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Ports" parent="freight.freight_configuration" id="menu_freight_port_id"
+                  action="view_freight_port_action" sequence="1"/>
+
+
+    </data>
+</odoo>

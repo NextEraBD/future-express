@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    OPeration Wizard-->
+     <record id="view_create_purchase_line" model="ir.ui.view">
+        <field name="name">purchase.wizard.form</field>
+        <field name="model">create.po.wizard</field>
+        <field name="arch" type="xml">
+            <form >
+<!--                <group>-->
+<!--                    <field name="partner_domain_ids" widget="many2many_tags" invisible="1"/>-->
+<!--                    <field name="customer_id" domain="[('id', 'in', partner_domain_ids)]" required="1"/>-->
+<!--                </group>-->
+                <group name="name" col="4">
+                    <field name="shipment_id" invisible="1"/>
+                </group>
+
+                <footer>
+                    <button name="action_confirm" string="Apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_select_purchase_line" model="ir.actions.act_window">
+        <field name="name">purchase.wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">create.po.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_create_purchase_line"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_missions_form_view" model="ir.ui.view">
+            <field name="name">hr.missions.form</field>
+            <field name="model">hr.missions</field>
+            <field name="arch" type="xml">
+                <form string="Missions">
+                    <header>
+                        <button string="Submit" name="action_submit" states="draft"
+                                type="object" class="oe_highlight" />
+                        <button string="Approve" name="action_man_approve" states="submit"
+                                type="object" class="oe_highlight" />
+                        <button string="Approve" name="action_dept_approve" states="man_approve"
+                                type="object" class="oe_highlight" />
+                        <button string="Approve" name="action_hr_approve" states="dept_approve"
+                                type="object" class="oe_highlight" />
+
+                        <button string="Approve" name="action_administrative_affairs"
+                                attrs="{'invisible': ['|', ('with_transportation', '=', False), ('state', '!=', 'hr_approve')]}"
+                                type="object" class="oe_highlight" />
+
+                        <button string="Close" name="action_emp_close"
+                                attrs="{'invisible': ['|', ('with_transportation', '=', True), ('state', '!=', 'hr_approve')]}"
+                                type="object" class="oe_highlight" />
+                        <button string="Close" name="action_emp_close"
+                                attrs="{'invisible': ['|', ('with_transportation', '=', False), ('state', '!=', 'administrative_affairs')]}"
+                                type="object" class="oe_highlight" />
+
+                        <button string="Approve" name="action_second_hr_approve" states="close"
+                                type="object" class="oe_highlight" />
+
+                        <button string="Accounting Approve" name="action_account_approve" states="second_hr_approve"
+                                type="object" class="oe_highlight" />
+
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'account_approve'),('is_manager', '=', False)]}"
+                             />
+
+                        <button name="action_create_bill" type="object" string="Create Bill" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '!=', 'account_approve'),('billed', '=', True)]}"
+                                />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_vendor_bill"
+                                class="oe_stat_button"
+                                icon="fa-list"
+                                type="object"
+                                attrs="{'invisible': [('move_count', '=', 0)]}">
+                                <field name="move_count" widget="statinfo" string="Vendor Bill" options="{'reload_on_button': true}"/>
+                            </button>>
+                        </div>
+                         <group>
+                            <h1 class="mt0">
+                                <field name="name" readonly="True" attrs="{'invisible':[('name', '=', '/')]}"/>
+                            </h1>
+                        </group>
+                        <div class="oe_title">
+                            <label for="employee_id"/>
+                            <h1>
+                                <field name="employee_id" placeholder="Employee......"
+                                        attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="billed" invisible="1"/>
+                                <field name="mission_type" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                                  <field name="category_type" attrs="{'readonly': [('state', '=', 'confirmed')],'invisible':[('mission_type','=','out_city')]}"/>
+
+                                <field name="with_accommodation" attrs="{'readonly': [('state', '=', 'confirmed')],'invisible':[('mission_type','=','in_city')]}"/>
+                                <field name="with_transportation" attrs="{'readonly': [('state', '=', 'confirmed')],'invisible':[('mission_type','=','in_city')]}"/>
+                                <field name="date_from" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                                <field name="date_to" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+
+                                <label for="duration" attrs="{'invisible':[('category_type','=','day')]}"/>
+                                 <div class="o_row" attrs="{'invisible':[('category_type','=','day')]}">
+                                    <strong>
+                                        <field name="duration" readonly="1" widget="float_time"/>
+                                        <span >Hours </span>
+                                    </strong>
+                                </div>
+                                <label for="mission_duration" attrs="{'invisible':[('category_type','!=','day')]}"/>
+                                <div class="o_row" attrs="{'invisible':[('category_type','!=','day')]}">
+                                    <strong>
+                                        <field name="mission_duration" readonly="1"/>
+                                        <span>Days </span>
+                                    </strong>
+                                </div>
+<!--                                <field name="overtime_hours" attrs="{'invisible':[('mission_type','=','in_city')]}"/>-->
+                                <field name="amount" attrs="{'invisible':['|',('mission_type','=','in_city'),('category_type','!=','day')]}"/>
+                                <field name="total_amount" attrs="{'invisible':['|',('mission_type','=','in_city'),('category_type','!=','day')]}"/>
+                            </group>
+                            <group>
+                                <field name="from_city" />
+                                <field name="to_city" />
+                                <field name="mission_purpose"/>
+                                <field name="manager_id" />
+<!--                                <field name="employee_code"/>-->
+<!--                                <field name="job_id"/>-->
+                                <field name="department_id" />
+                                <field name="branch_id" />
+                                <field name="move_id" readonly="1" attrs="{'invisible':[('move_id','=',False)]}"/>
+                                <field name="is_manager" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="comments" string="Reasons" required="1"/>
+                            </group>
+                        </group>
+                         <notebook>
+                            <page string="Expense" attrs="{'invisible':[('category_type','!=','day')]}">
+                                <field name="expense_line_ids" widget="one2many" nolabel="1" colspan="3" attrs="{'readonly':[('state','=','confirmed')]}">
+                                    <tree editable="bottom" >
+                                        <field name="product_id" options="{'no_create': True, 'no_open': True}" domain="[('can_be_mission','=',True)]"/>
+                                        <field name="description" />
+                                        <field name="amount" />
+                                    </tree>
+                                </field>
+                            </page>
+                             <page string="Accommodation and Transportation" attrs="{'invisible':[('category_type','!=','day')]}">
+                                <field name="bill_ids" widget="one2many" nolabel="1" colspan="3" attrs="{'readonly':[('state','=','confirmed')]}">
+                                    <tree editable="bottom" >
+                                        <field name="product_id" options="{'no_create': True, 'no_open': True}" domain="[('can_be_mission','=',True)]"/>
+                                        <field name="partner_id" options="{'no_create': True, 'no_open': True}" />
+                                        <field name="date" />
+                                        <field name="description" />
+                                        <field name="amount" />
+                                    </tree>
+                                </field>
+                            </page>
+                         </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_missions_tree_view" model="ir.ui.view">
+            <field name="name">hr.missions.tree</field>
+            <field name="model">hr.missions</field>
+            <field name="arch" type="xml">
+                <tree string="Missions">
+                    <field name="employee_id"/>
+<!--                    <field name="employee_code"/>-->
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state"/>
+<!--                    <field name="permission_from" widget="float_time"/>-->
+<!--                    <field name="permission_to" widget="float_time" />-->
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="hr_missions_act_window" model="ir.actions.act_window">
+            <field name="name">Missions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.missions</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('category_type','=','day')]</field>
+            <field name="context">{'default_category_type': 'day'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no Missions click here to add new Missions.
+                </p>
+            </field>
+        </record>
+        <record id="hr_missions_leaves_act_window" model="ir.actions.act_window">
+            <field name="name">Leaves</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.missions</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('category_type','=','hour')]</field>
+             <field name="context">{'default_category_type': 'hour'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no Leaves click here to add new Missions.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Missions" id="hr_missions_menu_root"
+                  web_icon="hr_missions,static/description/icon.png"
+                   sequence="200" groups="group_hr_missions_manager,group_hr_missions_users"/>
+        <menuitem name="Missions" id="hr_missions_menu" parent="hr_missions_menu_root" action="hr_missions_act_window" sequence="2"/>
+<!--        <menuitem name="Leaves" id="hr_missions_leaves_menu" parent="hr_missions_menu_root" action="hr_missions_leaves_act_window" sequence="4"/>-->
+<!--     Accounting Approve-->
+
+    <record id="act_hr_employee_mission_approve" model="ir.actions.act_window">
+        <field name="res_model">hr.missions</field>
+        <field name="name">Employee Mission Approval</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','in',['close','account_approve'])]</field>
+    </record>
+
+<!--    <menuitem id="menu_mission_approval" parent="custom_main_account.menu_account_approval" action="act_hr_employee_mission_approve"  name="Mission" sequence="2"/>-->
+
+    </data>
+</odoo>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+        <record id="lead_incoterm_view_form" model="ir.ui.view">
+            <field name="name">lead_incoterm_view_form</field>
+            <field name="model">lead.incoterm</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="lead_up_to_incoterm_view_form" model="ir.ui.view">
+            <field name="name">lead_up_to_incoterm_view_form</field>
+            <field name="model">lead.up_to_incoterm</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="lead_commodity_view_form" model="ir.ui.view">
+            <field name="name">lead_commodity_view_form</field>
+            <field name="model">lead.commodity</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sh"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+
+
+
+
+
+        <record id="lead_incoterm_action" model="ir.actions.act_window">
+            <field name="name">Incoterm</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lead.incoterm</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="lead_up_to_incoterm_action" model="ir.actions.act_window">
+            <field name="name">Up To Incoterm</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lead.up_to_incoterm</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="lead_commodity_action" model="ir.actions.act_window">
+            <field name="name">Commodity</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lead.commodity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- This Menu Item must have a parent and an action -->
+
+
+
+
+        <menuitem id="lead_incoterm_menu" name="Incoterm" parent="crm.menu_crm_config_lead"
+                  action="lead_incoterm_action"
+                  sequence="7"/>
+        <menuitem id="lead_up_to_incoterm_menu" name="Up To Incoterm" parent="crm.menu_crm_config_lead"
+                  action="lead_up_to_incoterm_action"
+                  sequence="8"/>
+
+        <menuitem id="lead_commodity_menu" name="Commodity" parent="crm.menu_crm_config_lead"
+                  action="lead_commodity_action"
+                  sequence="11"/>
+
+        <record id="make_invisible" model="res.groups">
+            <field name="name">Invisible</field>
+        </record>
+        <record model="ir.ui.menu" id="crm.res_partner_menu_customer">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+        <menuitem
+                id="pricing_menu"
+                name="Pricing Policy"
+                parent="crm.crm_menu_root"
+                sequence="8"/>
+
+        <menuitem
+                id="pricing_menu_fright_rates"
+                name="Freight Rates"
+                parent="pricing_menu"
+                action="freight.action_freight_rate_price"
+                sequence="1"/>
+
+
+    </data>
+</odoo>

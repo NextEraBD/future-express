@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_freight_package_form">
+            <field name="name">freight.package.form</field>
+            <field name="model">freight.package</field>
+            <field name="arch" type="xml">
+                <form string="Packages">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name" required="1"/>
+                                <field name="container"/>
+                                <field name="refrigerated"/>
+                            </group>
+                            <group>
+                                <field name="size"/>
+                                <field name="volume"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group string="Used In">
+                            <field name="air"/>
+                            <field name="ocean"/>
+                            <field name="land"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_package_tree">
+            <field name="name">freight.package.tree</field>
+            <field name="model">freight.package</field>
+            <field name="arch" type="xml">
+                <tree string="Packages">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="container"/>
+                    <field name="refrigerated"/>
+                    <field name="size"/>
+                    <field name="volume"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_freight_package_action">
+            <field name="name">Packages</field>
+            <field name="res_model">freight.package</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new port.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Packages" parent="freight.freight_configuration" id="menu_freight_package_id"
+                  action="view_freight_package_action" sequence="7"/>
+
+
+    </data>
+</odoo>

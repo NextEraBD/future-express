@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Container Form View to Modify it -->
+        <record model="ir.ui.view" id="view_freight_operation_form_custom_expense_inherit">
+            <field name="name">freight.operation.custom.form</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_form"/>
+            <field name="arch" type="xml">
+
+
+                        <group>
+                            <field name="freight_invisible" invisible="1"/>
+                            <field name="transport_invisible" invisible="1"/>
+                            <field name="transit_invisible" invisible="1"/>
+                            <field name="clearance_invisible" invisible="1"/>
+                            <field name="warehousing_invisible" invisible="1"/>
+                            <field name="accounting_invisible" invisible="1"/>
+                            <field name="shipment_invisible" invisible="1"/>
+                            <field name="target_price_invisible" invisible="1"/>
+                            <field name="operator_invisible" invisible="1"/>
+                            <field name="user_id" invisible="1"/>
+                        </group>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

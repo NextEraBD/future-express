@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="action_customs" model="ir.actions.act_window">
+            <field name="name">Customs</field>
+            <field name="res_model">crm.customs</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context"></field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to schedule a new Customs.
+                </p>
+            </field>
+        </record>
+        <menuitem id="customs_menu" name="Customs" parent="crm.crm_menu_config"  action="action_customs" sequence="9"/>
+    </data>
+</odoo>

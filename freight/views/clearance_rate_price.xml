@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="clearance_rate_price_form_view" model="ir.ui.view">
+            <field name="name">clearance.rate.price.form.view</field>
+            <field name="model">clearance.rate.price</field>
+            <field name="arch" type="xml">
+                <form string="Clearance">
+                    <header>
+                        <field name="state" widget="statusbar" force_save="1" decoration-danger="state == 'expired'"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Clearance Name"/>
+                        </h1>
+                        <group>
+                            <group name="content">
+                                <field name="inside_outside" invisible="1"/>
+                                <field name="is_compute" invisible="1"/>
+                                <field name="expense" invisible="1"/>
+                                <field name="direction"/>
+                                <field name="product_id"/>
+                                <field name="container_id" attrs="{'invisible': [('transport','=','air')]}"/>
+                                <field name="package"/>
+                                <field name="country_id"/>
+                                <field name="city_id"/>
+                                <field name="currency_id"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="agent_id" string="Delegate"/>
+                                <field name="port_id"/>
+                                <field name="transport"/>
+                                <field name="ocean_shipment_type" attrs="{'invisible': ['|',('transport','!=','ocean'),('expense','=',True)]}"/>
+                            </group>
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="remaining_days"/>
+                                <field name="action"/>
+                                <field name="this_ocean_fcl" invisible="1"/>
+                                <field name="this_air_clear" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="amount_cost" attrs="{'invisible': [('transport','=','air'),('expense','=',False)]}"/>
+                                <field name="amount_outside_cost" attrs="{'invisible': ['|','|','&amp;',('transport','=','air'), ('expense','=',False),('expense','=',False),('inside_outside','=',False)]}"/>
+                                <field name="other_container" attrs="{'invisible': [('this_ocean_fcl','=',False)]}"/>
+                                <field name="other_container_sale" attrs="{'invisible': [('this_ocean_fcl','=',False)]}"/>
+                                <field name="other_kg" attrs="{'invisible': ['|',('expense','=',True),('transport','!=','air')]}"/>
+                                <field name="other_air_sale" attrs="{'invisible': ['|',('transport','!=','air'),('expense','=',True)]}"/>
+                                <field name="amount_sale" attrs="{'invisible': ['|','&amp;',('transport','=','air'),('expense','=',False),('ocean_shipment_type','=','fcl')]}"/>
+                                <field name="amount_outside_sale" attrs="{'invisible': ['|','|', '|', '&amp;',('transport','=','air'),('expense','=',False),('ocean_shipment_type','=','fcl'), ('expense','=',False),('inside_outside','=',False)]}"/>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Price Air" attrs="{'invisible': [('this_air_clear','=',False)]}">
+                                <field name="price_air_ids" widget="section_and_note_one2many">
+                                    <tree string="Price Air Line" editable="bottom">
+                                        <field name="amount_from"/>
+                                        <field name="amount_to"/>
+                                        <field name="amount_sale"/>
+                                        <field name="amount_cost"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Price Per Container" attrs="{'invisible': [('this_ocean_fcl','=',False)]}">
+                                <field name="price_ocean_ids" widget="section_and_note_one2many">
+                                    <tree string="Price Ocean Line" editable="bottom">
+                                        <field name="amount_from"/>
+                                        <field name="amount_to"/>
+                                        <field name="amount_sale"/>
+                                        <field name="amount_cost"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="clearance_rate_price_tree_view" model="ir.ui.view">
+            <field name="name">clearance.rate.price.tree.view</field>
+            <field name="model">clearance.rate.price</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="transport"/>
+                    <field name="product_id"/>
+                    <field name="container_id" attrs="{'invisible': [('transport','=','air')]}"/>
+                    <field name="package" attrs="{'invisible': [('transport','!=','air')]}"/>
+                    <field name="currency_id"/>
+                    <field name="country_id"/>
+                    <field name="city_id"/>
+                    <field name="port_id" options="{'no_create_edit': True,'always_reload': True}"
+                           context="{'port_by_code_ref': True}"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="user_id" readonly="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_clearance_rate_price" model="ir.actions.act_window">
+            <field name="name">Clearance Rates</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">clearance.rate.price</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to create a new Clearance Rate.
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_clearance_rate_price"
+                  name="Clearance Rates"
+                  groups="freight.group_crm_use_pricing_user"
+                  action="action_clearance_rate_price"
+                  parent="freight.pricing_menu"
+                  sequence="2"/>
+    </data>
+</odoo>

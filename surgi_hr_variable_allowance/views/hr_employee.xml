@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_form_inherit" model="ir.ui.view">
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="identification_id" position="after">
+                <field name="suspended" />
+            </field>
+        </field>
+    </record>
+
+    <record id="open_suspended_employee_list_my" model="ir.actions.act_window">
+            <field name="name">Suspended Employees</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="domain">[('suspended', '=', True)]</field>
+            <field name="context">{'chat_icon': True}</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr.view_employee_filter"/>
+    </record>
+
+    <menuitem id="menu_hr_suspended" name="Suspended Employees" parent="hr.menu_hr_root" action="open_suspended_employee_list_my" sequence="10"/>
+</odoo>

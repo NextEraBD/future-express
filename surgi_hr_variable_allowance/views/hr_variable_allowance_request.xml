@@ -1,0 +1,174 @@
+<odoo>
+    <data>
+
+
+
+        <record id="variable_allowance_request_form" model="ir.ui.view">
+            <field name="name">Variable Allowance Form</field>
+            <field name="model">hr.variable.allowance.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="approval_check" string="Confirm" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state', 'not in', ['draft']),('penalty','=', False)]}" />
+                        <button name="action_refuse" string="Refuse" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state', 'not in', ['draft','confirmed']),('penalty','=', False)]}"/>
+                        <button name="lawyer_approve" string="Approve" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['confirmed']),('penalty','=', False)]}" groups="hr.group_hr_manager"/>
+                        <button name="hr_approve" string="Approve" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['lawyer_approved']),('penalty','=', False)]}" groups="hr.group_hr_manager"/>
+
+                        <button name="hr_refuse" string="HR Refuse" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', 'not in', ['lawyer_approved']),('penalty','=', False)]}" groups="hr.group_hr_manager"/>
+
+                        <button name="action_suspend" string="Suspend" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|','|','|',('state', 'not in', ['confirmed']),('penalty','=', False),('action','=','penalize'),('action','=','suspend')]}" groups="hr.group_hr_manager"/>
+
+<!--                        <button name="action_suspend" string="Suspend" type="object" class="oe_highlight"-->
+<!--                                attrs="{'invisible': ['|','|','|',('state', 'not in', ['draft']),('penalty','=', True),('action','=','penalize'),('action','=','suspend')]}" groups="hr.group_hr_manager"/>-->
+
+
+                        <button name="action_suspend_penalty" string="Suspend &amp; Penalty" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|','|','|',('state', 'not in', ['confirmed']),('penalty','=', False),('action','=','penalize'),('action','=','suspend')]}" groups="hr.group_hr_manager"/>
+                        <button name="action_deduction" string="Approve" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|','|','|',('state', 'not in', ['draft']),('penalty','=', True),('action','=','penalize'),('action','=','suspend')]}" groups="hr.group_hr_manager"/>
+
+
+                        <button name="send_notify" string="Send notify" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state', 'not in', ['draft']),('penalty','=', False)]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,approved"/>
+                    </header>
+                    <sheet>
+                        <group>
+                        <group>
+                            <field name="penalty" invisible="True"/>
+                            <field name="name" required="True"/>
+                            <field name="date" required="True"/>
+                            <field name="select_type" required="True"/>
+                            <field name="employee_id"
+                                       attrs="{'readonly': [('select_type', '!=', 'employee')], 'required': [('select_type', '=', 'employee')], 'invisible': [('select_type', '!=', 'employee')]}"
+                                       force_save="1"/>
+                                <field name="department_id"
+                                       attrs="{'readonly': [('select_type', '!=', 'department')], 'required': [('select_type', '=', 'department')], 'invisible': [('select_type', 'not in', ['employee', 'department'])]}"
+                                       force_save="1"/>
+
+                        </group>
+                        <group>
+                            <field name="branch_id" required="True"/>
+                            <field name="rule_id" invisible="1"/>
+                            <field name="rule_id_allowance_type" invisible="True"/>
+                            <field name="action" readonly="1" attrs="{'invisible': [('penalty', '=', False)]}"/>
+                            <field name="deduction_type_id" attrs="{'invisible': ['|',('allowance_or_deduction','=','allowance'),'&amp;',('action','!=','penalize'),('penalty', '=', True)]}"/>
+                            <field name="deduction_type_rule_id" force_save="1" attrs="{'invisible': ['|',('allowance_or_deduction','=','allowance'),'&amp;',('action','!=','penalize'),('penalty', '=', True)]}" readonly="1"/>
+                        </group>
+                        </group>
+                        <group>
+                            <field name="structure_id" invisible="True"/>
+                            <field name="tmp_amount" invisible="True"/>
+                            <field name="allowance_or_deduction" invisible="1" attrs="{'readonly': [('penalty', '=', False)]}"/>
+                            <field name="amount_rate_multiplier" attrs="{'invisible': [('rule_id_allowance_type', '=', 'fixed')]}"/>
+                            <field name="amount"/>
+<!--                            <field name="amount" attrs="{'readonly': [('rule_id_allowance_type', '!=', 'fixed')]}"/>-->
+                        </group>
+                        <notebook>
+                            <page string="Employees" name="emp" >
+                                <field name="employee_ids" readonly="0" force_save="1"/>
+
+                            </page>
+                            <page string="Allowance Approvals" name="allowance_approvals" readonly="1">
+                                <field name="allowance_approvals" readonly="1" force_save="1">
+                                    <tree>
+                                        <field name="validating_user"/>
+                                        <field name="validating_state" string="Decision"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Penalty Rules" attrs="{'invisible': ['|',('state', 'in', ['draft']), ('action','!=','penalize')]}">
+                                <field name="deduction_type_rule_ids" nolabel="1" readonly="1" force_save="1">
+                                    <tree>
+                                        <field name="description"/>
+                                        <field name="name"/>
+                                        <field name="amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="variable_allowance_request_tree" model="ir.ui.view">
+            <field name="name">Variable allowance tree</field>
+            <field name="model">hr.variable.allowance.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="type"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="variable_allowance_request_action" model="ir.actions.act_window">
+            <field name="name">Variable Allowance</field>
+            <field name="res_model">hr.variable.allowance.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('allowance_or_deduction','=','allowance'),('penalty','=', False)]</field>
+            <field name="context">{'default_allowance_or_deduction':'allowance'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new Variable Allowance Request.
+                </p>
+            </field>
+        </record>
+        <record id="variable_deduction_request_action" model="ir.actions.act_window">
+            <field name="name">Variable Deduction</field>
+            <field name="res_model">hr.variable.allowance.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('allowance_or_deduction','=','deduction'),('penalty','=', False)]</field>
+            <field name="context">{'default_allowance_or_deduction':'deduction'}</field>
+
+            <field name="help" type="html">
+
+                <p class="oe_view_nocontent_create">
+                    Click to create new Variable Allowance Request.
+                </p>
+            </field>
+        </record>
+
+        <record id="penalty_request_action" model="ir.actions.act_window">
+            <field name="name">Penalty Request</field>
+            <field name="res_model">hr.variable.allowance.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('penalty','=', True)]</field>
+            <field name="context">{'default_penalty':True}</field>
+
+            <field name="help" type="html">
+
+                <p class="oe_view_nocontent_create">
+                    Click to create new Variable Allowance Request.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="variable_allowance_submenu" name="Bonus/Deductions"
+                  groups="group_hr_variable_allowance_manager,group_hr_variable_allowance_users" web_icon="surgi_hr_variable_allowance,static/description/allow.jpeg"/>
+        <menuitem id="variable_allowance_request" name="Variable Allowance Request"
+                  parent="variable_allowance_submenu"
+                  action="variable_allowance_request_action"
+                  sequence = "2"
+                  groups="base.group_user"/>
+        <menuitem id="variable_deduction_request" name="Variable Deduction Request"
+                  parent="variable_allowance_submenu"
+                  sequence = "9"
+                  action="variable_deduction_request_action"
+                  groups="base.group_user"/>
+        <menuitem id="penalty_request" name="Penalty Request"
+                  parent="variable_allowance_submenu"
+                  sequence = "10"
+                  action="penalty_request_action"
+                  groups="base.group_user"/>
+    </data>
+</odoo>

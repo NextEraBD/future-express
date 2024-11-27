@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Define the QWeb report template -->
+        <template id="pre_alert_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <head>
+                            <style>
+
+                                body {
+                                font-family: Arial, sans-serif;
+                                margin: 0;
+                                padding: 0;
+                                background-color: #f0f0f0;
+                                }
+
+                                .header {
+                                text-align: center;
+                                margin-bottom: 20px;
+                                }
+
+                                .header h1 {
+                                font-size: 24px;
+                                background-color: #ccc;
+                                padding: 10px;
+                                }
+
+                                .main-table, .invoice-table {
+                                width: 100%; /* Ensures table takes up full width */
+                                border-collapse: collapse;
+                                margin-bottom: 20px;
+                                }
+
+                                .main-table td, .invoice-table th, .invoice-table td {
+                                padding: 8px;
+                                text-align: left;
+                                }
+
+                                .main-table th, .main-table td {
+                                border: 1px solid #000;
+                                }
+
+                                .invoice-table th {
+                                background-color: #f2f2f2;
+                                }
+
+                                .invoice-table th, .invoice-table td {
+                                padding: 8px;
+                                text-align: right;
+                                }
+
+                                .note {
+                                margin-bottom: 20px;
+                                }
+
+                                .attached-documents, .shipment-invoice {
+                                width: 48%;
+                                }
+
+                                .attached-documents h2 {
+                                font-size: 18px;
+                                background-color: #f2f2f2;
+                                padding: 5px;
+                                }
+
+                                .flex-container {
+                                display: flex;
+                                justify-content: space-between;
+                                margin-bottom: 20px;
+                                }
+
+                            </style>
+                        </head>
+                        <body>
+                            <div class="page" style="text-align: center;margin-bottom: 20px;">
+<!--                                <img src="logo.png" alt="Company Logo" class="logo"/>-->
+                                <h1 style="font-size: 24px;
+                                    background-color: #ccc;
+                                    padding: 10px;">Shipment Pre Alert</h1>
+                            </div>
+                            <table class="main-table">
+                                <tr>
+                                    <td>Currier:</td>
+                                    <td><t t-esc="doc.source_location_id.name"/></td>
+                                    <td>Origin</td>
+                                    <td colspan="2"></td>
+                                    <td>Destination</td>
+                                    <td colspan="2"><t t-esc="doc.	destination_location_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td>MAWB#</td>
+                                    <td colspan="2"><t t-esc="doc.master.name"/></td>
+                                    <td>HAWB#</td>
+                                    <td colspan="2"><t t-esc="doc.master.name"/></td>
+                                </tr>
+                            </table>
+                            <table class="main-table">
+                                <tr>
+                                    <td>Shipper Name:</td>
+                                    <td><t t-esc="doc.shipper_id.name"/></td>
+                                    <td>Consignee Name:</td>
+                                    <td><t t-esc="doc.consignee_id.name"/></td>
+                                    <td>Number of Pieces:</td>
+                                    <td><t t-esc="doc.pieces"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Flight Details:</td>
+                                    <td></td>
+                                    <td>Description:</td>
+                                    <td></td>
+                                    <td>ETA:</td>
+                                    <td><t t-esc="doc.pieces"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Gross Weight:</td>
+                                    <td><t t-esc="doc.	weight"/></td>
+                                    <td>Chargeable Weight:</td>
+                                    <td><t t-esc="doc.net_weight"/></td>
+                                    <td>ETD:</td>
+                                    <td><t t-esc="doc.estimated_time_arrival"/></td>
+                                </tr>
+                            </table>
+                            <p class="note">
+                                Kindly please note that we received the above mentioned shipment for you,<br/>
+                                Please confirm sending someone with a delegation letter from your company with the mentioned above amount to receive<br/>
+                                The delivery order for this shipment.
+                            </p>
+                            <div class="flex-container">
+                                <div class="attached-documents">
+                                    <h2>Attached Documents</h2>
+                                </div>
+                                <div class="shipment-invoice">
+                                    <table class="invoice-table">
+                                        <tr>
+                                            <th style="padding-right: 20px;">Currency</th>
+                                            <th style="padding-left: 20px;">Total Amount</th>
+                                        </tr>
+                                        <tr>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </body>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

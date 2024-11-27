@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="manifest_header">
+            <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 15px;">
+            <div>
+                <div class="row">
+                    <div class="col-6">
+                        <img src="/freight/static/images/icon.png" alt="Logo"/>
+                    </div>
+                    <div class="col-6">
+                        <div style="font-size:20px;float:right;margin-left:420px;text-align:left">EGYTRANS
+                        <br/>Int’l Exp ort Center, Office 101
+                        <br/>Cargo Village, Cairo Int’l Airport, Cairo, Egypt.
+                        <br/>Tel: 0020 2 22670-689/90/91 Fax: 00202 22671-4 70
+                        <br/>E-Mail: afexport@egytrans.com
+
+                        </div>
+                    </div>
+                </div>
+
+                    <hr style="height:2px;border-width:2px;color:black;background-color:black"></hr>
+            </div>
+                <div class="footer">
+                    <p class="text-left" style="font-size:13px;font-weight:bold">
+                      ALL BUSINESS IS TRANSACTED PER COMPANY STANDARD TRADING CONDITIONS – COPY AVAILABLE UPON REQUEST
+                    </p>
+<!--                    <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>-->
+                    <div class="row mt32 mb32" id="sale">
+                       <div class="col-auto mw-100 mb-2">
+                          <p class="text-center" align="center" dir="ltr" style="font-size:13px;font-weight:bold">
+ALL BUSINESS IS TRANSACTED ACCORDING TO THE COMPANY'S STANDARD TRADING CONDITIONS-COPY AVAILABLE UPON REQUEST                          </p>
+                           <p class="text-center"  style="font-size:13px">
+كافه الاعمال يتم تنفيذها طبقا للشروط التجاريه العامه للشركه-نسخه الشروط متوفره عند الطلب
+                          </p>
+<!--                           <p class="text-center"  style="font-size:22px;font-weight:bold">-->
+<!--يرجى عدم خصم ضريبه ارباح تجاريه حيث ان الشركه تتطبق نظام الدفعات المقدمه-->
+<!--                          </p>-->
+                           <p class="text-center"  style="font-size:13px;font-weight:bold">
+EGY-F-F1041                          </p>
+                        </div>
+                    </div>
+                </div>
+            </font>
+
+        </template>
+
+        <template id="report_air_manifest_document">
+            <t t-call="web.basic_layout">
+                <header>
+                    <t t-call="freight.manifest_header"/>
+                </header>
+
+                <div class="page" >
+                    <b>
+                    <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 16px;">
+                    <div class="oe_structure"/>
+                    <div/>
+                    <br/>
+                    <br/>
+
+                    <div align="center">
+                       <b><u><span style="float:center;text-align:center;font-size:20px">*CARGO MAN IFEST*</span></u>
+
+                    </b></div>
+                    <div class="row">
+                        <div>
+                                <span style="float:left;text-align:left;font-size:20px"><u>
+                                    Name and Address of Agent: </u></span>
+                        </div>
+                    </div>
+                    <div class="row" >
+
+                        <span t-field="o.customer_id.name"/><br/>
+                                <span t-field="o.customer_id.street"/>;<span t-field="o.customer_id.street2"/>;<span t-field="o.customer_id.city"/>;<span t-field="o.customer_id.country_id.name"/>; <br/>
+                                TEL: <span t-field="o.customer_id.mobile"/><br/>
+                    </div>
+<!--                    <div class="row" >-->
+<!--                       <t t-set="address">-->
+<!--                            <div t-field="doc.customer_id"-->
+<!--                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />-->
+<!--                            <p t-if="doc.customer_id.vat"><t t-out="doc.company_id.account_fiscal_country_id.vat_label or 'Tax ID'"/>: <span t-field="doc.customer_id.vat"/></p>-->
+<!--                        </t>-->
+<!--                    </div>-->
+                <div>
+                    <table width="50%" style="margin-top:25px" class="table table-border">
+<!--                        <thead>-->
+<!--                            <th style="width:10%">BL / NUMBER</th>-->
+<!--                            <th style="width:30%">SHIPPER / CONSIGNEE / NOTIFY</th>-->
+<!--                            <th style="width:20%">MARKS &amp; NUMBERS</th>-->
+<!--                            <th style="width:30%">DESCRIPTION OF GOODS / REMARKS</th>-->
+<!--                            <th style="width:10%">MEASURMENTS</th>-->
+<!--                        </thead>-->
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span style="float:left;text-align:left;font-size:20px">
+                                    Name Address of Shipper:<br/>
+                                    <span t-field="o.shipper_id.name"/><br/>
+                                    <span t-field="o.shipper_id.street"/>;<span t-field="o.shipper_id.street2"/>;<span t-field="o.shipper_id.city"/>;<span t-field="o.shipper_id.country_id.name"/>; <br/>
+                                    TEL: <span t-field="o.shipper_id.mobile"/><br/>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="float:left;text-align:left;font-size:20px">
+                                    Name Address of CONSIGNEE:<br/>
+                                    <span t-field="o.consignee_id.name"/><br/>
+                                    <span t-field="o.consignee_id.street"/>;<span t-field="o.consignee_id.street2"/>;<span t-field="o.consignee_id.city"/>;<span t-field="o.consignee_id.country_id.name"/>; <br/>
+                                    TEL: <span t-field="o.consignee_id.mobile"/><br/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <span style="float:left;text-align:left;font-size:20px">
+                    <b>
+                        -MAWB:<span t-field="o.master"/>
+                        <br/>
+                    </b>
+                    <b>
+                        -HAWB:<span t-field="o.housing"/>
+                        <br/>
+                    </b>
+                    <b>
+                        -From:<span t-field="o.source_location_id.name"/><br/>
+                    </b>
+                    <b>
+                        -To:<span t-field="o.destination_location_id.name"/><br/>
+                    </b>
+                    <b>
+                        -No. of pieces:<span t-field="o.destination_location_id.name"/><br/>
+                    </b>
+                    <b>
+                        -GW:<span t-field="o.weight"/><br/>
+                    </b>
+                    <b>
+                        -Commodity:<span t-field="o.operation_id.commodity_id.name"/>
+                    </b>
+                    </span>
+
+                    </div>
+                    </font>
+                    </b>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

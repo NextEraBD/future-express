@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="shipment_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <head>
+                            <style>
+                                body {
+                                font-family: Arial, sans-serif;
+                                margin: 20px;
+                                }
+                                table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-size: 25px; /* Increased font size */
+                                }
+                                th, td {
+                                border: 1px solid black;
+                                padding: 8px;
+                                text-align: left;
+                                }
+                                .bold {
+                                font-weight: bold;
+                                }
+                                .small {
+                                font-size: 0.9em;
+                                }
+                                .table1 {
+                                height: 10%;
+                                }
+                                .table2 {
+                                height: 10%;
+                                }
+                                .table3 {
+                                height: 20%;
+                                }
+                                .table4 {
+                                height: 20%;
+                                }
+                                th2, td2 {
+                                border: 1px solid #333;
+                                padding: 10px; /* Increased padding for better readability */
+                                text-align: left;
+                                }
+                                .test {
+                                display: flex;
+                                justify-content: space-between;
+                                margin-top: 10px;
+                                font-size: 25px;
+                                }
+                                .test div {
+                                flex: 1;
+                                padding: 5px;
+                                border: 1px solid #000;
+                                font-size: 25px;
+                                }
+                            </style>
+                        </head>
+                        <div style="margin-bottom: 20px;">
+                            <div style="text-align: center;">
+                                <img src="/freight/static/images/image2.png" alt="Logo" style="width: 200px; height: 100px;" />
+                                <h1>Shipping Declaration<t t-if="doc.type == 'new'"> - New</t><t t-if="doc.type == 'final'"> - Final</t></h1>
+                            </div>
+                            <br/>
+                            <div style="float: left; width: 33.33%;">
+                                <br/><br/>
+
+                                <img src="/freight/static/images/image2.png" alt="Logo" style="width: 100%; height: 100px;" />
+                                <br/> <br/><br/>
+
+                                <h2 style="text-align: center;">New Shipping Declaration</h2>
+                                <br/> <br/><br/>
+
+                                <h4 style="text-align: center;"><t t-esc="doc.today_date"/></h4>
+                                <br/> <br/><br/>
+                                <div class="watermark" style="position:absolute;opacity:0.25;font-size:3em;width:100%;text-align:center;z-index:1000;">
+                                    <img src="/freight/static/images/image1.png" alt="Logo"/>
+                                </div>
+                                <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px; margin-top:225px;">
+                                    <!-- Table row for Shipper -->
+                                    <tr style="margin-bottom: 10px; border: 3px solid" >
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Other Charge</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border: 1px solid black;width: 50px; height: 50px; text-align: left;padding-top:10px;padding-left: 30px; ">
+                                            <t t-esc="doc.other_charge"/>
+                                        </td>
+                                    </tr>
+                                    <!-- Table row for Consignee -->
+                                    <tr>
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px; ">Egypt Trucking Charge</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border: 1px solid black;width: 50px; height: 50px;text-align: left;padding-top: 10px;padding-left: 30px;">
+                                            <t t-esc="doc.truching_charge"/>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                            <div style="float: right; width: 66.66%;">
+                                <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px;">
+                                    <!-- Table row for Shipper -->
+                                    <tr>
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Shipper</th>
+                                    </tr>
+                                    <tr style="margin-top: 10px">
+                                        <td colspan="4" style="border: 1px solid black; 70px; height: 160px;text-align: left;padding-top: 10px;padding-left: 30px;">
+                                            <b>Name:</b> <t t-esc="doc.shipper_id.name"/>
+                                            <br/> <br/>
+                                            <b>Address:</b> <t t-esc="doc.shipper_id.contact_address"/>
+                                            <br/> <br/>
+                                            <b>Phone:</b> <t t-esc="doc.shipper_id.phone"/>
+                                            <br/> <br/>
+                                            <b>Email:</b> <t t-esc="doc.shipper_id.email"/>
+                                        </td>
+                                    </tr>
+                                    <!-- Table row for Consignee -->
+                                    <tr>
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Consignee</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border: 1px solid black; 70px; height: 160px;text-align: left;padding-top: 10px;padding-left: 30px;">
+                                            <b>Name:</b> <t t-esc="doc.consignee_id.name"/>
+                                            <br/> <br/>
+                                            <b>Address:</b> <t t-esc="doc.consignee_id.contact_address"/>
+                                            <br/> <br/>
+                                            <b>Phone:</b> <t t-esc="doc.consignee_id.phone"/>
+                                            <br/> <br/>
+                                            <b>Email:</b> <t t-esc="doc.consignee_id.email"/>
+                                        </td>
+                                    </tr>
+                                    <!-- Table row for Consignee -->
+                                    <tr>
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Notify Party</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border: 1px solid black; width: 50px; height: 50px;text-align: left;padding-top: 10px;padding-left: 30px;">
+                                            <t t-esc="doc.notify"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px;">
+                                    <!-- Table header row for Shipper -->
+                                    <tr  style="margin-bottom: 10px;">
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Port Of  Loading</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Voyage No</th>
+                                    </tr>
+                                    <tr style="margin-bottom: 10px;">
+                                        <td colspan="4" style="border: 1px solid black; width: 50px; height: 50px;text-align: left;padding-top: 10px;padding-left: 30px;"><t t-esc="doc.source_location_id.name"/></td>
+                                        <td colspan="4" style="border: 1px solid black; width: 50px; height: 50px;text-align: left;padding-top: 10px;padding-left: 30px;"><t t-esc="doc.source_location_id.name"/></td>
+                                    </tr >
+                                    <!-- Table header row for Consignee -->
+                                    <tr >
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Place Of  Delivery</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;">Port Of  Discharging</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border: 1px solid black; width: 50px; height: 50px;text-align: left;padding-top: 10px;padding-left: 30px;"><t t-esc="doc.delivery"/></td>
+                                        <td colspan="4" style="border: 1px solid black; width: 50px; height: 50px; text-align: left;padding-top: 10px;padding-left: 30px;"><t t-esc="doc.destination_location_id.name"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <!-- Table Section -->
+                        <table style="width: 100%; border-collapse: collapse; collapse;border: 3px solid black; font-size: 25px;">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Gross Weight</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Net Packages</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Number and kind Of  Packages</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Marks and Numbers</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <!-- Table body rows -->
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.weight"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.net_weight"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.pieces"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.volume"/>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            <thead>
+                                <tr>
+
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Total G.W</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Total N.W</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Total No. Of PCS</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;">Total No. of Cont.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.total_g_w"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.total_n_w"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.total_no_of_pieces"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black; width: 50px; text-align: center; white-space: pre-line;">
+                                        <t t-esc="doc.total_number_of_containers"/>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

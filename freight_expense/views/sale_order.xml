@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+
+        <record id="freight_sale_order_form" model="ir.ui.view">
+            <field name="name">freight.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                  <field name="freight_operation_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="etal_view_sales_order_crm_contract" model="ir.ui.view">
+            <field name="name">sale.order.form.crm.contract</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside"> <!-- Corrected 'ecpr' to 'expr' -->
+                    <button name="action_create_journal_invoice_official" type="object" class="btn-secondary"  attrs="{'invisible': ['|', ('state', '!=', 'sale'),('is_claimed',  '=', True)]}" string="Create Claim"/>
+                </xpath>
+            <field name="partner_id" position="after">
+                <field name="contact_id" />
+            </field>
+            <field name="payment_term_id" position="after">
+                 <field name="booking_no" />
+                <field name="certificate_number" />
+                <field name="certificate_date" />
+            </field>
+            <field name="sale_order_template_id" position="after">
+                <field name="weight" />
+                <field name="volume" />
+                <field name="net_weight"  attrs="{'invisible': [('transport','=','air')]}"/>
+                <field name="chargeable_weight"  attrs="{'invisible': [('transport','!=','air')]}"/>
+                <field name="is_claimed" invisible="1"/>
+                <field name="source_location_id" />
+                <field name="destination_location_id" />
+                <field name="transport" />
+                <field name="ocean_shipment_type" />
+            </field>
+
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_template_id']" position="after">
+
+                <field name="container_id"  attrs="{'column_invisible': [('parent.transport','=','air')]}" force_save="1" />
+                <field name="package"  attrs="{'column_invisible': [('parent.transport','!=','air')]}" force_save="1" />
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_uom_qty']" position="after">
+               <field name="gross_weight" optional="hide" force_save="1" attrs="{'column_invisible': [('parent.transport','!=','air')]}" />
+               <field name="chargeable_weight" optional="hide" force_save="1" attrs="{'column_invisible': [('parent.transport','!=','air')]}" />
+
+<!--                <field name="container_from_to" optional="hide" attrs="{'column_invisible': [('parent.transport','=','air')]}" force_save="1" />-->
+<!--                <field name="total_qty" optional="show" force_save="1" attrs="{'column_invisible': [('parent.transport','=','air')]}" />-->
+            </xpath>
+
+            <xpath expr="//button[@id='create_invoice_percentage']" position="replace">
+                 <button id="create_invoice_percentage" name="442" string="Create Invoice" type="action" context="{'default_advance_payment_method': 'percentage'}" data-hotkey="q"
+                         attrs="{'invisible': ['|','|',('invoice_status', '!=', 'no'), ('state', '!=', 'sale'),('is_claimed',  '=', True)]}"/>
+
+            </xpath>
+<!--            <xpath expr="//button[@id='create_invoice']" position="replace">-->
+<!--              <button id="create_invoice" name="574" string="Create Invoice" type="action"-->
+<!--                      class="btn-primary" data-hotkey="q" attrs="{'invisible': ['|',('invoice_status', '!=', 'to invoice'),('is_claimed',  '=', True)]}"/>-->
+
+<!--            </xpath>-->
+
+        </field>
+    </record>
+
+        <record id="view_order_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+			<field name="arch" type="xml">
+
+             <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="so_type" string="Sale From"/>
+            </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

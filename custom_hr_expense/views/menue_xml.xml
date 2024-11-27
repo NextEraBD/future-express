@@ -1,0 +1,19 @@
+<data>
+    <odoo>
+
+
+
+    <!-- Off Receipt approval        -->
+    <record id="act_official_receipt" model="ir.actions.act_window">
+        <field name="res_model">hr.cover.letter.official</field>
+        <field name="name">Official Receipt</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="custom_hr_expense.hr_cover_letter_off_tree"/>
+        <field name="search_view_id" ref="custom_hr_expense.hr_cover_letter_official_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_group_by_employee_id': 1}</field>
+    </record>
+
+<!--        <menuitem id="menu_account_official_receipt" action="act_official_receipt" parent="account_reports.account_reports_partners_reports_menu" name="Official Receipt" sequence="15"/>-->
+    </odoo>
+</data>

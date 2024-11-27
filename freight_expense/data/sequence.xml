@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ir_seq_cover_letter" model="ir.sequence">
+            <field name="name">Cover Letter Sequence</field>
+            <field name="code">hr.cover.letter</field>
+            <field name="prefix">COV</field>
+            <field name="company_id" eval="False"/>
+            <field name="padding">6</field>
+        </record>
+
+
+
+
+        <record id="ir_seq_custody" model="ir.sequence">
+            <field name="name">Custody Sequence</field>
+            <field name="code">custody.custody</field>
+            <field name="prefix">CD</field>
+            <field name="company_id" eval="False"/>
+            <field name="padding">6</field>
+        </record>
+
+
+
+    </data>
+</odoo>

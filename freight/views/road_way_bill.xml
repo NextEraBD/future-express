@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_road_way_bill_form">
+        <field name="name">road.way.bill.form</field>
+        <field name="model">road.way.bill</field>
+        <field name="arch" type="xml">
+            <form string="Road way Bill">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="operation_id"/>
+                            <field name="no_of_track"/>
+                            <field name="bill_of_lading_no"/>
+                            <field name="housing"/>
+                            <field name="shipper_id"/>
+                            <field name="consignee_id"/>
+                            <field name="forwarder"/>
+                            <field name="agent"/>
+                            <field name="transport"/>
+                            <field name="notify"/>
+                            <field name="port_of_export"/>
+                            <field name="port_of_import"/>
+                            <field name="from_location"/>
+                            <field name="to_location"/>
+                            <field name="pick_up"/>
+                            <field name="drop_location"/>
+                            <field name="notation"/>
+                        </group>
+                        <group>
+
+                            <field name="today_date"/>
+                            <field name="other_charge"/>
+                            <field name="truching_charge"/>
+                            <field name="delivery"/>
+                            <field name="pieces"/>
+                            <field name="net_weight" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="weight" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="total_g_w" />
+                            <field name="total_n_w"/>
+                            <field name="total_no_of_pieces" />
+                            <field name="total_number_of_containers"/>
+                            <field name="volume"/>
+                            <field name="freight_payable"/>
+                            <field name="type"/>
+                        </group>
+                    </group>
+                    <notebook>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_road_way_bill">
+        <field name="name">road.way.bill.tree</field>
+        <field name="model">road.way.bill</field>
+        <field name="arch" type="xml">
+            <tree string="Road way Bill">
+                <field name="operation_id"/>
+                <field name="shipper_id"/>
+                <field name="consignee_id" optional="hide"/>
+                <field name="source_location_id"/>
+                <field name="destination_location_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="view_road_way_bill_action">
+        <field name="name">Road way Bill</field>
+        <field name="res_model">road.way.bill</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Road way Bill.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_road_way_bill" name="Road way Bill" parent="freight.freight_root"  sequence="7" action="freight.view_road_way_bill_action"/>
+
+
+
+
+</odoo>

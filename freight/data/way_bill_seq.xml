@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- TAGS FOR RETRIEVING THE DEMO Freight Sequence -->
+        <record id="sequence_way_bill_air" model="ir.sequence">
+            <field name="name">Air</field>
+            <field name="code">freight.way.bill.air</field>
+            <field name="prefix">Air/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="sequence_way_bill_ocean" model="ir.sequence">
+            <field name="name">MASTER</field>
+            <field name="code">freight.way.bill.ocean</field>
+            <field name="prefix">Ocean/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+    </data>
+</odoo>

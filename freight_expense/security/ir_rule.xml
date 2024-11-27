@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="hr_cover_letter_comp_rule" model="ir.rule">
+            <field name="name">Cover Letter multi company rule</field>
+            <field name="model_id" ref="model_hr_cover_letter"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="hr_cover_letter_exp_comp_rule" model="ir.rule">
+            <field name="name">Cover Letter expense multi company rule</field>
+            <field name="model_id" ref="model_hr_cover_letter_expense"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="hr_cover_letter_official_comp_rule" model="ir.rule">
+            <field name="name">Cover Letter official multi company rule</field>
+            <field name="model_id" ref="model_hr_cover_letter_official"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="hr_cover_letter_line_comp_rule" model="ir.rule">
+            <field name="name">Cover Letter line multi company rule</field>
+            <field name="model_id" ref="model_hr_cover_letter_line"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+
+        <record id="custody_comp_rule" model="ir.rule">
+            <field name="name">Custody multi company rule</field>
+            <field name="model_id" ref="model_custody_custody"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+
+    </data>
+</odoo>

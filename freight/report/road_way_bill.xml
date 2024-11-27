@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="road_way_bill_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <!-- Existing tables and content -->
+                        <table style="width: 100%; border-collapse: collapse; border: 2px solid #333; font-size: 25px;height: 90px; margin-top:60px;">
+                            <tr style="margin-bottom: 10px; border: 3px solid;padding:100px ">
+                                <th colspan="4" style="border: 1px solid black;text-align: center; padding-top: 20px;height: 90px;">
+                                    <t t-if="doc.type == 'original'"> Original</t>
+                                    <t t-if="doc.type == 'copy'"> Copy</t>
+                                </th>
+                                <th colspan="4" style="border: 1px solid black;text-align: center; padding-top: 30px;font-size: 25px;">ROAD WAY BILL</th>
+                                <th colspan="4" style="border: 1px solid black;text-align: center; padding-top: 30px;font-size: 25px;">Bill Of lading No.:</th>
+                                <th colspan="4" style="border: 1px solid black;text-align: center; padding-top: 30px;font-size: 25px;">
+                                    <t t-esc="doc.name"/>/<t t-esc="doc.shipment_id.name"/>
+                                </th>
+                            </tr>
+                        </table>
+
+                        <!-- Right side content -->
+                        <div style="float: right; width: 50%;">
+                            <div class="watermark" style="position:absolute;opacity:0.25;font-size:3em;width:100%;text-align:center;z-index:1000;">
+                                <img src="/freight/static/images/image1.png" alt="Logo"/>
+                            </div>
+                            <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px;">
+                                <!-- Date of issue and logo -->
+                                <tr>
+                                    <th style="border: 1px solid black;text-align: center;padding-top: 20px;height: 60px;font-size: 25px;">Date of issue:</th>
+                                    <th style="border: 1px solid black;text-align: center;padding-top: 20px;height: 60px;font-size: 25px;">
+                                        <t t-esc="doc.today_date"/>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black;width: 50px; height: 50px; text-align: center;padding-top:20px;padding-bottom:20px">
+                                        <img src="/freight/static/images/image2.png" alt="Logo" style="width: 100%; height: 100px;"/>
+                                    </td>
+                                </tr>
+
+                                <!-- Forwarder details -->
+                                <tr style="margin-bottom: 10px; border: 3px solid">
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 20px;height: 60px;font-size: 25px;">Forwarder</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black; height: 120px;text-align: left;padding-top: 15px;padding-bottom:20px; padding-left: 30px">
+                                        <b>Name:</b> <t t-esc="doc.forwarder_id.name"/><br/><br/>
+                                        <b>Address:</b> <t t-esc="doc.forwarder_id.contact_address"/><br/><br/>
+                                        <b>Phone:</b> <t t-esc="doc.forwarder_id.phone"/><br/><br/>
+                                        <b>Email:</b> <t t-esc="doc.forwarder_id.email"/><br/>
+                                    </td>
+                                </tr>
+
+                                <!-- Agent details -->
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 20px;height: 60px;font-size: 25px;">Agent</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black; height: 70px;text-align: left;padding-top: 15px;padding-bottom:20px; padding-left: 30px">
+                                        <b>Name:</b> <t t-esc="doc.agent_id.name"/><br/><br/>
+                                        <b>Address:</b> <t t-esc="doc.agent_id.contact_address"/><br/><br/>
+                                        <b>Phone:</b> <t t-esc="doc.agent_id.phone"/><br/><br/>
+                                        <b>Email:</b> <t t-esc="doc.agent_id.email"/>
+                                    </td>
+                                </tr>
+
+                                <!-- Notation and freight payable -->
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black;text-align: left;padding-top: 10px;font-size: 25px; padding-left: 30px;padding-bottom:20px;">
+                                        RECEIVED FOR SHIPMENT from the MERCHANT in apparent good order and condition unless other- wise stated herein, the GOODS mentioned above to be transported as provided herein, by any mode of transport for all or any part of the Carriage, SUBJECT TO ALL THE TERMS AND CONDITIONS appear-ing on the face and back hereof and in the CARRIER’S applicable Tariff, to which the Merchant agrees by accepting this BILL OF LADING.
+                                        Where applicable law requires and not otherwise, one original Bill OF LADING must be surrendered, duly endorsed, in exchange for the GOODS or Truck(S) or other PACKAGE(S), the others to stand void. If a ‘Non-Negotiable’ BILL OF LADING is issued, neither an original nor a copy need be sur-rendered in exchange for delivery unless applicable law so requires.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">Freight Payable:</th>
+                                    <th style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">
+                                        <t t-esc="doc.freight_payable"/>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">Notation</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black;text-align: left;padding-top: 10px;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">
+                                        <t t-esc="doc.notation"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 70px;font-size: 25px;">No. Of Trucks : <t t-esc="doc.no_trucks"/></th>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Left side content -->
+                        <div style="float: left; width: 50%;">
+                            <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px;">
+                                <!-- Shipper details -->
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 20px;height: 60px;font-size: 25px;">Shipper</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black; height: 180px;text-align: left;padding-top: 15px;padding-bottom:20px;padding-left: 30px">
+                                        <b>Name:</b> <t t-esc="doc.shipper_id.name"/><br/><br/>
+                                        <b>Address:</b> <t t-esc="doc.shipper_id.contact_address"/><br/><br/>
+                                        <b>Phone:</b> <t t-esc="doc.shipper_id.phone"/><br/><br/>
+                                        <b>Email:</b> <t t-esc="doc.shipper_id.email"/>
+                                    </td>
+                                </tr>
+
+                                <!-- Consignee details -->
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">Consignee</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black; height: 180px;text-align: left;padding-top: 15px;padding-bottom:20px;padding-left: 30px">
+                                        <b>Name:</b> <t t-esc="doc.consignee_id.name"/><br/><br/>
+                                        <b>Address:</b> <t t-esc="doc.consignee_id.contact_address"/><br/><br/>
+                                        <b>Phone:</b> <t t-esc="doc.consignee_id.phone"/><br/><br/>
+                                        <b>Email:</b> <t t-esc="doc.consignee_id.email"/>
+                                    </td>
+                                </tr>
+
+                                <!-- Notify party -->
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">Notify Party</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black;text-align: left;padding-top: 10px;width: 50px; height: 90px;  padding-left: 30px;">
+                                        <t t-esc="doc.notify"/>
+                                    </td>
+                                </tr>
+                                <!-- Pick up and drop location -->
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">Pick Up</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black;text-align: left;padding-top: 10px;width: 50px; height: 90px;padding-left: 30px">
+                                        <t t-esc="doc.pick_up"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: left;padding-left: 30px;padding-top: 15px;height: 60px;font-size: 25px;">Drop Location</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black;text-align: left;padding-top: 10px;width: 50px; height: 90px;padding-left: 30px">
+                                        <t t-esc="doc.drop_location"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- From and To locations -->
+                            <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px;">
+                                <tr style="margin-bottom: 10px;">
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 70px;font-size: 25px;">From</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 70px;font-size: 25px;">TO</th>
+                                </tr>
+                                <tr style="margin-bottom: 10px;">
+                                    <td colspan="4" style="border: 1px solid black;text-align: center;padding-top: 10px;height: 70px;">
+                                        <t t-esc="doc.from_location"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black;text-align: center;padding-top: 10px;height: 70px;">
+                                        <t t-esc="doc.to_location"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 70px;font-size: 25px;">PORT OF EXPORT</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 70px;font-size: 25px;">PORT OF IMPORT</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="border: 1px solid black;text-align: center;padding-top: 10px;height: 70px">
+                                        <t t-esc="doc.source_location_id.name"/>
+                                    </td>
+                                    <td colspan="4" style="border: 1px solid black;text-align: center;padding-top: 10px;height: 70px">
+                                        <t t-esc="doc.destination_location_id.name"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div style="clear: both;"/>
+
+
+                        <!-- New section to display transport_ids details -->
+                        <t t-foreach="doc.transport_ids" t-as="line">
+                            <table style="width: 100%; border-collapse: collapse; collapse;border: 3px solid black; font-size: 25px;">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 60px;font-size: 25px;">Product</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;">Name</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;">Quantity</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;">Volume</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;">Gross Weight</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;">Net Weight</th>
+                                        <th colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;">Package</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;"><t t-esc="line.product_id.display_name"/></td>
+                                        <td colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;"><t t-esc="line.name"/></td>
+                                        <td colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;"><t t-esc="line.qty"/></td>
+                                        <td colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;"><t t-esc="line.volume"/></td>
+                                        <td colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;"><t t-esc="line.gross_weight"/></td>
+                                        <td colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;"><t t-esc="line.net_weight"/></td>
+                                        <td colspan="4" style="border: 1px solid black;text-align: center; white-space: pre-line;padding-top: 15px;height: 60px;font-size: 25px;"><t t-esc="line.package.name"/></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <div style="float: left; width: 50%;">
+                            <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px;">
+                                <tr style="margin-bottom: 10px;">
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 60px;font-size: 25px;">Carrier Signature and Stamp</th>
+                                </tr>
+                                <tr style="margin-bottom: 10px;">
+                                    <td colspan="4" style="border: 1px solid black;text-align: center;padding-top: 10px;width: 50px; height: 240px;">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="float: right; width: 50%;">
+                            <table style="width: 100%; border-collapse: collapse;collapse;border: 3px solid black; font-size: 25px;">
+                                <tr style="margin-bottom: 10px;">
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 60px;font-size: 25px;">Issued at: <t t-esc="doc.issued_at"/></th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 60px;font-size: 25px;">On: <t t-esc="doc.issued_on"/></th>
+                                </tr>
+                                <tr style="margin-bottom: 10px;">
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 60px;font-size: 25px;">Number Of B/L Issued</th>
+                                    <th colspan="4" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 60px;font-size: 25px;">Terms Of Carriage</th>
+                                </tr>
+                                <tr style="margin-bottom: 10px;">
+                                    <td colspan="4" style="border: 1px solid black;text-align: center;padding-top: 10px;width: 50px; height: 90px;"> <t t-esc="doc.issued_No"/></td>
+                                    <td colspan="4" style="border: 1px solid black;text-align: center;padding-top: 10px;width: 50px; height: 90px;"><t t-esc="doc.teems_carriage"/> </td>
+                                </tr>
+                                <tr style="margin-bottom: 10px;">
+                                    <th colspan="8" style="border: 1px solid black;text-align: center;padding-top: 15px;height: 60px;font-size: 25px;"> Above Details of Goods Declared by shipper</th>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                    </t>
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>

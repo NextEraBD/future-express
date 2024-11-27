@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <template id="report_letter_document">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <br/>
+                    <center>
+                        <h2 class="mt16">
+                            OFFER LETTER
+                        </h2>
+                    </center>
+                    <div class="row">
+                        <div class="col-8"/>
+                        <div class="col-3 mb4">
+                            Letter No: <span t-field="doc.letter_no"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <span t-field="doc.note"/>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_letter_forma">
+            <t t-call="web.html_container">
+                <t t-set="is_pro_forma" t-value="True"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="freight.report_letter_document"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_letter_guarantee" model="ir.actions.report">
+            <field name="name">Offer Letter</field>
+            <field name="model">letter.guarantee</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">freight.report_letter_forma</field>
+            <field name="report_file">freight.report_letter_forma</field>
+            <field name="print_report_name">(object.name)</field>
+            <field name="binding_model_id" ref="freight.model_letter_guarantee"/>
+            <field name="binding_type">report</field>
+        </record>
+
+<!--        <record id="action_report_letter_guarantee_freight" model="ir.actions.report">-->
+<!--            <field name="name">Offer Letter</field>-->
+<!--            <field name="model">letter.guarantee</field>-->
+<!--            <field name="report_type">qweb-pdf</field>-->
+<!--            <field name="report_name">freight.report_letter_forma</field>-->
+<!--            <field name="report_file">freight.report_letter_forma</field>-->
+<!--            <field name="res_id"></field>-->
+
+<!--            <field name="print_report_name">(object.name)</field>-->
+<!--            <field name="binding_model_id" ref="freight.model_freight_operation"/>-->
+<!--            <field name="binding_type">report</field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

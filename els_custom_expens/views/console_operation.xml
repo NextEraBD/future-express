@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_console_operation_form_inherit">
+            <field name="name">console.operation.form.inherit</field>
+            <field name="model">console.operation</field>
+            <field name="inherit_id" ref="els.view_console_operation_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="action_create_claim" type="object" string="Create Claim" class="btn-primary"/>
+                </header>
+
+                        <div class="oe_button_box" position="inside">
+
+                            <button class="oe_stat_button" name="action_viw_expenses"
+                                    type="object" icon="fa-money">
+                                <field name="expenses_counter" string="Expenses" widget="statinfo" icon="fa-usd"/>
+                            </button>
+                            <button class="oe_stat_button" name="action_viw_official"
+                                    type="object" icon="fa-money">
+                                <field name="official_counter" string="Official Receipt" widget="statinfo"
+                                       icon="fa-usd"/>
+                            </button>
+                            <button class="oe_stat_button" name="action_view_cov_lines"
+                                    type="object" icon="fa-money">
+                                <field name="cov_line_counter" string="E and O" widget="statinfo" icon="fa-usd"/>
+                            </button>
+                            <button class="oe_stat_button" name="action_view_claims"
+                                    type="object" icon="fa-money">
+                                <field name="claim_counter" string="Claims" widget="statinfo" icon="fa-usd"/>
+                            </button>
+                            <button class="oe_stat_button" name="action_view_entries"
+                                    type="object" icon="fa-money">
+                                <field name="entry_counter" string="Entries" widget="statinfo" icon="fa-usd"/>
+                            </button>
+                            <button class="oe_stat_button" name="action_view_event"
+                                    type="object" icon="fa-money">
+                                <field name="event_counter" string="Events" widget="statinfo" icon="fa-usd"/>
+                            </button>
+
+                        </div>
+                <field name="company_id" position="after">
+                    <field name="branch_id"/>
+                </field>
+                <notebook position="inside">
+                    <page string="Assignees" groups="freight.group_freight_manager">
+                                <group>
+                                    <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                                </group>
+                            </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

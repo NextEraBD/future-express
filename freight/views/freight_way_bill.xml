@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record model="ir.ui.view" id="view_freight_way_bill_form">
+            <field name="name">freight.way.bill.form</field>
+            <field name="model">freight.way.bill</field>
+            <field name="arch" type="xml">
+                <form string="Way Bill">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="operation_id"/>
+                                <field name="way_bill_type"/>
+                                <field name="housing"/>
+                                <field name="master"/>
+                                <field name="shipper_id"/>
+                                <field name="consignee_id"/>
+                                <field name="agent_id"/>
+                                <field name="customer_id"/>
+                                <field name="airline_id"/>
+                                <field name="commodity_item_no"/>
+                                <field name="currency_id"/>
+                                <field name="rate"/>
+                                <field name="total"/>
+                                <field name="currency_id"/>
+                                <field name="declared_value_for_carriage"/>
+                                <field name="declared_value_for_customs"/>
+                                <field name="insurance_amount"/>
+                                <field name="sci"/>
+                            </group>
+                            <group>
+                                <field name="pieces"/>
+                                <label for="net_weight" string="Net Weight"/>
+                                <div name="journal_div" class="d-flex">
+                                    <field name="net_weight" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="net_weight_type" options="{'no_create': True, 'no_open': True}"/>
+                                </div>
+                                <label for="weight" string="Gross Weight"/>
+                                <div name="journal_div" class="d-flex">
+                                    <field name="weight" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="weight_type" options="{'no_create': True, 'no_open': True}"/>
+                                </div>
+                                <label for="chargeable_weight" string="Chargeable Weight"/>
+                                <div name="journal_div" class="d-flex">
+                                    <field name="chargeable_weight" options="{'no_create': True, 'no_open': True}"/>
+                                </div>
+                                <field name="volume"/>
+                                <field name="obl"/>
+                                <field name="mawb_no"/>
+                                <field name="datetime"/>
+                                <field name="handling_info"/>
+                                <field name="date_formate"/>
+                                <field name="type"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Airport of Departure">
+                                <group>
+                                    <field name="source_location_id"/>
+                                    <field name="to_d1"/>
+                                    <field name="by_first_carrier"/>
+                                    <field name="to_d2"/>
+                                    <field name="by_d1"/>
+                                    <field name="to_d3"/>
+                                    <field name="by_d2"/>
+                                </group>
+                            </page>
+                            <page string="Airport of Destination">
+                                <group>
+                                    <field name="destination_location_id"/>
+                                    <field name="requested_flight"/>
+                                    <field name="requested_date"/>
+                                </group>
+                            </page>
+                            <page string="Charges">
+                                <group string="Prepaid">
+                                    <field name="prepaid_weight_charge"/>
+                                    <field name="prepaid_valuation_charge"/>
+                                    <field name="prepaid_tax"/>
+                                    <field name="total_prepaid_weight"/>
+
+                                </group>
+                                <group string="Collect">
+                                    <field name="collect_weight_charge"/>
+                                    <field name="collect_valuation_charge"/>
+                                    <field name="collect_tax"/>
+                                    <field name="total_collect_weight"/>
+
+                                </group>
+                                <group string="Other">
+                                    <field name="other_fuel"/>
+                                    <field name="other_admin"/>
+                                    <field name="other_handel"/>
+                                    <field name="total_other_charges"/>
+                                </group>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_way_bill_tree">
+            <field name="name">freight.way.bill.tree</field>
+            <field name="model">freight.way.bill</field>
+            <field name="arch" type="xml">
+                <tree string="Way Bill">
+                    <field name="operation_id"/>
+                        <field name="way_bill_type"/>
+                        <field name="shipper_id"/>
+                        <field name="housing"/>
+                        <field name="master"/>
+                        <field name="consignee_id" optional="hide"/>
+                        <field name="agent_id"/>
+                        <field name="customer_id"/>
+                        <field name="airline_id" optional="hide"/>
+                        <field name="flight_no" optional="hide"/>
+                        <field name="source_location_id"/>
+                        <field name="destination_location_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_freight_way_bill_action">
+            <field name="name">Bill Of Loading</field>
+            <field name="res_model">freight.way.bill</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Bil.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_way_bill" name="Bill Of Loading" parent="freight.freight_root"  sequence="6" action="freight.view_freight_way_bill_action"/>
+
+
+
+
+</odoo>

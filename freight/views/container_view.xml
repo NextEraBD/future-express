@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_freight_container_form">
+            <field name="name">freight.container.form</field>
+            <field name="model">freight.container</field>
+            <field name="arch" type="xml">
+                <form string="Container">
+                    <sheet>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <label for="standard_volume"/>
+                                <div name="standard_volume_div" class="d-flex">
+                                    <field name="standard_volume" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="volume_type"/>
+                                </div>
+                            </group>
+                            <group>
+                                <label for="standard_weight"/>
+                                <div name="standard_weight_div" class="d-flex">
+                                    <field name="standard_weight" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="weight_type"/>
+
+                                </div>
+                            </group>
+                            <group>
+                                <field name="teu"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Container No">
+                                <field name="container_no_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="operation_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_freight_container_tree">
+            <field name="name">freight.container.tree</field>
+            <field name="model">freight.container</field>
+            <field name="arch" type="xml">
+                <tree string="Container">
+                    <field name="name"/>
+                    <field name="standard_volume"/>
+                    <field name="standard_weight"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_freight_container_action">
+            <field name="name">Container Type</field>
+            <field name="res_model">freight.container</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new container.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Container Type" parent="freight.freight_configuration" id="menu_freight_container_id"
+                  action="view_freight_container_action" sequence="6"/>
+
+
+    </data>
+</odoo>

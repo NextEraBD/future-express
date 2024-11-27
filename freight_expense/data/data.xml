@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+<!--    event state type-->
+
+
+    <record model="event.state.type" id="event_state_type_freight">
+        <field name="name">freight</field>
+    </record>
+    <record model="event.state.type" id="event_state_type_clearance">
+        <field name="name">clearance</field>
+    </record>
+    <record model="event.state.type" id="event_state_type_transportation">
+        <field name="name">transportation</field>
+    </record>
+    <record model="event.state.type" id="event_state_type_transit">
+        <field name="name">transit</field>
+    </record>
+    <record model="event.state.type" id="event_state_type_warehousing">
+        <field name="name">warehousing</field>
+    </record>
+<!--    -->
+
+    <record model="els.event.state" id="els_event_state_comment">
+        <field name="name">Comment</field>
+    </record>
+    <record model="els.event.state" id="els_event_state_receive">
+        <field name="name">استلام اصل اذن الافراج</field>
+    </record>
+    <record model="els.event.state" id="els_event_state_done">
+        <field name="name">Done</field>
+    </record>
+<!--Cron Send notification To Accounting approve-->
+    <record model="ir.cron" id="daily_update_notification_cron_action">
+            <field name="name">Cover Letter : Account Approve</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_hr_cover_letter"/>
+            <field name="state">code</field>
+            <field name="code">model.daily_update_notification_cron()</field>
+    </record>
+
+</odoo>

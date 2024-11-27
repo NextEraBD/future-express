@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ir_seq_lead" model="ir.sequence">
+            <field name="name">Lead Sequence</field>
+            <field name="code">crm.lead</field>
+            <field name="prefix">OPP</field>
+            <field name="company_id" eval="False"/>
+            <field name="padding">6</field>
+        </record>
+
+         <record id="ir_seq_lead_els" model="ir.sequence">
+            <field name="name">Lead Sequence</field>
+            <field name="code">crm.lead.els</field>
+            <field name="prefix">OPP</field>
+<!--            <field name="company_id">1</field>-->
+            <field name="padding">6</field>
+        </record>
+
+        <record id="ir_seq_lead_etal" model="ir.sequence">
+            <field name="name">Lead Sequence Etal</field>
+            <field name="code">crm.lead.etal</field>
+            <field name="prefix">OPP</field>
+<!--            <field name="company_id">2</field>-->
+            <field name="padding">6</field>
+        </record>
+
+    </data>
+</odoo>

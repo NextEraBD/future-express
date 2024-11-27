@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="custody_custody_wizard_view_form" model="ir.ui.view">
+            <field name="name">custody.custody.wizard.form</field>
+            <field name="model">custody.custody.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Entry">
+                    <sheet>
+                        <group>
+                            <field name="journal_id" />
+<!--                            <field name="branch_id" />-->
+                            <field name="custody_id" invisible="1" />
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Pay' name="create_entry" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Expenses -->
+<!--        <record id="register_invoice_wizard_action" model="ir.actions.act_window">-->
+<!--            <field name="name">Customer Invoice</field>-->
+<!--            <field name="res_model">register.invoice</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="view_id" ref="register_invoice_view_form"/>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
+
+<!--        <record id="register_invoice_wizard_action_invoice" model="ir.actions.act_window">-->
+<!--            <field name="name">Customer Invoice</field>-->
+<!--            <field name="res_model">register.invoice</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="target">new</field>-->
+<!--            <field name="binding_model_id" ref="model_freight_service"/>-->
+<!--            <field name="binding_view_types">list</field>-->
+<!--            <field name="context">{'default_invoice_type':'customer'}</field>-->
+<!--        </record>-->
+
+<!--        <record id="register_invoice_wizard_action_vendor_invoice" model="ir.actions.act_window">-->
+<!--            <field name="name">Vendor Invoice</field>-->
+<!--            <field name="res_model">register.invoice</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="target">new</field>-->
+<!--            <field name="binding_model_id" ref="model_freight_service"/>-->
+<!--            <field name="binding_view_types">list</field>-->
+<!--            <field name="context">{'default_invoice_type':'vendor'}</field>-->
+<!--        </record>-->
+    </data>
+</odoo>

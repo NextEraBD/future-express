@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="delivery_order_document_header">
+            <div>
+                <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
+                <div class="row">
+                    <div class="col-6">
+                        <div style="font-size:35px;font-weight:bold">Delivery Order</div>
+                    </div>
+                    <div class="col-6">
+                        <div style="font-size:35px;font-weight:bold;float:right;text-align:right">إذن تسليم</div>
+                    </div>
+                </div>
+                <br/><br/><br/><br/><br/>
+<!--                <div class="row">-->
+<!--                    <div class="col-6"><div style="font-size:18px;">Egyptian Transport &amp; Commercial Services CO. S.A.E.</div></div>-->
+<!--                    <div class="col-6"><div style="font-size:18px;float:right;text-align:right">الشركة المصرية لخدمات النقل و التجارة ش.م.م</div></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="clo-6"><div style="font-size:18px">Integrated Global Transport Services &amp; Solution</div></div>-->
+<!--                    <div class="clo-6"><div style="font-size:18px;float:right;text-align:right">خدمات وحلول النقل المتكامل عالميا</div></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6"><div style="font-size:18px">Commercial Registry:16974 Port Said</div></div>-->
+<!--                    <div class="col-6"><div style="font-size:18px;float:right;text-align:right">سجل تجارى ورسعيد  16974</div></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6"><div style="font-size:18px">International Export Center, Cairo Airport, Office No. 101, Cairo 11776,</div></div>-->
+<!--                    <div class="col-6"><div style="font-size:18px;float:right;text-align:right">مطار القاهرة الدولى</div></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6"><div style="font-size:18px">Egypt</div></div>-->
+<!--                    <div class="col-6"><div style="font-size:18px;float:right;text-align:right">مصر</div></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6"><div style="font-size:18px">Telephone: +202-22670689</div></div>-->
+<!--                    <div class="col-6"><div style="font-size:18px;float:right;text-align:right"> تليفون : +202-22670689</div></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6"><div style="font-size:18px">Fax: +202-22671470</div></div>-->
+<!--                    <div class="col-6"><div style="font-size:18px;float:right;text-align:right"> فاكس : +202-22671470</div></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6"><div style="font-size:18px">Email: cairo.airport@egytrans.com</div></div>-->
+<!--                    <div class="col-6"><div style="font-size:18px;float:right;text-align:right">cairo.airport@egytrans.com : البريد الإلكتروني</div></div>-->
+<!--                </div>-->
+<!--                <div style="font-size:18px" class="text-center">0656 رقم</div>-->
+                <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
+            </div>
+
+        </template>
+
+        <template id="report_delivery_order_document">
+            <t t-call="web.basic_layout">
+                <header>
+                    <t t-call="freight.delivery_order_document_header"/>
+                </header>
+
+                <div class="page" style="position: relative;">
+                    <div class="oe_structure"/>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col">
+                            <div style="float:right;text-align:right;font-size:20px">
+                                <span style="float:right;text-align:right;font-size:20px"> : رقم العمليه</span>
+                                <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.name"/></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col">
+                            <div style="float:right;text-align:right;font-size:20px">
+                                <span style="float:right;text-align:right;font-size:20px"> : التاريخ</span>
+                                <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.datetime"/> </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col">
+                            <div style="float:right;text-align:right;font-size:20px">
+                                <span style="float:right;text-align:right;font-size:20px">الى السيد / مخازن قريه البضائع </span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col">
+                            <div style="float:right;text-align:right;font-size:20px">
+                                <span style="float:right;text-align:right;font-size:20px">: الرجاء تسليم الساده</span>
+                                <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.customer_id.name"/></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">: رحله رقم </span>
+                            <t t-foreach="doc.flight_no" t-as="flight">
+                                <span style="float:right;text-align:right;font-size:20px"><t t-esc="flight.name"/>,</span>
+                            </t>
+                        </div>
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">: البضائع المذكوره ادناه الوارده على </span>
+                            <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.destination_location_id.name"/></span>
+
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">: تاريخ التخزين </span>
+                            <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.datetime"/></span>
+                        </div>
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">: رقم الطريق </span>
+                            <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.way_no"/></span>
+
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">/ بوليصه فرعية رقم </span>
+                            <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.housing"/></span>
+                        </div>
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">/ بموجب بوليصه كلية رقم </span>
+                            <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.master"/></span>
+
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">/ الوزن الفعلى </span>
+                            <span style="float:right;text-align:right;font-size:20px"><t t-esc="doc.weight"/></span>
+                        </div>
+                        <div class="col-6">
+                            <span style="float:right;text-align:right;font-size:20px">/ عدد الطرود </span>
+                            <span style="float:right;text-align:right;font-size:20px">طرد<t t-esc="doc.pieces"/></span>
+
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div style="float:right;text-align:right;font-size:20px"> : ملاحظات </div>
+<!--                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>-->
+
+<!--                    <div class="row" style="position: relative;">-->
+<!--                        <div class="col-5" style="position: absolute;left: 0;">-->
+<!--                            <div style="font-size:20px" class="row">شركه ايجيترانس</div>-->
+<!--                            <div style="font-size:20px" class="row">EGYTRANS</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-5" style="position: absolute;left: 50%;transform: translateX(-50%)">-->
+<!--                            <div style="font-size:20px">ختم</div>-->
+<!--                            <div style="font-size:20px">Stamp</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-2" style="position: absolute;right: 0;margin-left:400px">-->
+<!--                            <div class="row" style="font-size:20px">توقيع</div>-->
+<!--                            <div class="row" style="font-size:20px">Signature</div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+
+                    <footer style="position: absolute;bottom: 0;">
+                        <hr style="height:2px;border-width:0;color:gray;background-color:gray"></hr>
+                        <div class="row mt32 mb32" id="sale">
+                           <div class="col-auto mw-100 mb-2">
+                              <p style="font-size:20px" >
+                                  ALL BUSINESS IS TRANSACTED ACCORDING TO THE COMPANY'S STANDARD TRADING CONDITIONS-COPY AVAILABLE UPON REQUEST .
+                              </p>
+
+                            </div>
+                        </div>
+                    </footer>
+                     <p style="page-break-after:always;"/>
+                </div>
+
+            </t>
+        </template>
+
+        <template id="report_delivery_order">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="freight.report_delivery_order_document"/>
+                </t>
+
+        </template>
+
+        <record id="action_report_delivery_order" model="ir.actions.report">
+            <field name="name">Delivery Order</field>
+            <field name="model">freight.operation</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">freight.report_delivery_order</field>
+            <field name="report_file">freight.report_delivery_order</field>
+            <field name="print_report_name">'Delivery Order'</field>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

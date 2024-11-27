@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="expense_header_66">
+            <div>
+                <div style="width:50%;float:left">
+                    <div class="col-4 text-center">
+                        <img src="/freight/static/images/icon.png" alt="Logo" style="width:150px; height:50;"/>
+                    </div>
+                    <span class="mb-5">FOR FREE ZONE SERVICE</span>
+                    <br/>
+                    <span class="mb-5">instead Co. Under Sec 72/17</span>
+                    <br/>
+                    <span class="mb-5">Port Said Public Free Zone</span>
+                </div>
+
+                <div style="width:50%;float:right;text-align:right">
+                    <div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <span class="pt-5 mt-5">ايجيترانس لخدمات و حلول النقل المتكامل عالميا</span>
+                        <br/>
+                        <span class="pt-5 mt-5">سجل تجاري بورسعيد 16974</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="report_way_bill_forma">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <t t-call="freight.expense_header_66"/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                <div class="page" style="font-family: &quot;Times New Roman&quot;, serif;">
+                  <font style="font-family: 'GEDinkum-Medium', 'serif';font-size: 13px;">
+                    <br/>
+                    <br/>
+                    <br/>
+                <p class="western" align="center">
+                    <font style="font-size: 16pt;">
+                       Way Bill No.<span t-field="doc.name"/> بوصيلة توصيل
+                    </font>
+                 </p>
+
+                    <br></br>
+                    <table class="table table-sm table-condensed"
+                                   style="border:1px solid gray; width:100%;">
+                            <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray;width:20%;border:0px;font-size: 13px;">
+                                    <span>Vehicle License No.</span>
+                                </td>
+                                  <td style="border:0px;text-align:center">
+
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.vehicle_no"/>
+                                </td>
+                                <td style="width:15%;border-left:0px">
+                                    <span>
+                                        <font style="font-family:'serif';">:رقم السيارة</font>
+                                    </span>
+                                </td>
+                                <td style="border:1px solid gray;width:20%;border:0px;font-size: 13px;">
+                                    <span>Name of Vessel:</span>
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.vessel_id.name"/>
+                                </td>
+                                <td style="width:15%;border:0px">
+                                    <span style="float:right">
+                                        <font style="font-family:'serif';">:اسم الباخرة</font>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr style="border:1px solid gray;">
+                            <td style="width:15%;border:0px;text-align:center">
+
+                                </td>
+                                <td style="border:1px solid gray;width:20%;border:0px">
+                                    <span>التوقيع</span>
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.deriver_id.name"/>
+                                </td>
+                                <td style="width:15%;border-left:0px">
+                                    <span>
+                                        <font style="font-family:'serif';">:اسم السائق</font>
+                                    </span>
+                                </td>
+                                <td style="border:1px solid gray;width:20%;border:0px;font-size: 13px;">
+                                    <span>Bill of Lading No:</span>
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.name"/>
+                                </td>
+                                <td style="width:15%;border:0px">
+                                    <span style="float:right">
+                                        <font style="font-family:'serif';">:رقم البوليصة</font>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr style="border:1px solid gray;">
+                            <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.created_from"/>
+                                </td>
+                                <td style="border:1px solid gray;width:20%;border:0px">
+                                    <span>جهة الاصدار</span>
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.card_no"/>
+                                </td>
+                                <td style="width:15%;border-left:0px">
+                                    <span>
+                                        <font style="font-family:'serif';">:بطاقة رقم</font>
+                                    </span>
+                                </td>
+                                <td style="border:1px solid gray;width:20%;border:0px;font-size: 13px;">
+                                    <span>Operation No:</span>
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.shipment_id.name"/>
+                                </td>
+                                <td style="width:15%;border:0px">
+                                    <span style="float:right">
+                                        <font style="font-family:'serif';">:رقم العملية</font>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="border:1px solid gray;">
+                            <td style="width:15%;border:0px;text-align:center">
+
+                                </td>
+                                <td style="border:1px solid gray;width:20%;border:0px">
+                                    <span>التوقيع</span>
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.creator.name"/>
+                                </td>
+                                <td style="width:15%;border-left:0px">
+                                    <span>
+                                        <font style="font-family:'serif';">:اسم محرر البوليصة</font>
+                                    </span>
+                                </td>
+                                <td style="border:1px solid gray;width:20%;border:0px;font-size: 13px;">
+                                    <span>Shipment No:</span>
+                                </td>
+                                <td style="width:15%;border:0px;text-align:center">
+                                    <span style="text-align:center" t-field="doc.shipment_id.name"/>
+                                </td>
+                                <td style="width:15%;border:0px">
+                                    <span style="float:right">
+                                        <font style="font-family:'serif';">:رقم الشحنة</font>
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="2">
+                                    <span>Time/Date of Departure:</span>
+                                </td>
+
+                                <td style="border:0px;text-align:center" colspan="2">
+                                    <span style="text-align:center"  t-field="doc.date"/>
+                                </td>
+                                <td style="border:0px;text-align:center">
+
+                                </td>
+
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';">وقت و تاريخ المغادرة</font></span>
+                                </td>
+
+                            </tr>
+                        <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="3">
+                                    <span>Kindly confirm receipt under mentioned consignment:</span>
+                                </td>
+
+                                <td style="border:0px;text-align:center">
+
+                                        </td>
+                            <td style="border:1px" colspan="3">
+                                    <span style="float:right"><font style="font-family:'serif';">:نرجو من سيادتكم استلام البضاعة الواردة الموضحة ادناه</font></span>
+                                </td>
+                            <tr>
+                                <td style="border:0px;font-size: 13px;"  colspan="3">
+                                    <span>From EGYTrans to:</span>
+                                </td>
+                                     <td style="border:0px;text-align:center">
+                                         <span style="text-align:center"  t-field="doc.shipment_id.customer_id.name"/>
+                                        </td>
+
+                                <td style="border:0px;"  colspan="3">
+                                    <span style="float:right"><font style="font-family:'serif';">:من شركة ايجيترانس الي</font></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:0px; solid gray;font-size: 13px;" colspan="3">
+                                    <span>Customer Address:</span>
+                                </td>
+                                     <td style="border:0px;text-align:center">
+                                              <span style="text-align:center"  t-field="doc.shipment_id.customer_id.contact_address"/>
+
+                                        </td>
+
+                                <td style="border:0px;" colspan="3">
+                                    <span style="float:right"><font style="font-family:'serif';">:عنوان العميل</font></span>
+                                </td>
+                            </tr>
+                        </tr>
+                    </table>
+                       <table class="table table-sm table-condensed" name="account_lines_table"
+                                   style="border:1px solid gray; width:100%; margin-top: 30px">
+                                <thead>
+                                    <tr style="border:1px solid gray;">
+                                        <td style="border:1px solid gray;" class="text-right" colspan="2">
+                                            <strong><font style="font-family:'serif';">ملاحظات ايجيترانس</font></strong>
+                                            <br/>
+                                               <strong> Egytrans Notes </strong>
+                                        </td>
+                                        <td style="border:1px solid gray;" class="text-right">
+                                            <strong><font style="font-family:'serif';">الطن النوني</font></strong>
+                                            <br/>
+                                            <strong>M3</strong>
+                                        </td>
+                                        <td style="border:1px solid gray;" class="text-right">
+                                            <strong><font style="font-family:'serif';">الوزن</font></strong>
+                                            <br/>
+                                            <strong>Weight</strong>
+                                        </td>
+                                        <td style="border:1px solid gray; " class="text-right">
+                                            <strong><font style="font-family:'serif';">العدد</font></strong>
+                                            <br/>
+                                            <strong>Quantity</strong>
+                                        </td>
+                                        <td style="border:1px solid gray;" class="text-right" colspan="3">
+                                            <strong><font style="font-family:'serif';">نوع الحمولة </font></strong>
+                                            <br/>
+                                            <strong>Kind of consignment</strong>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <t t-foreach="doc.transport_ids" t-as="line">
+                                    <tr>
+                                       <td class="text-center" colspan="2"><span style="text-align:center" t-field="line.name"/></td>
+                                       <td class="text-center"><span style="text-align:center" t-field="line.volume"/></td>
+                                       <td class="text-center"><span style="text-align:center" t-field="line.gross_weight"/></td>
+                                       <td class="text-center"> <span style="text-align:center" t-field="line.qty"/></td>
+                                       <td class="text-center" colspan="3"> <span style="text-align:center" t-field="line.package.name"/></td>
+                                   </tr>
+                                </t>
+                                </tbody>
+                       </table>
+                      <table class="table table-sm table-condensed" name="account_lines_table"
+                                   style="border:1px solid gray; width:100%; margin-top: 30px">
+                                <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="3">
+                                    <span>Customer Notes:</span>
+                                </td>
+
+                                <td style="border:0px;text-align:center" colspan="2">
+                                    <span style="text-align:center"  t-field="doc.note"/>
+                                </td>
+                                <td style="border:0px;text-align:center" >
+                                </td>
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';">ملاحظات العميل</font></span>
+                                </td>
+                            </tr>
+                           <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="2">
+                                    <span>Date of arrival to site:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" >
+                                    <span style="text-align:center"  t-field="doc.expected_arrival_date"/>
+                                </td>
+                                <td style="border:0px;text-align:center">
+                                    <span>تاريخ الوصول</span>
+                                </td>
+
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';font-size: 13px;">Time of arrival to site</font></span>
+                                </td>
+                                <td style="border:0px;text-align:center" >
+                                    <span style="text-align:center"  t-field="doc.expected_arrival_hour"/>
+                                </td>
+                                <td style="border:0px;text-align:center">
+                                    <span>ساعة الوصول للموقع</span>
+                                </td>
+                            </tr>
+                           <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="2">
+                                    <span>Date of departure from site:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" >
+                                    <span style="text-align:center"  t-field="doc.expected_departure_date"/>
+                                </td>
+                                <td style="border:0px;text-align:center">
+                                    <span>تاريخ المغادرة</span>
+                                </td>
+
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';font-size: 13px;">Time departure from  site</font></span>
+                                </td>
+                                <td style="border:0px;text-align:center" >
+                                    <span style="text-align:center"  t-field="doc.expected_departure_hour"/>
+                                </td>
+                                <td style="border:0px;text-align:center">
+                                    <span>ساعة المغادرة للموقع</span>
+                                </td>
+                            </tr>
+                            <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="2">
+                                    <span>Reason of delay if any:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="4">
+                                      <span style="text-align:center"  t-field="doc.delay_reason"/>
+                                </td>
+
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';">اسباب التأخير ان وجدت</font></span>
+                                </td>
+                            </tr>
+                           <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="2">
+                                    <span>Receiver signature at site:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';">توقيع مستلم البضاعة</font></span>
+                                </td>
+                            </tr>
+                           <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px" colspan="2">
+                                    <span>Name:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';">الاسم بالكامل</font></span>
+                                </td>
+                            </tr>
+                           <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="3">
+                                    <span>Position:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" >
+                                </td>
+                                <td style="border:0px;text-align:center" >
+                                </td>
+                                <td style="border:1px" colspan="3">
+                                    <span style="float:right"><font style="font-family:'serif';">الوظيفة</font></span>
+                                </td>
+                            </tr>
+                            <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px" colspan="2">
+                                    <span>Date:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';">التاريخ</font></span>
+                                </td>
+                            </tr>
+                           <tr style="border:1px solid gray;">
+                                <td style="border:1px solid gray; border:1px;font-size: 13px;" colspan="2">
+                                    <span>Customer Stamp:</span>
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:0px;text-align:center" colspan="2">
+                                </td>
+                                <td style="border:1px" colspan="2">
+                                    <span style="float:right"><font style="font-family:'serif';">ختم العميل</font></span>
+                                </td>
+                            </tr>
+
+                            </table>
+
+                  </font>
+                </div>
+            </t>
+            </t>
+            </t>
+        </template>
+
+
+
+<!--        <record id="action_report_els_way_bill" model="ir.actions.report">-->
+<!--            <field name="name">Way Bill</field>-->
+<!--            <field name="model">way.bill</field>-->
+<!--            <field name="report_type">qweb-pdf</field>-->
+<!--            <field name="report_name">freight.report_way_bill_forma</field>-->
+<!--            <field name="report_file">freight.report_way_bill_forma</field>-->
+<!--            <field name="print_report_name">(object.name)</field>-->
+<!--            <field name="binding_model_id" ref="freight.model_way_bill"/>-->
+<!--            <field name="binding_type">report</field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>

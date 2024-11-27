@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!-- meeting purpose action and menu......................-->
+        <menuitem id="menu_meetings_config"
+                  name="Meeting Config"
+                  parent="crm.crm_menu_config"
+                  sequence="104"/>
+
+        <!--      actions-->
+        <record id="action_meeting_purpose" model="ir.actions.act_window">
+            <field name="name">Meeting Purpose</field>
+            <field name="res_model">meeting.purpose</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to create a new meeting Purpose.
+                </p>
+            </field>
+        </record>
+        <!--      Menus-->
+        <menuitem id="menu_meeting_purpose"
+                  name="Meeting Purpose"
+                  parent="menu_meetings_config"
+                  action="action_meeting_purpose"
+                  sequence="100"/>
+<!-- meeting result action and menu......................-->
+<record id="action_meeting_result" model="ir.actions.act_window">
+            <field name="name">Meeting Result</field>
+            <field name="res_model">meeting.result</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to create a new meeting Result.
+                </p>
+            </field>
+        </record>
+        <!--      Menus-->
+
+
+        <menuitem id="menu_meeting_result"
+                  name="Meeting Result"
+                  action="action_meeting_result"
+                  parent="menu_meetings_config"
+                  sequence="100"/>
+
+ </data>
+</odoo>

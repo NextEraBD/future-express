@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--	companies-->
+	<record model="ir.module.category" id="freight_expense.module_category_cover_letter">
+        <field name="name">Cover Letter</field>
+        <field name="sequence">100</field>
+    </record>
+
+
+	<record id="group_cover_letter_user" model="res.groups">
+		<field name="name">User</field>
+		<field name="category_id" ref="freight_expense.module_category_cover_letter" />
+	</record>
+
+	<record id="group_cover_letter_manager" model="res.groups">
+		<field name="name">Manager</field>
+		<field name="category_id" ref="freight_expense.module_category_cover_letter" />
+	</record>
+
+<!--	end-->
+
+
+</odoo>
