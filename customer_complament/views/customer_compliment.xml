@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Define the view for 'complaint' tree view -->
+        <record id="view_complaint_tree" model="ir.ui.view">
+            <field name="name">complaint.tree</field>
+            <field name="model">customer.compliment</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <field name="number_of_operations"/>
+                    <field name="police"/>
+                    <!-- Add more fields as per your requirements -->
+                </tree>
+            </field>
+        </record>
+        <record id="view_customer_compliment_kanban" model="ir.ui.view">
+            <field name="name">customer.compliment.kanban</field>
+            <field name="model">customer.compliment</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id">
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <field name="description"/>
+                    <field name="stage_id"/>
+                    <field name="color"/> <!-- Ensure color field is included -->
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{record.color.raw_value or 0} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+                                        <li>
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong><field name="name"/></strong>
+                                    <div><field name="customer_id"/></div>
+                                    <div><field name="description"/></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- Define the form view for 'complaint' -->
+        <record id="view_complaint_form" model="ir.ui.view">
+            <field name="name">complaint.form</field>
+            <field name="model">customer.compliment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="action_view_tickets"
+                                    type="object" icon="fa-ticket">
+                                <field name="ticket_count" string="Tickets" widget="statinfo" icon="fa-ticket"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <!-- Main Details and Complaint Details groups -->
+                        <group>
+                            <!-- Main Details -->
+                            <group string="Main Details">
+                                <field name="user_id" required="1"/>
+                                <field name="customer_id" required="1"/>
+                                <field name="complaint_type_id"/>
+                                <field name="date_created"/>
+                                <field name="dead_line"/>
+                            </group>
+                            <!-- Complaint Details -->
+                            <group string="Complaint Details">
+                                <field name="description" required="1"/>
+                                <field name="feedback"/>
+                                <field name="police"/>
+                                <field name="number_of_operations"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids" widget="mail_activity" options="{'model': 'customer.ticket'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Define the action for 'complaint' -->
+        <record id="action_complaint" model="ir.actions.act_window">
+            <field name="name">Complaints</field>
+            <field name="res_model">customer.compliment</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new complaint.
+                </p>
+            </field>
+            <field name="view_id" ref="view_customer_compliment_kanban"/>
+        </record>
+
+        <menuitem name="Customer Compliments" id="menu_customer_compliment"
+                  web_icon="customer_complament,static/img/complement.png" sequence="20" action="customer_complament.action_complaint"/>
+
+        <record id="action_complaint_type" model="ir.actions.act_window">
+            <field name="name">Complaints Type</field>
+            <field name="res_model">compliment.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new complaint Type.
+                </p>
+            </field>
+            <field name="view_id" ref="customer_complament.view_complaint_type_tree"/>
+        </record>
+
+
+        <!--   search -->
+        <record id="view_compliment_search" model="ir.ui.view">
+            <field name="name">customer.compliment.search</field>
+            <field name="model">customer.compliment</field>
+            <field name="arch" type="xml">
+                <search string="Customer Compliment ">
+                    <field name="customer_id" />
+                    <field name="number_of_operations"/>
+                    <field name="police"/>
+                </search>
+            </field>
+        </record>
+        <!-- Compliment Stage Action -->
+        <record id="action_compliment_stage" model="ir.actions.act_window">
+            <field name="name">Compliment Stages</field>
+            <field name="res_model">compliment.stage</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Define the menu item for 'Complaints' -->
+        <menuitem id="menu_complaint" name="Complaints" parent="customer_complament.menu_customer_compliment" action="action_complaint" sequence="1"/>
+        <menuitem id="menu_complaint_configuration" name="Configuration" parent="customer_complament.menu_customer_compliment"  sequence="10"/>
+        <menuitem id="menu_complaint_type" name="Complaints Typs" parent="customer_complament.menu_complaint_configuration" action="action_complaint_type" sequence="11"/>
+        <menuitem id="menu_country_partner_inherit"
+                  action="base.action_country" parent="freight.freight_configuration"
+                  name="Country"
+                  sequence="3"/>
+        <menuitem id="menu_country_inherit"
+                  action="base.action_country_state"
+                  name="State" parent="freight.freight_configuration"
+                  sequence="3"/>
+        <menuitem id="menu_compliment_stage" name="Compliment Stages" parent="menu_complaint_configuration" action="action_compliment_stage"/>
+
+
+
+    </data>
+</odoo>

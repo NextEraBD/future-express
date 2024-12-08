@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="freight_operation_inherited_view_compliment" model="ir.ui.view">
+        <field name="name">freight.operation.complimen.form</field>
+        <field name="model">freight.operation</field>
+        <field name="inherit_id" ref="freight.view_freight_operation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" name="action_view_compliments" type="object" icon="fa-money">
+                    <field name="compliment_count" string="Compliment" widget="statinfo" icon="fa-usd"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

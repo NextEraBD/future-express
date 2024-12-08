@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_customer_compliment,customer.compliment,model_customer_compliment,,1,1,1,1
+access_customer_ticket,customer.ticket,model_customer_ticket,,1,1,1,1
+access_compliment_type,compliment.type,model_compliment_type,,1,1,1,1
+access_operation_task_wizard,operation.task.wizard,model_operation_task_wizard,base.group_user,1,1,1,1
+access_ticket_approval_wizard,ticket.approval.wizard,model_ticket_approval_wizard,base.group_user,1,1,1,1
