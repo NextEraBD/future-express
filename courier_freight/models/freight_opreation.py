@@ -50,7 +50,7 @@ class FreightOperation(models.Model):
     customer_id = fields.Many2one('res.partner', string='Customer', readonly=False)
     address = fields.Text(string='Address',)
     tax_id = fields.Char(string='Tax ID',related="customer_id.vat")
-    account_number = fields.Char(string='Account Number',related="customer_id.unique_id")
+    account_number = fields.Char(string='Account Number')
     phone = fields.Char(string='Phone',related="customer_id.phone")
     email = fields.Char(string='Email',related="customer_id.email")
     account_number_wb = fields.Char(string='AWB')

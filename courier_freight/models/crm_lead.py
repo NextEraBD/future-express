@@ -21,7 +21,7 @@ class Lead(models.Model):
             if rec.partner_id:
                 rec.address = rec.partner_id.contact_address
                 rec.tax_id = rec.partner_id.vat
-                rec.account_number = rec.partner_id.unique_id
+                # rec.account_number = rec.partner_id.unique_id
             else:
                 rec.address = False
                 rec.tax_id = False
@@ -32,7 +32,7 @@ class Lead(models.Model):
         if self.partner_id:
             self.address = self.partner_id.contact_address
             self.tax_id = self.partner_id.vat
-            self.account_number = self.partner_id.unique_id
+            # self.account_number = self.partner_id.unique_id
         else:
             self.address = False
             self.tax_id = False
