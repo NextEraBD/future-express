@@ -9,10 +9,6 @@
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_schedule_meeting']" position="after">
-                    <!--                    <button class="oe_stat_button" name="action_view_sale_quotation_custom"-->
-                    <!--                            type="object" icon="fa-pencil-square-o" attrs="{'invisible': [('type', '=', 'lead')]}">-->
-                    <!--                        <field name="sale_order_count" string="Quotation_" widget="statinfo" icon="fa-usd"/>-->
-                    <!--                    </button>-->
                     <button name="action_view_online_payments" type="object" class="oe_stat_button"
                             icon="fa-pencil-square-o" string="Online Payments"
                             attrs="{'invisible': [('local_type', '!=', 'online')]}">
@@ -152,9 +148,9 @@
                         <field name="receiver_town" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
                     </group>
                 </xpath>
-<!--                <xpath expr="//page[@name='containers']" position="attributes">-->
-<!--                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>-->
-<!--                </xpath>-->
+                <!--                <xpath expr="//page[@name='containers']" position="attributes">-->
+                <!--                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>-->
+                <!--                </xpath>-->
                 <xpath expr="//button[@name='action_open_create_rfq']" position="attributes">
                     <attribute name="attrs">{'invisible': [('cruise_type', '!=', 'international')]}</attribute>
                 </xpath>
@@ -252,22 +248,22 @@
                     <field name="source" optioal="hide"/>
                     <field name="destination" optioal="hide"/>
                     <field name="services_amount" optional="hide"/>
-<!--                    <field name="taxes" optional="hide"/>-->
+                    <!--                    <field name="taxes" optional="hide"/>-->
                     <field name="services" widget="many2many_tags" optioal="hide"/>
                     <field name="local_tax" widget="many2many_tags" optioal="hide"/>
                 </xpath>
             </field>
         </record>
         <record id="freight_sale_order_search_view_inherit" model="ir.ui.view">
-			<field name="name">sale.order.search.view.inherit</field>
-			<field name="model">sale.order</field>
-			<field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
-			<field name="arch" type="xml">
-				<xpath expr="//search" position="inside">
+            <field name="name">sale.order.search.view.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
                     <field name="account_number_wb" required="1"/>
-				</xpath>
-			</field>
-		</record>
+                </xpath>
+            </field>
+        </record>
         <record id="action_create_statement" model="ir.actions.act_window">
             <field name="name">Create Statement</field>
             <field name="res_model">sale.advance.payment.inv</field>
@@ -322,6 +318,23 @@
                         <strong>Account Number WB:</strong> <field name="account_number_wb" />
                     </div>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="crm_case_freight_view_courier" model="ir.ui.view">
+            <field name="name">crm.lead.tree.opportunity.inherit.courier</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_create_multiple_so" type="object" class="btn-primary"
+                            string="Create Quotation(s)" />
+                    <button name="action_create_multiple_rfq" type="object" class="btn-primary"
+                            string="Create RFQ(s)" />
+                </xpath>
+                <field name="name" position="after">
+                    <field name="account_number_wb" optional="hide"/>
+                </field>
             </field>
         </record>
     </data>

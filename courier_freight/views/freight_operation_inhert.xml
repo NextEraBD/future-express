@@ -346,26 +346,32 @@
             </field>
         </record>
 
-         <record id="view_freight_operation_activity_tree_inherited" model="ir.ui.view">
-        <field name="name">freight.operation.activity.tree.inherited</field>
-        <field name="model">freight.operation</field>
-        <field name="inherit_id" ref="freight.view_freight_operation_activity_tree"/>
-        <field name="arch" type="xml">
-            <!-- Example modification or addition -->
-            <xpath expr="//tree//field[@name='customer_id']" position="after">
-                <field name="account_number" optional="show"/>
-                <field name="phone" optional="show"/>
-            </xpath>
+        <record id="view_freight_operation_activity_tree_inherited" model="ir.ui.view">
+            <field name="name">freight.operation.activity.tree.inherited</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_activity_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_create_multiple_so" type="object" class="btn-primary"
+                            string="Create Quotation(s)" />
+                    <button name="action_create_multiple_rfq" type="object" class="btn-primary"
+                            string="Create RFQ(s)" />
+                </xpath>
+                <!-- Example modification or addition -->
+                <xpath expr="//tree//field[@name='customer_id']" position="after">
+                    <field name="account_number" optional="show"/>
+                    <field name="phone" optional="show"/>
+                </xpath>
 
-            <xpath expr="//tree" position="inside">
-                <field name="account_number_wb"/>
-                <field name="date_assign" optional="show"/>
-                <field name="sender_state_id" optional="hide"/>
-                <field name="receiver_state_id" optional="hide"/>
-                <field name="branch_id" optional="hide"/>
-            </xpath>
-        </field>
-    </record>
+                <xpath expr="//tree" position="inside">
+                    <field name="account_number_wb"/>
+                    <field name="date_assign" optional="show"/>
+                    <field name="sender_state_id" optional="hide"/>
+                    <field name="receiver_state_id" optional="hide"/>
+                    <field name="branch_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
 
         <record id="view_freight_operation_filter" model="ir.ui.view">
             <field name="name">freight.operation.view.search</field>

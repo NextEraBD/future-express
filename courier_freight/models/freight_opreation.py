@@ -53,23 +53,6 @@ class FreightOperation(models.Model):
     account_number = fields.Char(string='Account Number',related="customer_id.unique_id")
     phone = fields.Char(string='Phone',related="customer_id.phone")
     email = fields.Char(string='Email',related="customer_id.email")
-
-    # @api.onchange('customer_id')
-    # def _onchange_customer_id(self):
-    #     if self.customer_id:
-    #         # Ensure the fields being accessed exist on the customer model
-    #         self.address = self.customer_id.contact_address or ''
-    #         self.tax_id = self.customer_id.vat or ''
-    #         self.account_number = self.customer_id.unique_id or ''
-    #         self.phone = self.customer_id.phone or ''
-    #         self.email = self.customer_id.email or ''
-    #     else:
-    #         self.address = False
-    #         self.tax_id = False
-    #         self.account_number = False
-    #         self.phone = False
-    #         self.email = False
-
     account_number_wb = fields.Char(string='AWB')
     received_date = fields.Date(string='Received Date')
     sale_order_date = fields.Date(string='Sale Order Date')
@@ -170,47 +153,6 @@ class FreightOperation(models.Model):
                 self.sender_name = self.customer_id.name
                 self.sender_mobile = self.customer_id.mobile
                 self.sender_address = self.customer_id.contact_address
-
-    # @api.model
-    # def create(self, vals):
-    #     # Create the freight operation
-    #     freight_operation = super(FreightOperation, self).create(vals)
-    #
-    #     # Check the direction and create the corresponding ShipmentOrderLine
-    #     if vals.get('direction') == 'import':
-    #         # Get the Import Service product
-    #         import_service_product = self.env['product.product'].search([('name', '=', 'Import Service')], limit=1)
-    #         # if import_service_product:
-    #         #     # Create a ShipmentOrderLine for Import Service
-    #         #     self.env['shipment.order.line'].create({
-    #         #         'freight_operation_id': freight_operation.id,
-    #         #         'product': import_service_product.id,
-    #         #         # Add other necessary fields as required
-    #         #     })
-    #
-    #     elif vals.get('direction') == 'export':
-    #         # Get the Export Service product
-    #         export_service_product = self.env['product.product'].search([('name', '=', 'Export Service')], limit=1)
-    #         # if export_service_product:
-    #         #     # Create a ShipmentOrderLine for Export Service
-    #         #     self.env['shipment.order.line'].create({
-    #         #         'freight_operation_id': freight_operation.id,
-    #         #         'product': export_service_product.id,
-    #         #         # Add other necessary fields as required
-    #         #     })
-    #
-    #     elif vals.get('cruise_type') == 'local':
-    #         # Get the Local Service product
-    #         local_service_product = self.env['product.product'].search([('name', '=', 'Local Service')], limit=1)
-    #         # if local_service_product:
-    #         #     # Create a ShipmentOrderLine for Local Service
-    #         #     self.env['shipment.order.line'].create({
-    #         #         'freight_operation_id': freight_operation.id,
-    #         #         'product': local_service_product.id,
-    #         #         # Add other necessary fields as required
-    #         #     })
-    #
-    #     return freight_operation
 
     @api.model
     def _cron_check_deadlines_and_create_activity(self):
@@ -875,7 +817,275 @@ class FreightOperation(models.Model):
             }
         }
 
-
     def _compute_issue_count(self):
         for operation in self:
             operation.issue_count = self.env['freight.operation.delivered.wizard'].search_count([('operation_id', '=', operation.id)])
+
+    def action_open_create_rfq_courier(self):
+        rate = 1.0
+
+        # Retrieve the latest rate for the currency based on the most recent date
+        usd_currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+        if usd_currency:
+            # Get the latest rate for USD
+            latest_rate = usd_currency.rate_ids.sorted('name', reverse=True)[:1]
+            if latest_rate:
+                rate = latest_rate.company_rate
+                print(f"Latest USD Rate: {rate}")  # Debugging purpose
+
+        selected_lines = self.shipment_order_line_ids.filtered(lambda line: line.check and not line.processed_po)
+
+        if not selected_lines:
+            raise UserError('No lines selected or all selected lines have already been processed.')
+
+        rfq_ids = []
+        for line in selected_lines:
+            if not line.vendor:
+                raise UserError(f'No vendor selected for product {line.product.name}.')
+
+            # Determine the unit price based on currency and cruise type
+            if self.cruise_type == 'international':
+                if self.currency_id.name == 'EGP':
+                    unit_price = line.cost_price * rate   # Use the total_price_currency field
+                else:
+                    unit_price = line.cost_price  # Use another price field or conversion logic as needed
+            else:
+                unit_price = line.cost_price  # Use total_price for local cruise type or other conditions
+
+            # Create RFQ for each selected line
+            rfq_vals = {
+                'partner_id': line.vendor.id,
+                'currency_id': self.currency_id.id,
+                'origin': self.name,
+                'date_order': fields.Datetime.now(),
+                'account_number_wb': self.account_number_wb,
+                'lead_id': self.lead_id.id,
+                'freight_operation_id': self.id,
+                'order_line': [(0, 0, {
+                    'product_id': line.product.id,
+                    'services_amount': line.services_amount,
+                    'chargeable_weight': line.weight,
+                    'gross_weight': line.gross_weight,
+                    'source': line.source,
+                    'destination': line.destination,
+                    'account_number_wb': self.account_number_wb,
+                    'sender_name': self.sender_name,
+                    'receiver_name': self.receiver_name,
+                    'services': [(6, 0, [service.id for service in line.services])],
+                    'taxes_id': [(6, 0, [tax.id for tax in line.international_tax] + [tax_id.id for tax_id in line.tax_id])],
+                    'product_qty': 1,  # Adjust quantity as needed
+                    'price_unit': unit_price,  # Set the unit price based on the conditions
+                    'name': line.product.name,  # Adjust according to your RFQ line model
+
+                })]
+            }
+
+            rfq = self.env['purchase.order'].create(rfq_vals)
+            rfq_ids.append(rfq.id)
+
+            # Mark the line as processed and uncheck it
+            line.processed_po = True
+            line.check = False
+            # rfq.action_confirm()
+            self.set_order_state()
+
+        # Optional: Open RFQ views for the created RFQs
+        if rfq_ids:
+            action = self.env.ref('purchase.purchase_rfq').read()[0]
+            action['domain'] = [('id', 'in', rfq_ids)]
+            return action
+
+    def action_create_rfq_for_multiple(self):
+        rate = 1.0
+        # Retrieve the latest rate for the currency based on the most recent date
+        usd_currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+        if usd_currency:
+            # Get the latest rate for USD
+            latest_rate = usd_currency.rate_ids.sorted('name', reverse=True)[:1]
+            if latest_rate:
+                rate = latest_rate.company_rate
+                print(f"Latest USD Rate: {rate}")  # Debugging purpose
+
+        selected_lines = self.shipment_order_line_ids.filtered(lambda line: not line.processed_po)
+
+        for line in selected_lines:
+            if not line.vendor:
+                continue
+            # Determine the unit price based on currency and cruise type
+            if self.cruise_type == 'international':
+                if self.currency_id.name == 'EGP':
+                    unit_price = line.cost_price * rate   # Use the total_price_currency field
+                else:
+                    unit_price = line.cost_price  # Use another price field or conversion logic as needed
+            else:
+                unit_price = line.cost_price  # Use total_price for local cruise type or other conditions
+
+            # Create RFQ for each selected line
+            rfq_vals = {
+                'partner_id': line.vendor.id,
+                'currency_id': self.currency_id.id,
+                'origin': self.name,
+                'date_order': fields.Datetime.now(),
+                'account_number_wb': self.account_number_wb,
+                'lead_id': self.lead_id.id,
+                'freight_operation_id': self.id,
+                'order_line': [(0, 0, {
+                    'product_id': line.product.id,
+                    'services_amount': line.services_amount,
+                    'chargeable_weight': line.weight,
+                    'gross_weight': line.gross_weight,
+                    'source': line.source,
+                    'destination': line.destination,
+                    'account_number_wb': self.account_number_wb,
+                    'sender_name': self.sender_name,
+                    'receiver_name': self.receiver_name,
+                    'services': [(6, 0, [service.id for service in line.services])],
+                    'taxes_id': [(6, 0, [tax.id for tax in line.international_tax] + [tax_id.id for tax_id in line.tax_id])],
+                    'product_qty': 1,  # Adjust quantity as needed
+                    'price_unit': unit_price,  # Set the unit price based on the conditions
+                    'name': line.product.name,  # Adjust according to your RFQ line model
+
+                })]
+            }
+
+            self.env['purchase.order'].create(rfq_vals)
+            # Mark the line as processed and uncheck it
+            line.processed_po = True
+            line.check = False
+            self.set_order_state()
+
+    def action_create_multiple_rfq(self):
+        selected_ids = self._context.get('active_ids')
+        freight_ids = self.browse(selected_ids)
+        for freight in freight_ids:
+            freight.action_create_rfq_for_multiple()
+
+    def action_open_create_quotation_courier(self):
+        selected_lines = self.shipment_order_line_ids.filtered(lambda line: line.check and not line.processed_so)
+
+        if not selected_lines:
+            raise UserError('No lines selected or all selected lines have already been processed.')
+
+        quotation_ids = []
+        for line in selected_lines:
+            if self.cruise_type == 'international' and not line.vendor:
+                raise UserError(f'No vendor selected for product {line.product.name}.')
+            if self.cruise_type == 'local' and not self.customer_id:
+                raise UserError(f'No customer selected ')
+
+            # Determine the partner_id based on the cruise_type
+            partner_id = self.customer_id.id
+
+            # Determine the unit price based on currency and cruise type
+            if self.cruise_type == 'international':
+                if self.currency_id.name == 'EGP':
+                    unit_price = line.total_price_currency  # Use the total_price_currency field
+                else:
+                    unit_price = line.total_price  # Use another price field or conversion logic as needed
+            else:
+                unit_price = line.total_price_currency  # Use total_price_currency for local cruise
+
+            # Create quotation for each selected line
+            quotation_vals = {
+                'opportunity_id': self.lead_id.id,
+                'freight_operation_id': self.id,
+                'account_number_wb': self.account_number_wb,
+                'partner_id': partner_id,
+                'payment_term_id': self.payment_terms.id,
+                'cash': self.cash,
+                'order_line': [(0, 0, {
+                    'product_id': line.product.id,
+                    'services_amount': line.services_amount,
+                    'source': line.source,
+                    'chargeable_weight': line.weight,
+                    'gross_weight': line.gross_weight,
+                    'net_rate': line.net_rate,
+                    'account_number_wb': self.account_number_wb,
+                    'sender_name': self.sender_name,
+                    'receiver_name': self.receiver_name,
+                    'destination': line.destination,
+                    'services': [(6, 0, [service.id for service in line.services])],
+                    'local_tax': [(6, 0, [local_tax.id for local_tax in line.local_tax])],
+                    'tax_id': [(6, 0, [tax.id for tax in line.international_tax] + [tax_id.id for tax_id in line.tax_id])],
+                    'product_uom_qty': 1,  # Adjust quantity as needed
+                    'price_unit': unit_price,  # Set the unit price based on the conditions
+                    'name': line.product.name,  # Adjust according to your quotation line model
+                })]
+            }
+
+            quotation = self.env['sale.order'].create(quotation_vals)
+            quotation_ids.append(quotation.id)
+
+            # Mark the line as processed and uncheck it
+            line.processed_so = True
+            line.check = False
+            quotation.action_confirm()
+            self.set_order_state()
+
+        # Optional: Open quotation views for the created quotations
+        if quotation_ids:
+            action = self.env.ref('sale.action_quotations').read()[0]
+            action['domain'] = [('id', 'in', quotation_ids)]
+            return action
+
+    def action_create_so_for_multiple(self):
+        selected_lines = self.shipment_order_line_ids.filtered(lambda line: not line.processed_so)
+
+        for line in selected_lines:
+            if self.cruise_type == 'international' and not line.vendor:
+                raise UserError(f'No vendor selected for product {line.product.name}.')
+            if self.cruise_type == 'local' and not self.customer_id:
+                raise UserError(f'No customer selected ')
+
+            # Determine the partner_id based on the cruise_type
+            partner_id = self.customer_id.id
+
+            # Determine the unit price based on currency and cruise type
+            if self.cruise_type == 'international':
+                if self.currency_id.name == 'EGP':
+                    unit_price = line.total_price_currency  # Use the total_price_currency field
+                else:
+                    unit_price = line.total_price  # Use another price field or conversion logic as needed
+            else:
+                unit_price = line.total_price_currency  # Use total_price_currency for local cruise
+
+            # Create quotation for each selected line
+            quotation_vals = {
+                'opportunity_id': self.lead_id.id,
+                'freight_operation_id': self.id,
+                'account_number_wb': self.account_number_wb,
+                'partner_id': partner_id,
+                'payment_term_id': self.payment_terms.id,
+                'cash': self.cash,
+                'order_line': [(0, 0, {
+                    'product_id': line.product.id,
+                    'services_amount': line.services_amount,
+                    'source': line.source,
+                    'chargeable_weight': line.weight,
+                    'gross_weight': line.gross_weight,
+                    'net_rate': line.net_rate,
+                    'account_number_wb': self.account_number_wb,
+                    'sender_name': self.sender_name,
+                    'receiver_name': self.receiver_name,
+                    'destination': line.destination,
+                    'services': [(6, 0, [service.id for service in line.services])],
+                    'tax_id': [
+                        (6, 0, [tax.id for tax in line.international_tax] + [tax_id.id for tax_id in line.tax_id])],
+                    'product_uom_qty': 1,  # Adjust quantity as needed
+                    'price_unit': unit_price,  # Set the unit price based on the conditions
+                    'name': line.product.name,  # Adjust according to your quotation line model
+                })]
+            }
+
+            quotation = self.env['sale.order'].create(quotation_vals)
+            # Mark the line as processed and uncheck it
+            line.processed_so = True
+            line.check = False
+            quotation.action_confirm()
+            self.set_order_state()
+
+    def action_create_multiple_so(self):
+        selected_ids = self._context.get('active_ids')
+        freight_ids = self.browse(selected_ids)
+        for freight in freight_ids:
+            freight.action_create_so_for_multiple()
