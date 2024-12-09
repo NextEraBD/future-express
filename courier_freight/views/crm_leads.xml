@@ -8,6 +8,20 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_lead_view_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_open_create_rfq']" position="replace">
+
+                    <button name="action_open_create_quotation" type="object" class="btn-primary"
+                            string="Create Quotation"  attrs="{'invisible': [('operation_type', '!=', 'cargo')]}" />
+
+                    <button name="action_open_create_rfq" type="object" class="btn-primary"
+                            string="Create RFQ" attrs="{'invisible': [('operation_type', '!=', 'cargo')]}"  />
+
+                    <button name="action_open_create_quotation_courier" type="object" class="btn-primary"
+                            string="Create Quotation"  attrs="{'invisible': [('operation_type', '!=', 'cruise')]}" />
+
+                    <button name="action_open_create_rfq_courier" type="object" class="btn-primary"
+                            string="Create RFQ" attrs="{'invisible': [('operation_type', '!=', 'cruise')]}"  />
+                </xpath>
                 <xpath expr="//button[@name='action_schedule_meeting']" position="after">
                     <button name="action_view_online_payments" type="object" class="oe_stat_button"
                             icon="fa-pencil-square-o" string="Online Payments"

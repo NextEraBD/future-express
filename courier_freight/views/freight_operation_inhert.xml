@@ -10,10 +10,22 @@
                     <field name="stage_id_local_cruise" widget="statusbar"
                            attrs="{'invisible': [('cruise_type','!=','local')]}"/>
                 </xpath>
-                <xpath expr="//button[@name='action_open_create_rfq']" position="after">
+                <xpath expr="//button[@name='action_open_create_rfq']" position="replace">
+
+                    <button name="action_open_create_quotation" type="object" class="btn-primary"
+                            string="Create Quotation"  attrs="{'invisible': [('operation_type', '!=', 'cargo')]}" />
+
+                    <button name="action_open_create_rfq" type="object" class="btn-primary"
+                            string="Create RFQ" attrs="{'invisible': [('operation_type', '!=', 'cargo')]}"  />
+
+                    <button name="action_open_create_quotation_courier" type="object" class="btn-primary"
+                            string="Create Quotation"  attrs="{'invisible': [('operation_type', '!=', 'cruise')]}" />
+
+                    <button name="action_open_create_rfq_courier" type="object" class="btn-primary"
+                            string="Create RFQ" attrs="{'invisible': [('operation_type', '!=', 'cruise')]}"  />
+
                     <button name="action_assign_to_pick" type="object" string="Assign to Pick" class="oe_highlight"
                             attrs="{'invisible': [('stage_id_local_cruise', '!=', 1)]}"/>
-
                     <button name="action_pick" type="object" string="Pick" class="oe_highlight"
                             attrs="{'invisible': [('stage_id_local_cruise', '!=', 2)]}"/>
                     <button name="action_send_to_sort" type="object" string="Send to Sort" class="oe_highlight"
@@ -23,8 +35,7 @@
                     <button name="action_assign_to_delivered" type="object" string="Assigned To Delivered" class="oe_highlight"
                             attrs="{'invisible': [('stage_id_local_cruise', '!=', 5)]}"/>
                     <button name="action_delivered" type="object" string=" Delivered" class="oe_highlight"
-                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 6)]}"
-                    />
+                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 6)]}"/>
                     <button name="action_open_delivered_issue_wizard" type="object" string="Delivered Issue" class="btn-primary"/>
                     <button name="%(action_view_operation_task_form)d" type="action"
                             class="btn-link d-block" string="Create Task"/>
