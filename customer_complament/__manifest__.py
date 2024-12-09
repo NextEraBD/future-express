@@ -5,7 +5,7 @@
     'summary': 'journal_statment',
     'images': ['static/img/complement.png'],
     'author': 'Banan',
-    'depends': ['base','freight',],
+    'depends': ['base','freight','project'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/ticket_payment_view_wizard.xml',
