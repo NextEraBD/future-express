@@ -1,6 +1,4 @@
 from . import shipment_order
-from . import Customer_Compliment
-from . import customer_ticket
 from . import res_country_state
 from . import crm_lead
 from . import shipment_stage_inhrite
