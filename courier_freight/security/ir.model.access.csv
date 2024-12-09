@@ -10,16 +10,13 @@ access_freight_local_stage_courier,freight.local.stage.courier,model_freight_loc
 access_online_payment,online.payment,model_online_payment,base.group_user,1,1,1,1
 access_daily_route,daily.route,model_daily_route,,1,1,1,1
 access_daily_route_line,daily.route.line,model_daily_route_line,,1,1,1,1
-access_compliment_stage,compliment.stage,model_compliment_stage,,1,1,1,1
 access_online_payment_config,online.payment.config,model_online_payment_config,base.group_user,1,1,1,1
 access_daily_route_log,daily.route.log,model_daily_route_log,base.group_user,1,1,1,1
 access_daily_route_log_group,daily.route.log.group,model_daily_route_log_group,base.group_user,1,1,1,1
 access_payment_wizard,payment.wizard,model_payment_wizard,base.group_user,1,1,1,1
-access_ticket_approval_wizard,ticket.approval.wizard,model_ticket_approval_wizard,base.group_user,1,1,1,1
 access_operation_wizard,operation.wizard,model_operation_wizard,base.group_user,1,1,1,1
 access_operation_wizard_line,operation.wizard.line,model_operation_wizard_line,base.group_user,1,1,1,1
 access_freight_operation_delivered_wizard,freight.operation.delivered.wizard,model_freight_operation_delivered_wizard,base.group_user,1,1,1,1
-access_operation_task_wizard,operation.task.wizard,model_operation_task_wizard,base.group_user,1,1,1,1
 access_daily_route_log_wizard,daily.route.log.wizard,model_daily_route_log_wizard,base.group_user,1,1,1,1
 access_daily_route_log_wizard_line,daily.route.log.wizard.line,model_daily_route_log_wizard_line,base.group_user,1,1,1,1
 access_awb_search_wizard,awb.search.wizard,model_awb_search_wizard,,1,1,1,1

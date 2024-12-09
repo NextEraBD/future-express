@@ -4,3 +4,4 @@ access_customer_ticket,customer.ticket,model_customer_ticket,,1,1,1,1
 access_compliment_type,compliment.type,model_compliment_type,,1,1,1,1
 access_operation_task_wizard,operation.task.wizard,model_operation_task_wizard,base.group_user,1,1,1,1
 access_ticket_approval_wizard,ticket.approval.wizard,model_ticket_approval_wizard,base.group_user,1,1,1,1
+access_compliment_stage,compliment.stage,model_compliment_stage,,1,1,1,1
