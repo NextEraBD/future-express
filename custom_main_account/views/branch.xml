@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+  <record id="els_custom_branch_res_branch_view_form" model="ir.ui.view">
+            <field name="name">branch.res.branch.view.form</field>
+            <field name="model">res.branch</field>
+            <field name="inherit_id" ref="branch.branch_res_branch_view_form" />
+              <field name="type">form</field>
+                <field name="arch" type="xml">
+                <field name="address" position="after">
+                    <field name="account_manager_ids" widget="many2many_tags"/>
+                    <field name="cheaf_clearance" widget="many2many_tags"/>
+                    <field name="it_manager" widget="many2many_tags"/>
+                    <field name="treasury_manager" widget="many2many_tags"/>
+                 </field>
+<!--                    <xpath expr="//field[@name='telephone']" position="after">-->
+<!--                    <field name="hr_person_id"/>-->
+<!--                    <field name="recruiter_id"/>-->
+<!--                    <field name="lawyer_manager_id"/>-->
+<!--                </xpath>-->
+
+            </field>
+        </record>
+    </data>
+</odoo>

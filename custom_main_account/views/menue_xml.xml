@@ -1,0 +1,5 @@
+<data>
+    <odoo>
+        <menuitem id="menu_account_approval" parent="account_accountant.menu_accounting" name="Approvals" sequence="15"/>
+    </odoo>
+</data>

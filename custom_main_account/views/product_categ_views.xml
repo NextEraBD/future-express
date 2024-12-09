@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_category_main-account_form" model="ir.ui.view">
+            <field name="name">product.category.main.account.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <group name="account_property" position="inside">
+
+                        <group string="Main Accounts" groups="account.group_account_readonly">
+                            <field name="property_main_account_income_categ_id"/>
+                            <field name="property_main_account_expense_categ_id"/>
+                        </group>
+
+                        <group string="Analytic Accounts">
+                    <field name="import_analytic_account_id"/>
+                    <field name="export_analytic_account_id"/>
+                    <field name="lcl_export_analytic_account_id"/>
+                    <field name="lcl_import_analytic_account_id"/>
+                </group>
+                </group>
+
+            </field>
+        </record>
+    </data>
+</odoo>

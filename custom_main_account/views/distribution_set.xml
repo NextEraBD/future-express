@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- VIEWS -->
+        <record id="view_account_distribution_set_tree" model="ir.ui.view">
+            <field name="name">account.distribution.set.tree</field>
+            <field name="model">account.distribution.set</field>
+            <field name="arch" type="xml">
+                <tree edit="false" sample="1" >
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="branch_id"/>
+                </tree>
+            </field>
+        </record>
+<!--        Form View-->
+        <record id="view_account_distribution_set_form" model="ir.ui.view">
+            <field name="name">account.distribution.set.form</field>
+            <field name="model">account.distribution.set</field>
+            <field name="arch" type="xml">
+                <form string="Distribution Set">
+<!--                    <header>-->
+<!--                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"-->
+<!--                                attrs="{'invisible': [('state', '!=', 'draft')]}" data-hotkey="v"/>-->
+<!--                        <button name="action_cancel" string="Cancel" type="object"-->
+<!--                                attrs="{'invisible': [('state', '!=', 'draft')]}" data-hotkey="z"/>-->
+<!--                        <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>-->
+<!--                    </header>-->
+                    <sheet>
+                        <field name="company_id" invisible="1"/>
+
+<!--                        <div class="oe_button_box" name="button_box">-->
+
+<!--                            &lt;!&ndash; Journal Entry  button &ndash;&gt;-->
+<!--                            <button name="button_open_journal_entry" type="object" class="oe_stat_button" icon="fa-bars">-->
+<!--                                <div class="o_stat_info">-->
+<!--                                    <span class="o_stat_text">Journal Entry</span>-->
+<!--                                </div>-->
+<!--                            </button>-->
+<!--                        </div>-->
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group name="group1">
+
+                                <field name="date"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group name="group2">
+                                 <field name="account_id"/>
+                                <field name="branch_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                        <page string="Department">
+                                <field name="distribution_line_ids" widget="one2many_list">
+                                    <tree editable="bottom">
+                                        <!-- Define columns for the line_ids field -->
+                                        <field name="department_id"/>
+                                        <field name="total_employee_no"/>
+                                        <field name="percentage"/>
+<!--                                        <field name="analytic_account_id"/>-->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="o_attachment_preview"/>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+<!--        Actions-->
+        <record id="action_account_distribution_sets" model="ir.actions.act_window">
+            <field name="name">Distribution Set</field>
+            <field name="res_model">account.distribution.set</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_distribution_set_tree"/>
+        </record>
+
+     <menuitem id="menu_action_account_distribution_sets" parent="account.account_management_menu"
+               action="action_account_distribution_sets" sequence="19"/>
+
+
+    </data>
+</odoo>

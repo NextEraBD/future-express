@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+
+
+        <record id="view_partner_form_inherit_4_new_ids" model="ir.ui.view">
+            <field name="name">res.partner.form.agent</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" placeholder="e.g. BE0477472701" readonly="0"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="before">
+                    <field name="tax_type"/>
+                </xpath>
+                <xpath expr="//h1[1]/field[@name='name']" position="after">
+                    <br/><field name="code" placeholder="Code"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

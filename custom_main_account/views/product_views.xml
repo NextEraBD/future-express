@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+         <record id="product_arab_form_view_inherit" model="ir.ui.view">
+            <field name="name">product_template_form_view_inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+             <field name="arch" type="xml">
+                 <xpath expr="//div[@class='oe_title']" position="after">
+                    <div>
+                         <label for="arabic_name" string="Product Arabic Name"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field name="priority" widget="priority" class="me-3"/>
+                                <field class="text-break" name="arabic_name" placeholder="على سبيل المثال برجر بالجبنة"/>
+                            </div>
+                        </h1>
+                    </div>
+                </xpath>
+             </field>
+         </record>
+
+
+        <record id="view_product_template_account" model="ir.ui.view">
+            <field name="name">product.template.account.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+
+                <field name="property_account_income_id" position="after">
+                     <field name="product_code"/>
+                    <field name="is_compute_main" invisible="1"/>
+                    <field name="set_account" invisible="0"/>
+                    <field name="property_main_account_income_id" string="Income Main Account"/>
+                </field>
+                <field name="property_account_expense_id" position="after">
+                    <field name="property_main_account_expense_id" string="Expense Main Account"/>
+                    <field name="analytic_account_id"/>
+                </field>
+            </field>
+        </record>
+        <record id="product_normal_form_view_account_inherit" model="ir.ui.view">
+            <field name="name">product.product.account.form.inh</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+                <field name="property_account_income_id" position="after">
+                    <field name="property_main_account_income_id" string="Income Main Account"/>
+                </field>
+                <field name="property_account_expense_id" position="after">
+                    <field name="property_main_account_expense_id" string="Expense Main Account"/>
+                    <field name="analytic_account_id"/>
+                    <field name="import_analytic_account_id"/>
+                    <field name="export_analytic_account_id"/>
+                    <field name="lcl_export_analytic_account_id"/>
+                    <field name="lcl_import_analytic_account_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_partner_structured_form" model="ir.ui.view">
+        <field name="name">view_partner_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form//div[1]" position="before">
+                <header>
+                    <button name="action_taxing_approve" string="Approve" type="object" class="btn-primary" data-hotkey="q"
+                            attrs="{'invisible':['|',('tax_exempt','=',False),('approved_tax_exempt','=',True)]}" groups="custom_main_account.group_tax_exempt"/>
+                </header>
+            </xpath>
+            <field name="vat" position="before">
+                <field name="tax_exempt"/>
+                <field name="approved_tax_exempt" invisible="1"/>
+            </field>
+
+            <field name="vat" position="replace">
+                <field name="vat" placeholder="e.g. BE0477472701" />
+            </field>
+        </field>
+    </record>
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_custom_account.debit.memo,account.debit.memo,model_account_debit_memo,base.group_user,1,1,1,1
+access_account_distribution_set,account_distribution_set,model_account_distribution_set,base.group_user,1,1,1,1
+access_account_distribution_set_line,account_distribution_set_line,model_account_distribution_set_line,base.group_user,1,1,1,1
+access_account_prepayment_details,account_account_prepayment_details,model_account_prepayment_details,base.group_user,1,1,1,1
+access_partner_move_report_wizard,partner_move_report_wizard,model_partner_move_report_wizard,base.group_user,1,1,1,1

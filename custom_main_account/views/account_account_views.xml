@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+        <record id="view_account_search_inherit" model="ir.ui.view">
+            <field name="name">account.account.search</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='accounttype']" position="after">
+                    <field name="name" filter_domain="['|','|', ('name','ilike',self), ('code','ilike',self), ('reference_code','ilike',self)]" string="Account Ref"/>
+                    <field name="main_account_code" filter_domain="['|', ('main_account_code','ilike',self), ('code','ilike',self)]" string="Main Account Code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_account_form" model="ir.ui.view">
+            <field name="name">account.account.form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="is_main" widget="boolean_toggle"/>
+                </xpath>
+                <xpath expr="//field[@name='group_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_main','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='group_id']" position="before">
+                    <field name="out_analytic"/>
+                </xpath>
+                <xpath expr="//field[@name='group_id']" position="after">
+                    <field name="is_compute_ref"/>
+                    <field name="reference_code"/>
+                    <field name="main_account_code"/>
+                    <field name="main_account_type"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_account_list" model="ir.ui.view">
+            <field name="name">account.account.list</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_list"/>
+            <field name="arch" type="xml">
+                <field name="group_id" position="after">
+                    <field name="main_account_code" optional="show" attrs="{'readonly':[('is_main','=',False)]}"/>
+                    <field name="main_account_type" optional="show" attrs="{'readonly':[('is_main','=',False)]}"/>
+                </field>
+                <field name="code" position="before">
+                    <field name="is_main"/>
+                </field>
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="editable"></attribute>
+                </xpath>
+<!--                <tree position="inside">-->
+<!--                    <field name="create_main" widget="boolean_toggle"/>-->
+<!--                </tree>-->
+
+            </field>
+        </record>
+
+
+
+        <record id="view_account_search" model="ir.ui.view">
+            <field name="name">account.account.search</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_search"/>
+            <field name="arch" type="xml">
+               <xpath expr="//filter[@name='accounttype']" position="after">
+                   <filter string="Main Accounts" name="mainAccount" domain="" context="{'group_by':'group_id'}"/>
+               </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_account_journal_form_inherit">
+            <field name="name">view.account.journal.form.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='type']"  position="after">
+                	<field name='branch_id'/>
+                </xpath>
+            </field>
+        </record>
+
+<!--        <record id="action_account_form" model="ir.actions.act_window">-->
+<!--            <field name="name">Chart of Accounts</field>-->
+<!--            <field name="res_model">account.account</field>-->
+<!--            <field name="view_mode">tree,kanban,form</field>-->
+<!--            <field name="search_view_id" ref="view_account_search"/>-->
+<!--            <field name="view_id" ref="view_account_list"/>-->
+<!--            <field name="help" type="html">-->
+<!--              <p class="o_view_nocontent_smiling_face">-->
+<!--                Add a new account-->
+<!--              </p><p>-->
+<!--                An account is part of a ledger allowing your company-->
+<!--                to register all kinds of debit and credit transactions.-->
+<!--                Companies present their annual accounts in two main parts: the-->
+<!--                balance sheet and the income statement (profit and loss-->
+<!--                account). The annual accounts of a company are required by law-->
+<!--                to disclose a certain amount of information.-->
+<!--              </p>-->
+<!--            </field>-->
+<!--            <field name="context">{'search_default_activeacc': True}</field>-->
+<!--        </record>-->
+
+<!--        <record id="action_duplicate_account" model="ir.actions.server">-->
+<!--            <field name="name">Duplicate</field>-->
+<!--            <field name="model_id" ref="model_account_account"/>-->
+<!--            <field name="binding_model_id" ref="account.model_account_account"/>-->
+<!--            <field name="binding_view_types">list</field>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">-->
+<!--                action = model.action_duplicate_accounts()-->
+<!--            </field>-->
+<!--        </record>-->
+
+    <record id="view_account_journal_form_account" model="ir.ui.view">
+        <field name="name">account.journal.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='type']" position="after">
+                <field name="default_account_id" nolabel="1" attrs="{'required': ['|', '&amp;', ('id', '!=', False), ('type', 'in', ('bank', 'cash')), ('type', 'in', ('sale', 'purchase'))],                                                        'invisible': [('type', 'in', (False, 'general'))]}" options="{'no_quick_create': True}" groups="account.group_account_readonly"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    </data>
+</odoo>

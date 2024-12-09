@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_sales_order_account" model="ir.ui.view">
+        <field name="name">sale.order.form.account</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_template_id']" position="after">
+                <field name="main_account_id" optional="hide" force_save="1"/>
+                <field name="sub_account_id" optional="hide" force_save="1"/>
+                <field name="analytic_account_id" optional="hide" force_save="1"/>
+            </xpath>
+
+        </field>
+    </record>
+    </data>
+</odoo>

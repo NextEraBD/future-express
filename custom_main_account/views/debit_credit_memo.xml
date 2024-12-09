@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- VIEWS -->
+        <record id="view_account_debit_memo_tree" model="ir.ui.view">
+            <field name="name">account.debit.memo.tree</field>
+            <field name="model">account.debit.memo</field>
+            <field name="arch" type="xml">
+                <tree edit="false" sample="1" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="journal_id"/>
+                    <field name="partner_id" string="Customer"/>
+                    <field name="amount" string="Amount" groups="base.group_multi_currency" optional="hide"/>
+                    <field name="currency_id" string="Payment Currency" groups="base.group_multi_currency" optional="hide"/>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirm'"/>
+                </tree>
+            </field>
+        </record>
+<!--        Form View-->
+        <record id="view_account_debit_memo_form" model="ir.ui.view">
+            <field name="name">account.debit.memo.form</field>
+            <field name="model">account.debit.memo</field>
+            <field name="arch" type="xml">
+                <form string="Register Debit Memo">
+                    <header>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state', '!=', 'draft')]}" data-hotkey="v"/>
+                        <button name="action_cancel" string="Cancel" type="object"
+                                attrs="{'invisible': [('state', '!=', 'draft')]}" data-hotkey="z"/>
+                         <button name="action_draft" string="Reset To Draft" type="object" class="btn btn-secondary"
+                                attrs="{'invisible': [('state', 'not in', ('confirm', 'cancel'))]}"
+                                 data-hotkey="w"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                    </header>
+                    <sheet>
+                        <field name="company_id" invisible="1"/>
+                         <field name="partner_type" invisible="1"/>
+
+                        <div class="oe_button_box" name="button_box">
+
+                            <!-- Journal Entry  button -->
+                            <button name="button_open_journal_entry" type="object" class="oe_stat_button" icon="fa-bars">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Journal Entry</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1 attrs="{'invisible': [('state', '!=', 'draft')]}"><span>Draft</span></h1>
+                            <h1 attrs="{'invisible': [('state', '=', 'draft')]}"><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group name="group1">
+<!--                                <field name="payment_type" widget="radio" options="{'horizontal': True}"-->
+<!--                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>-->
+                                <field name="partner_id" context="{'default_is_company': True}" string="Customer"
+                                       options="{'no_quick_create': True}"
+                                       attrs="{'readonly':[('state', '!=', 'draft')],
+                                             'invisible':[('partner_type','!=','customer')]}"/>
+                                <field name="partner_id" context="{'default_is_company': True}" string="Vendor"
+                                       options="{'no_quick_create': True}"
+                                       attrs="{'readonly':[('state', '!=', 'draft')],
+                                               'invisible':[('partner_type','!=','supplier')]}"/>
+                                <label for="amount"/>
+                                <div name="amount_div" class="o_row">
+                                    <field name="amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="currency_id"
+                                           options="{'no_create': True, 'no_open': True}"
+                                           required="1"
+                                           attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                           groups="base.group_multi_currency"/>
+                                </div>
+                                <field name="date"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="ref" string="Memo"/>
+                            </group>
+                            <group name="group2">
+                                <field name="invoice_id" string="Invoice"
+                                       domain="[('move_type', '=', 'out_invoice'),('is_claim', '=', False)]"
+                                       attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('partner_type','!=','customer')]}"/>
+                            <field name="invoice_id" string="Bill"
+                                       domain="[('move_type', '=', 'in_invoice'),('is_claim', '=', False)]"
+                                       attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('partner_type','!=','supplier')]}"/>
+                                <field name="journal_id"
+                                       domain="[('type', '=', 'general')]"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="account_id"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="o_attachment_preview"/>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+<!--        Actions-->
+        <record id="action_account_debit_memos" model="ir.actions.act_window">
+            <field name="name">Credit Memo</field>
+            <field name="res_model">account.debit.memo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                 'default_payment_type': 'outbound',
+                'default_partner_type': 'customer',
+            }</field>
+            <field name="domain">[('partner_type','=','customer'),('payment_type','=','outbound')]</field>
+
+            <field name="view_id" ref="view_account_debit_memo_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                  Register a debit_memo
+                </p><p>
+                  Payments are used to register liquidity movements. You can process those debit_memos by your own means or by using installed facilities.
+                </p>
+            </field>
+        </record>
+        <record id="action_account_debit_memos_payable" model="ir.actions.act_window">
+            <field name="name">Debit Memo</field>
+            <field name="res_model">account.debit.memo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                'default_payment_type': 'inbound',
+                'default_partner_type': 'supplier',
+            }</field>
+            <field name="domain">[('partner_type','=','supplier'),('payment_type','=','inbound')]</field>
+            <field name="view_id" ref="view_account_debit_memo_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                  Register a payment
+                </p><p>
+                  Payments are used to register liquidity movements. You can process those payments by your own means or by using installed facilities.
+                </p>
+            </field>
+        </record>
+
+    <menuitem id="menu_action_account_debit_memos_payable"  parent="account.menu_finance_payables"
+              action="action_account_debit_memos_payable" sequence="21"/>
+     <menuitem id="menu_action_account_debit_memos" parent="account.menu_finance_receivables"
+               action="action_account_debit_memos" sequence="19"/>
+
+
+    </data>
+</odoo>
