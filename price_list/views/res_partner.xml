@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_partner_form_inherit_custom" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.custom</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- Add your custom fields after the category_id field -->
+                <xpath expr="//field[@name='category_id']" position="after">
+
+                    <field name="is_local"/>
+                    <field name="local_price_list_id" widget="many2many_tags" attrs="{'invisible': [('is_local', '=', False)]}" />
+                    <field name="is_international"/>
+                    <field name="international_price_list_id" widget="many2many_tags" attrs="{'invisible': [('is_international', '=', False)]}" />
+
+
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="local_currency_id"/>
+                    <field name="international_currency_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

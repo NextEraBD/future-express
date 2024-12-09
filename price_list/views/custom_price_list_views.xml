@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_custom_price_list_form" model="ir.ui.view">
+            <field name="name">custom.price.list.form</field>
+            <field name="model">custom.price.list</field>
+            <field name="arch" type="xml">
+                <form string="Price List">
+                    <header>
+                        <button name="%(action_import_price_list_wizard)d" string="Import Price List" type="action"
+                                class="btn-primary" context="{'default_price_list_id': active_id}"/>
+                        <button name="%(action_export_price_list_wizard)d" string="Export Price List" type="action"
+                                class="btn-secondary" context="{'default_price_list_id': active_id}"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="0"/>
+                            </h1>
+                        </div>
+                        <group col="2">
+                            <group>
+                                <label for="validation_date_from" string="Validation Date"/>
+                                <div class="o_row">
+                                    <field name="validation_date_from"  placeholder="Date from"/>
+                                    <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="validation_date_to" placeholder="Date To"/>
+                                </div>
+                                <field name="price_list_type" widget="radio"/>
+                                <field name="vendor" attrs="{'invisible': [('price_list_type', '!=', 'international')]}"/>
+                            </group>
+                            <group>
+                                <field name="currency_id"/>
+                                <!--                                <field name="extra_weight"/>-->
+                                <!--                                <field name="extra_weight_sale_price"/>-->
+                                <!--                                <field name="extra_weight_cost_price"/>-->
+                                <!--                                <field name="select_customer"/>-->
+                                <!--                                <field name="customer_id" attrs="{'invisible': [('select_customer', '=', False)]}"/>-->
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="General Information" attrs="{'invisible': [('price_list_type', '!=', 'local')]}">
+                                <field name="local_line_ids">
+                                    <tree string="Price List Lines" editable="bottom">
+                                        <field name="price_list_id" invisible="1"/>
+                                        <field name="product"/>
+                                        <field name="state_id"/>
+                                        <field name="weight"/>
+                                        <field name="zone"/>
+                                        <field name="sale_price"/>
+                                        <field name="additional_services" widget="many2many_tags"/>
+                                        <field name="taxes" widget="many2many_tags"/>
+                                        <field name="local_tax" widget="many2many_tags"/>
+                                        <field name="extra_weight"/>
+                                        <field name="extra_weight_sale_price"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Import" attrs="{'invisible': [('price_list_type', '!=', 'international')]}">
+                                <field name="international_import_line_ids">
+                                    <tree string="Price List Lines" editable="bottom">
+                                        <field name="price_list_id" invisible="1"/>
+                                        <field name="product"/>
+                                        <field name="weight"/>
+                                        <field name="country_id"/>
+                                        <field name="zone"/>
+                                        <field name="custom_zone"/>
+                                        <field name="final_zone" invisible="1"/>
+                                        <field name="sale_price"/>
+                                        <field name="cost_price" />
+                                        <field name="additional_services" widget="many2many_tags"/>
+                                        <field name="taxes" widget="many2many_tags"/>
+                                        <field name="international_tax_import" widget="many2many_tags"/>
+                                        <field name="extra_weight"/>
+                                        <field name="extra_weight_sale_price"/>
+                                        <field name="extra_weight_cost_price"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Export" attrs="{'invisible': [('price_list_type', '!=', 'international')]}">
+                                <field name="international_export_line_ids">
+                                    <tree string="Price List Lines" editable="bottom">
+                                        <field name="price_list_id" invisible="1"/>
+                                        <field name="product"/>
+                                        <field name="weight"/>
+                                        <field name="country_id"/>
+                                        <field name="zone"/>
+                                        <field name="custom_zone"/>
+                                        <field name="final_zone" invisible="1"/>
+                                        <field name="sale_price"/>
+                                        <field name="cost_price" />
+                                        <field name="additional_services" widget="many2many_tags"/>
+                                        <field name="taxes" widget="many2many_tags"/>
+                                        <field name="international_tax_export" widget="many2many_tags"/>
+                                        <field name="extra_weight"/>
+                                        <field name="extra_weight_sale_price"/>
+                                        <field name="extra_weight_cost_price"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_custom_price_list_tree" model="ir.ui.view">
+            <field name="name">custom.price.list.tree</field>
+            <field name="model">custom.price.list</field>
+            <field name="arch" type="xml">
+                <tree string="Price List">
+                    <field name="name"/>
+                    <field name="vendor"/>
+                    <field name="validation_date_from"/>
+                    <field name="validation_date_to"/>
+                    <field name="price_list_type"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem id="menu_custom_price_list" name="Price List" sequence="10"/>
+
+        <record id="action_custom_price_list" model="ir.actions.act_window">
+            <field name="name">Custom Price List</field>
+            <field name="res_model">custom.price.list</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_custom_price_list_root" name="Custom Price List" sequence="10" parent="crm.crm_menu_root" />
+        <menuitem id="menu_custom_price_list_items" name="Price Lists" action="action_custom_price_list" parent="menu_custom_price_list_root"/>
+    </data>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_custom_price_list,custom.price.list,model_custom_price_list,,1,1,1,1
+access_custom_price_list_local_line,custom.price.list.local.line,model_custom_price_list_local_line,,1,1,1,1
+access_custom_price_list_international_import_line,custom.price.list.international.import.line,model_custom_price_list_international_import_line,,1,1,1,1
+access_custom_price_list_international_export_line,custom.price.list.international.export.line,model_custom_price_list_international_export_line,,1,1,1,1
+access_import_price_list_wizard,import.price.list.wizard,model_import_price_list_wizard,,1,1,1,1
+access_export_price_list_wizard,export.price.list.wizard,model_export_price_list_wizard,,1,1,1,1
