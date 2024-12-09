@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="crm_lead_view_form_leads_inherit" model="ir.ui.view">
+            <field name="name">crm_lead_view_form_leads_inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_schedule_meeting']" position="after">
+                    <!--                    <button class="oe_stat_button" name="action_view_sale_quotation_custom"-->
+                    <!--                            type="object" icon="fa-pencil-square-o" attrs="{'invisible': [('type', '=', 'lead')]}">-->
+                    <!--                        <field name="sale_order_count" string="Quotation_" widget="statinfo" icon="fa-usd"/>-->
+                    <!--                    </button>-->
+                    <button name="action_view_online_payments" type="object" class="oe_stat_button"
+                            icon="fa-pencil-square-o" string="Online Payments"
+                            attrs="{'invisible': [('local_type', '!=', 'online')]}">
+
+                    </button>
+                    <button class="oe_stat_button" name="action_view_shipment_orders"
+                            type="object" icon="fa-truck">
+                        <field name="shipment_order_count" string="Shipment Orders" widget="statinfo" icon="fa-truck"/>
+                    </button>
+                </xpath>
+                <field name="transport" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type', '=', 'cruise')], 'required': [('operation_type', '=', 'cargo')]}</attribute>
+                </field>
+
+                <xpath expr="//field[@name='transport']" position="after">
+                    <field name="cruise_type" attrs="{'invisible': [('operation_type', '!=', 'cruise')], 'options': {'no_reset': True}}"/>
+                    <field name="local_type" attrs="{'invisible': [('cruise_type', '!=', 'local')]}"/>
+                    <field name="collection_amount" attrs="{'invisible': [('local_type', '!=', 'online')]}"/>
+                    <field name="direction" attrs="{
+                                'invisible': [('cruise_type', '!=', 'international')],
+                                 'required': [('cruise_type', '=', 'international')],
+                                 'options': {'no_reset': True}}"/>
+                </xpath>
+
+                <field name="operation" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="direction" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="volume" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="pieces" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="commodity_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="up_to_incoterm_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="source_location_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="destination_location_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="incoterm_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="period_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+
+                <field name="chargeable_weight" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+
+                <xpath expr="//label[@for='weight']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='net_weight']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='weight']/following-sibling::div[@name='journal_div']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='net_weight']/following-sibling::div[@name='journal_div']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+
+
+                <xpath expr="//group[@name='service']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='Shipper']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='Package']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//div[@class='o_row o_row_readonly']" position="after">
+                    <label for="address" class="oe_inline"/>
+                    <div class="o_row o_row_readonly">
+                        <field name="address" readonly="1"/>
+                    </div>
+                    <label for="tax_id" class="oe_inline"/>
+                    <div class="o_row o_row_readonly">
+                        <field name="tax_id" readonly="1"/>
+                    </div>
+                    <label for="account_number" class="oe_inline"/>
+                    <div class="o_row o_row_readonly">
+                        <field name="account_number" readonly="1"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//group[@name='col1']" position="inside">
+                    <!--                    <field name="customer_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>-->
+                    <field name="custom_pricelist_domain" invisible="1"/>
+                    <field name="pricelist_id"   attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="currency_id"  attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="account_number_wb"  attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="received_date" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="sale_order_date" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="competitors" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="price_list_id" domain="[('id','in',custom_pricelist_domain)]" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="cash" attrs="{'invisible': ['|',('operation_type', '!=', 'cruise'),('type', '=', 'lead')]}" required="0"/>
+
+                </xpath>
+                <xpath expr="//group[@name='col2']" position="inside">
+
+                    <field name="shipment_type" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="courier" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="payment_terms" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                </xpath>
+                <xpath expr="//group[@name='freight']"  position="inside">
+                    <group string="Sender" attrs="{'invisible': [('operation_type','!=','cruise')]}">
+                        <field name="sender_name" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_mobile" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_address" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_country_id"  attrs="{
+                        'invisible': [('operation_type','!=','cruise')],
+                        'readonly': [('direction', '=', 'export')]}" required="0"  />
+                        <field name="sender_state_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_town" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    </group>
+                    <group string="Resiver" attrs="{'invisible': [('operation_type','!=','cruise')]}">
+                        <field name="receiver_name" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_mobile" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_address" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_country_id"  attrs="{
+                        'invisible': [('operation_type','!=','cruise')],
+                        'readonly': [('direction', '=', 'import')]}" required="0"  />
+                        <field name="receiver_state_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_town" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    </group>
+                </xpath>
+<!--                <xpath expr="//page[@name='containers']" position="attributes">-->
+<!--                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//button[@name='action_open_create_rfq']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('cruise_type', '!=', 'international')]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='internal_notes']" position="before">
+                    <page string="Order Lines" attrs="{'invisible': ['|',('operation_type', '!=', 'cruise'),('type', '=', 'lead')]}" >
+                        <field name="shipment_order_line_ids">
+                            <tree editable="1">
+                                <field name="check"/>
+                                <field name="product"/>
+                                <field name="vendor" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}"/>
+                                <field name="size" optional="show"/>
+                                <field name="width" optional="show"/>
+                                <field name="height" optional="show"/>
+                                <field name="gross_weight" optional="show"/>
+                                <field name="cbm" optional="show"/>
+                                <field name="weight" optional="show"/>
+                                <!--                                <field name="customer"/>-->
+                                <field name="description" optional="hide"/>
+                                <field name="source" optional="hide"/>
+                                <field name="destination" optional="hide" />
+                                <field name="services" widget="many2many_tags" optional="hide"/>
+                                <field name="services_amount" optional="hide"/>
+                                <field name="departial_date" optional="hide"/>
+                                <field name="analytic_tag" optional="hide"/>
+                                <field name="international_tax"  widget="many2many_tags" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}" optional="hide"/>
+                                <field name="local_tax"  widget="many2many_tags" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'local')]}" optional="hide"/>
+                                <field name="tax_id"  widget="many2many_tags" optional="hide"/>
+                                <field name="currency_id" optional="hide"/>
+                                <field name="net_rate" />
+                                <field name="sale_price" optional="hide"/>
+                                <field name="cost_price" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}"/>
+                                <field name="total_price"/>
+                                <field name="total_price_currency"/>
+                                <field name="processed_so" optional="hide"/>
+                                <field name="processed_po" optional="hide"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="untaxed_amount"/>
+                                <field name="ks_amount_discount"/>
+                                <field name="services"/>
+                                <field name="local_taxes" attrs="{'invisible': [('cruise_type', '!=', 'local')]}"/>
+                                <field name="international_taxes" attrs="{'invisible': [('cruise_type', '!=', 'international')]}"/>
+                                <field name="vat"/>
+                                <field name="total_usd"/>
+                                <field name="total_egp"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='operation_type_selection']" position="after">
+                    <field name="operation_type"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/group" position="before">
+                    <div class="ks_container">
+                        <field name="ks_enable_discount" invisible="1"/>
+                        <label for="ks_global_discount_type" string="Universal Discount Type:"/>
+                        <field name="ks_global_discount_type" class="oe_inline"/>
+                    </div>
+                    <div class="ks_container">
+                        <field name="ks_amount_discount" invisible="1"/>
+                    </div>
+                    <div class="ks_container">
+                        <label for="ks_global_discount_rate" string="Universal Discount:" />
+                        <field name="ks_global_discount_rate" class="oe_inline" />
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Sale-->
+        <record id="freight_sale_order_form_crm_custom" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!--                Add the Additional Services field under the tax amount-->
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="cash"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="account_number_wb" readonly="1"/>
+                </xpath>
+                <!--                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">-->
+                <!--                    <field name="tax_totals" widget="account-tax-totals-field" nolabel="1" colspan="2" readonly="1"/>-->
+                <!--                </group>-->
+
+                <xpath expr="//field[@name='order_line']//tree//field[@name='product_uom_qty']" position="after">
+                    <field name="account_number_wb" />
+                    <field name="sender_name" optioal="hide"/>
+                    <field name="receiver_name" optioal="hide"/>
+                    <field name="gross_weight" />
+                    <field name="chargeable_weight" />
+                    <field name="source" optioal="hide"/>
+                    <field name="destination" optioal="hide"/>
+                    <field name="services_amount" optional="hide"/>
+<!--                    <field name="taxes" optional="hide"/>-->
+                    <field name="services" widget="many2many_tags" optioal="hide"/>
+                    <field name="local_tax" widget="many2many_tags" optioal="hide"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="freight_sale_order_search_view_inherit" model="ir.ui.view">
+			<field name="name">sale.order.search.view.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+			<field name="arch" type="xml">
+				<xpath expr="//search" position="inside">
+                    <field name="account_number_wb" required="1"/>
+				</xpath>
+			</field>
+		</record>
+        <record id="action_create_statement" model="ir.actions.act_window">
+            <field name="name">Create Statement</field>
+            <field name="res_model">sale.advance.payment.inv</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_sale_order"/>
+            <field name="binding_type">action</field>
+            <field name="binding_view_types">list</field>
+        </record>
+
+
+        <!--   Purchace     -->
+        <record id="view_purchase_order_crm_custom" model="ir.ui.view">
+            <field name="name">purchase.order.form.crm</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="product_qty" position="after">
+                    <field name="account_number_wb" optional="show"/>
+                    <field name="sender_name" optional="show" />
+                    <field name="receiver_name" optional="show"/>
+                    <field name="gross_weight" optional="hide" force_save="1"/>
+                    <field name="chargeable_weight" optional="hide" force_save="1"/>
+                    <field name="services" widget="many2many_tags" optional="hide" force_save="1"/>
+                    <field name="services_amount" optional="hide" force_save="1"/>
+
+                    <field name="source" optional="hide"/>
+                    <field name="destination" optional="hide"/>
+                    <field name="taxes" optional="hide" />
+                </field>
+            </field>
+        </record>
+
+
+        <record id="crm_shipment_opportunity_kanban_inehrit" model="ir.ui.view">
+
+            <field name="name">crm.shipment.opportunity.inherited.kanban.inehrit</field>
+
+            <field name="model">crm.lead</field>
+
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+
+            <field name="arch" type="xml">
+                <xpath expr="//div[contains(@class, 'oe_kanban_content')]" position="inside">
+                    <div>
+                        <strong>Opportunity Owner Type:</strong> <field name="user_id" />
+                    </div>
+                    <div>
+                        <strong>Courier Type:</strong> <field name="cruise_type" />
+                    </div>
+                    <div>
+                        <strong>Account Number WB:</strong> <field name="account_number_wb" />
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

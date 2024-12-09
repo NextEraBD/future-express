@@ -1,0 +1,178 @@
+<odoo>
+    <template id="report_saleorder_custom">
+        <t t-set="data_report_margin_top" t-value="2"/>
+        <t t-set="data_report_header_spacing" t-value="2"/>
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <!-- Report Header -->
+                    <div class="row" >
+                        <!-- Left Section: Customer Details -->
+                        <div class="col-4">
+                            <p style="margin: 0;"><strong>Customer Name:</strong> <t t-esc="o.partner_id.name"/></p>
+                            <p style="margin: 0;"><strong>Account Number:</strong></p>
+                            <p style="margin: 0;"><strong>Invoice Date:</strong> <t t-esc="o.date_order"/></p>
+                            <p style="margin: 0;"><strong>Invoice Number:</strong> <t t-esc="o.name"/></p>
+                        </div>
+
+                        <!-- Center Section: Invoice Information -->
+                        <div class="col-4">
+                            <p style="margin: 0;text-align: center;"><strong>Invoice Number:</strong> <t t-esc="o.name"/></p>
+                            <p style="margin: 0;text-align: center;"><strong>Export</strong></p>
+                            <p style="margin: 0;text-align: center;"><strong>Courier Invoice</strong></p>
+                        </div>
+
+                        <!-- Right Section: Company Logo -->
+                        <div class="col-4 text-right">
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 100px;" alt="Logo"/>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="page" style="margin-top: 100px;">
+                        <!-- Table Header -->
+                        <table class="table table-sm mt-4" style="border: 2px solid #000; border-collapse: collapse;">
+                            <thead style="background-color: #ed574b; color: white;">
+                                <tr>
+                                    <th style="border: 1px solid #000;">S/N</th>
+                                    <th style="border: 1px solid #000;">WB</th>
+                                    <th style="border: 1px solid #000;">Dep. Date</th>
+                                    <th style="border: 1px solid #000;">From</th>
+                                    <th style="border: 1px solid #000;">To</th>
+                                    <th style="border: 1px solid #000;">Sender</th>
+                                    <th style="border: 1px solid #000;">Receiver</th>
+                                    <th style="border: 1px solid #000;">Item</th>
+                                    <th style="border: 1px solid #000;">Weight</th>
+                                    <th style="border: 1px solid #000; background-color: #ed574b; color: white;">Net Rate</th>
+                                    <th style="border: 1px solid #000;">ESS</th>
+                                    <th style="border: 1px solid #000;">Other Services</th>
+                                    <th style="border: 1px solid #000;">Subtotal in USD</th>
+                                    <th style="border: 1px solid #000;">Subtotal in EGP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="row_number" t-value="1"/>
+                                <t t-foreach="o.order_line" t-as="line">
+                                    <tr>
+                                        <td style="border: 1px solid #000;"><t t-esc="row_number"/></td> <!-- S/N Increment -->
+                                        <td style="border: 1px solid #000;"><t t-esc="line.account_number_wb"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="o.date_order"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.source"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.destination"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.sender_name"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.receiver_name"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.product_id.name"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.weight"/></td>
+                                        <td style="border: 1px solid #000;background-color: #ed574b; color: white;"><t t-esc="o.currency_id.rate"/></td>
+                                        <!--                                        <td style="border: 1px solid #000;"><t t-esc="line.price_unit"/></td>-->
+                                        <td style="border: 1px solid #000;"><t t-esc="line.services.amount"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.tax_id.amount"/></td>
+                                        <td style="border: 1px solid #000;"><t t-esc="line.price_subtotal"/></td>
+                                        <!-- <td style="border: 1px solid #000;"><t t-esc="line.price_subtotal_in_egp"/></td>-->
+                                        <t t-set="row_number" t-value="row_number + 1"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!--                     Summary Section -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <p><strong>Subtotal in USD:</strong><t t-esc="line.price_subtotal"/></p>
+                                <p><strong>VAT in USD:</strong><t t-esc="line.services.amount"/></p>
+                                <p><strong>Total in USD:</strong> 35.68</p>
+                            </div>
+                            <div class="col-6 text-right">
+                                <p><strong>Subtotal in EGP:</strong><t t-esc="line.price_subtotal"/></p>
+                                <p><strong>VAT in EGP:</strong><t t-esc="line.services.amount"/></p>
+                                <p><strong>Total in EGP:</strong> 562.98</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Footer Section -->
+                    <div class="footer mt-4">
+                        <hr/>
+                        <div class="row">
+                            <div class="col-6">
+                                <p>Website: <a href="http://jetexpress-eg.com/">http://jetexpress-eg.com/</a></p>
+                                <p>Email: <a href="mailto:info@jetexpress-eg.com">info@jetexpress-eg.com</a></p>
+                            </div>
+                            <div class="col-6 text-right">
+                                <p>TIN: 381-227-677</p>
+                                <p>Company Registration No.: 4421</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//table[@class='table table-sm o_main_table table-borderless mt-4']/thead/tr/th[@name='th_description']" position="before">
+            <th class="text-end">S/N</th>
+            <th class="text-end" >WB</th>
+            <th class="text-end">From</th>
+            <th class="text-end">To</th>
+            <th class="text-end">Sender</th>
+            <th class="text-end">Receiver</th>
+        </xpath>
+
+        <xpath expr="//tbody[@class='sale_tbody']/t/tr/t/td[@name='td_name']" position="before">
+            <t t-set="row_number" t-value="1"/>
+            <t t-foreach="lines_to_report" t-as="line">
+                <tr>
+                    <td class="text-end">
+                        <span  t-esc="row_number"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="line.account_number_wb"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="line.source"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="line.destination"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="line.sender_name"/>
+                    </td>
+                    <td class="text-end">
+                        <span t-field="line.receiver_name"/>
+                    </td>
+                    <t t-set="row_number" t-value="row_number + 1"/>
+                </tr>
+            </t>
+        </xpath>
+    </template>
+
+
+    <record id="paperformat_official_receipt" model="report.paperformat">
+        <field name="name">A4 Landscape Official</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">9</field>
+        <field name="dpi">110</field>
+    </record>
+
+    <!-- Define the report action -->
+    <record id="action_report_saleorder_custom" model="ir.actions.report">
+        <field name="name">Invoice</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">courier_freight.report_saleorder_custom</field>
+        <field name="report_file">courier_freight.report_saleorder_custom</field>
+        <field name="binding_model_id" ref="courier_freight.model_sale_order"/>
+        <field name="paperformat_id" ref="paperformat_official_receipt"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

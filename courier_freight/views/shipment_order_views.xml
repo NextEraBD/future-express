@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define the view for 'shipment.order' tree view -->
+        <record id="view_shipment_order_tree" model="ir.ui.view">
+            <field name="name">freight.operations.tree</field>
+            <field name="model">freight.operation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <!-- Add more fields as per your requirements -->
+                </tree>
+            </field>
+        </record>
+
+        <!--        <record id="view_shipment_order_form" model="ir.ui.view">-->
+        <!--            <field name="name">shipment.order.form</field>-->
+        <!--            <field name="model">shipment.order</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form>-->
+        <!--                    <header>-->
+        <!--                        <button name="select_all" type="object" class="btn-primary"-->
+        <!--                                string="Select All"/>-->
+        <!--                        <button name="action_open_create_quotation" type="object" class="btn-primary"-->
+        <!--                                string="Create Quotation" />-->
+        <!--                        <button name="action_open_create_rfq" type="object" class="btn-primary"-->
+        <!--                                string="Create RFQ" attrs="{'invisible': [('cruise_type', '!=', 'international')]}" />-->
+        <!--                        <field name="stage_id_import_cruise" widget="statusbar"-->
+        <!--                               attrs="{'invisible': [('direction','!=','import')]}"/>-->
+        <!--                        <field name="stage_id_export_cruise" widget="statusbar"-->
+        <!--                               attrs="{'invisible': [('direction','!=','export')]}"/>-->
+        <!--                    </header>-->
+        <!--                    <sheet>-->
+        <!--                        <div class="oe_button_box" name="button_box">-->
+        <!--                            <button class="oe_stat_button" name="button_customer_purchase"-->
+        <!--                                    type="object" icon="fa-bars" attrs="{'invisible': [('cruise_type', '=', 'local')]}">-->
+        <!--                                <field name="purchase_count" string="Purchase" widget="statinfo" icon="fa-usd"/>-->
+        <!--                            </button>-->
+        <!--                            <button class="oe_stat_button" name="action_view_sale_quotation"-->
+        <!--                                    type="object" icon="fa-pencil-square-o">-->
+        <!--                                <field name="sale_order_count" string="Quotation_" widget="statinfo" icon="fa-usd"/>-->
+        <!--                            </button>-->
+
+        <!--                            <button class="oe_stat_button" name="action_view_shipment_orders"-->
+        <!--                                    type="object" icon="fa-truck">-->
+        <!--                                <field name="shipment_order_count" string="Shipment Orders" widget="statinfo" icon="fa-truck"/>-->
+        <!--                            </button>-->
+        <!--                            <button name="action_view_online_payments" type="object" class="oe_stat_button"-->
+        <!--                                    icon="fa-pencil-square-o" string="Online Payments"-->
+        <!--                                    attrs="{'invisible': [('local_type', '!=', 'online')]}">-->
+        <!--                            </button>-->
+        <!--                            <button name="action_view_customer_complaints" type="object" class="oe_stat_button"-->
+        <!--                                    icon="fa-exclamation-circle" string="Customer Complaints">-->
+        <!--                                <field name="customer_complaint_count" string="Complaints" widget="statinfo" icon="fa-exclamation-circle"/>-->
+        <!--                            </button>-->
+        <!--                        </div>-->
+        <!--                        <h1>-->
+        <!--                            <div>-->
+        <!--                                <field name="name" readonly="1"/>-->
+        <!--                            </div>-->
+        <!--                        </h1>-->
+        <!--                        <group col="2">-->
+        <!--                            &lt;!&ndash; Main Details &ndash;&gt;-->
+        <!--                            <group name="main_details" string="Main Details">-->
+        <!--                                <field name="operation_type"/>-->
+        <!--                                <field name="cruise_type" attrs="{'invisible': [('operation_type', '!=', 'cruise')], 'options': {'no_reset': True}}"/>-->
+        <!--                                <field name="local_type" attrs="{'invisible': [('cruise_type', '!=', 'local')]}"/>-->
+        <!--                                <field name="amount_payment" attrs="{'invisible': [('local_type', '!=', 'online')]}" />-->
+        <!--                                <field name="direction" attrs="{-->
+        <!--                                'invisible': [('cruise_type', '!=', 'international')],-->
+        <!--                                 'required': [('cruise_type', '=', 'international')],-->
+        <!--                                 'options': {'no_reset': True}}"/>-->
+        <!--                                <field name="customer_id" required="1"/>-->
+        <!--                                <field name="customer_service_id"/>-->
+        <!--                                &lt;!&ndash;                                <field name="type"/>&ndash;&gt;-->
+        <!--                                <field name="account_number_wb" required="1"/>-->
+        <!--                                <field name="received_date"/>-->
+        <!--                                <field name="lead_id" readonly="1" invisible="1"/>-->
+        <!--                            </group>-->
+        <!--                            &lt;!&ndash; Order Details &ndash;&gt;-->
+        <!--                            <group name="order_details" string="Order Details">-->
+        <!--                                <field name="sale_order_date"/>-->
+        <!--                                <field name="competitors"/>-->
+        <!--                                &lt;!&ndash;                                <field name="sale_order_type"/>&ndash;&gt;-->
+        <!--                                <field name="shipment_type" required="1"/>-->
+        <!--                                <field name="courier"/>-->
+        <!--                                <field name="price_list_id"/>-->
+        <!--                                <field name="payment_terms"/>-->
+        <!--                            </group>-->
+        <!--                        </group>-->
+        <!--                        &lt;!&ndash; Sender and Receiver Details groups &ndash;&gt;-->
+        <!--                        <group>-->
+        <!--                            &lt;!&ndash; Sender Details &ndash;&gt;-->
+        <!--                            <group string="Sender Details">-->
+        <!--                                <field name="sender_name"/>-->
+        <!--                                <field name="sender_mobile"/>-->
+        <!--                                <field name="sender_address"/>-->
+        <!--                                <field name="sender_country_id" required="1" attrs="{'readonly': [('direction', '=', 'export')]}"/>-->
+        <!--                                <field name="sender_state_id"/>-->
+        <!--                            </group>-->
+        <!--                            &lt;!&ndash; Receiver Details &ndash;&gt;-->
+        <!--                            <group string="Receiver Details">-->
+        <!--                                <field name="receiver_name"/>-->
+        <!--                                <field name="receiver_mobile"/>-->
+        <!--                                <field name="receiver_address" />-->
+        <!--                                <field name="receiver_country_id" required="1"  attrs="{'readonly': [('direction', '=', 'import')]}"/>-->
+        <!--                                <field name="receiver_state_id"/>-->
+        <!--                            </group>-->
+        <!--                        </group>-->
+        <!--                        &lt;!&ndash; Notebook with Order Lines page &ndash;&gt;-->
+        <!--                        <notebook>-->
+        <!--                            <page string="Order Lines">-->
+        <!--                                <field name="order_lines">-->
+        <!--                                    <tree editable="1">-->
+        <!--                                        <field name="check"/>-->
+        <!--                                        <field name="product"/>-->
+        <!--                                        <field name="weight"/>-->
+        <!--                                        <field name="vendor" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}"/>-->
+        <!--                                        &lt;!&ndash;                                <field name="customer"/>&ndash;&gt;-->
+        <!--                                        <field name="description"/>-->
+        <!--                                        <field name="source" optional="hide"/>-->
+        <!--                                        <field name="destination" optional="hide"/>-->
+        <!--                                        <field name="services" optional="hide" widget="many2many_tags"/>-->
+        <!--                                        <field name="services_amount" />-->
+        <!--                                        <field name="departial_date" optional="hide"/>-->
+        <!--                                        &lt;!&ndash;                                <field name="no_of_item"/>&ndash;&gt;-->
+        <!--                                        <field name="analytic_tag" optional="hide"/>-->
+        <!--                                        <field name="international_tax" optional="hide" widget="many2many_tags"/>-->
+        <!--                                        <field name="taxes"/>-->
+        <!--                                        <field name="currency_id" />-->
+        <!--                                        <field name="net_rate" />-->
+        <!--                                        <field name="processed_so" optional="hide"/>-->
+        <!--                                        <field name="processed_po" optional="hide"/>-->
+        <!--                                        <field name="sale_price" optional="hide"/>-->
+        <!--                                        <field name="cost_price" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}" optional="hide"/>-->
+        <!--                                        <field name="total_price"/>-->
+        <!--                                    </tree>-->
+        <!--                                </field>-->
+        <!--                            </page>-->
+        <!--                            <page string="Assignees" >-->
+        <!--                                <group>-->
+        <!--                                    <field name="employee_ids" widget="many2many_tags" options="{'no_create': True}"/>-->
+        <!--                                </group>-->
+        <!--                            </page>-->
+        <!--                            <page name="operator_service" string="Operator Service"-->
+        <!--                                  attrs="{'invisible': [('operator_invisible','!=',True)]}">-->
+        <!--                                <group>-->
+        <!--                                    <field name="user_operator"/>-->
+        <!--                                    <field name="operator_invisible" invisible="1"/>-->
+        <!--                                </group>-->
+        <!--                            </page>-->
+        <!--                            <page string="Order Information">-->
+
+        <!--                            </page>-->
+        <!--                        </notebook>-->
+        <!--                        &lt;!&ndash;                        <group>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                            <group string="Discount">&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="discount_type"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="discount_rate"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                            </group>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                            <group class="oe_subtotal_footer oe_right">&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="untaxed_amount"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="discount"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="services"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="local_taxes"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="vat"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                                <field name="total"/>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                            </group>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                        </group>&ndash;&gt;-->
+        <!--                    </sheet>-->
+        <!--                    `                    <div class="oe_chatter">-->
+        <!--                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>-->
+        <!--                    <field name="activity_ids" widget="mail_activity"/>-->
+        <!--                    <field name="message_ids" widget="mail_thread"/>-->
+        <!--                </div>`-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
+
+        <record id="action_shipment_order_custom" model="ir.actions.act_window">
+            <field name="name">Shipment Orders</field>
+            <field name="res_model">freight.operation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Shipment.
+                </p>
+            </field>
+            <field name="view_id" ref="courier_freight.view_shipment_order_tree"/>
+        </record>
+
+
+        <!-- Main opreation view -->
+
+        <record id="helpdesk_import_cruise_shipment_ticket_view_kanban" model="ir.ui.view">
+            <field name="name">freight.operation.kanban</field>
+            <field name="model">freight.operation</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id_local_cruise" class="o_kanban_small_column" delete="false">
+                    <header>
+                        <button class="btn btn-primary" name="action_convert"
+                                type="object" string="Convert" />
+                    </header>
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Direction:<field name="direction"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+
+                                    </div>
+
+                                    <div>
+                                        Customer: <field name="customer_id"/>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="helpdesk_export_cruise_shipment_ticket_view_kanban" model="ir.ui.view">
+            <field name="name">freight.operation.kanban</field>
+            <field name="model">freight.operation</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id_local_cruise" class="o_kanban_small_column" delete="false">
+                    <header>
+                        <button class="btn btn-primary" name="action_convert"
+                                type="object" string="Convert" />
+                    </header>
+                    <field name="name"/>
+                    <field name="direction"/>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Direction:<field name="direction"/>
+                                        </strong>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="helpdesk_local_cruise_shipment_ticket_view_kanban" model="ir.ui.view">
+            <field name="name">freight.operation.kanban</field>
+            <field name="model">freight.operation</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id_local_cruise" class="o_kanban_small_column" delete="false">
+                    <header>
+                        <button class="btn btn-primary" name="action_convert"
+                                type="object" string="Convert" />
+                    </header>
+                    <field name="name"/>
+                    <field name="account_number_wb"/>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown"
+                                       href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable">
+                                            <li>
+                                                <a type="edit">Edit</a>
+                                            </li>
+                                        </t>
+                                        <t t-if="widget.deletable">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                        </t>
+
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Account Number WB:<field name="account_number_wb"/>
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        Customer: <field name="customer_id"/>
+                                    </div>
+                                    <div class="oe_clear"></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_import_cruise_shipment_all_action">
+            <field name="name">Import</field>
+            <field name="res_model">freight.operation</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="helpdesk_import_cruise_shipment_ticket_view_kanban"/>
+            <field name="domain">[('direction','=','import'),('operation_type','=','cruise')]</field>
+            <field name="context">{'default_cruise_type':'international','default_operation_type':'cruise','default_direction':'import'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Freight Import.
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="view_export_cruise_shipment_all_action">
+            <field name="name">Export</field>
+            <field name="res_model">freight.operation</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="helpdesk_export_cruise_shipment_ticket_view_kanban"/>
+            <field name="domain">[('direction','=','export'),('operation_type','=','cruise')]</field>
+            <field name="context">{'default_cruise_type':'international','default_operation_type':'cruise','default_direction':'export'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Freight Export.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="view_local_cruise_shipment_all_action">
+            <field name="name">Local</field>
+            <field name="res_model">freight.operation</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="helpdesk_local_cruise_shipment_ticket_view_kanban"/>
+            <field name="domain">[('operation_type','=','cruise'),('cruise_type','=','local')]</field>
+            <field name="context">{'default_cruise_type':'local','default_operation_type':'cruise'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new Freight Export.
+                </p>
+            </field>
+        </record>
+        <record id="view_shipment_order_filter" model="ir.ui.view">
+            <field name="name">shipment.order.view.search</field>
+            <field name="model">freight.operation</field>
+            <field name="arch" type="xml">
+                <search string="Search Operations">
+                    <field name="account_number_wb"/>
+                </search>
+            </field>
+        </record>
+
+
+
+        <menuitem name="Courier Shipment" id="shipment_all_courier" parent="freight.freight_root" sequence="3"/>
+        <menuitem name="Local" parent="shipment_all_courier" sequence="4" id="shipment_all_lo_courier_operation"
+                  action="view_local_cruise_shipment_all_action"/>
+        <menuitem name="Export" parent="shipment_all_courier" sequence="4" id="shipment_all_ex_courier_operation"
+                  action="view_export_cruise_shipment_all_action"/>
+        <menuitem name="Import" parent="shipment_all_courier" sequence="4" id="shipment_all_im_courier_operation"
+                  action="view_import_cruise_shipment_all_action"/>
+    </data>
+</odoo>

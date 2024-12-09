@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_country_state_tree_inherited" model="ir.ui.view">
+        <field name="name">country.state.tree.inherited</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="zone"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_country_tree_inherited" model="ir.ui.view">
+        <field name="name">country.tree.inherited</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="zone"/>
+            </xpath>
+        </field>
+<!--        <xpath expr="//tree" position="attributes">-->
+<!--            <attribute name="create">false</attribute>-->
+<!--            <attribute name="edit">true</attribute>-->
+<!--        </xpath>-->
+    </record>
+    <record id="view_country_form_inherited" model="ir.ui.view">
+        <field name="name">country.form.inherited</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="zone"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

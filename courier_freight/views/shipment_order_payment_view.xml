@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form view for shipment order -->
+        <record id="view_shipment_order_payment_form" model="ir.ui.view">
+            <field name="name">shipment.order.payment.form</field>
+            <field name="model">shipment.order.payment</field>
+            <field name="arch" type="xml">
+                <form string="Shipment Order">
+                    <header>
+                        <button name="action_generate_barcode"
+                                string="Generate Barcode"
+                                type="object"
+                                class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <group col="2">
+
+                            <group>
+                                <field name="sender_account_number"/>
+                                <field name="invoice_to_receiver"/>
+                                <field name="lead_id" readonly="1" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="barcode_image" widget="image"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                        <group col="2">
+                            <group string="Sender">
+                                <field name="sender_company_name"/>
+                                <field name="sender_address"/>
+                                <field name="sender_city"/>
+                                <field name="sender_post_zip_code"/>
+                                <field name="sender_province"/>
+                                <field name="sender_country"/>
+                                <field name="sender_contact_name"/>
+                                <field name="sender_tel"/>
+                            </group>
+                            <group string="Receiver">
+                                <field name="receiver_company_name"/>
+                                <field name="receiver_address"/>
+                                <field name="receiver_city"/>
+                                <field name="receiver_post_zip_code"/>
+                                <field name="receiver_province"/>
+                                <field name="receiver_country"/>
+                                <field name="receiver_contact_name"/>
+                                <field name="receiver_tel"/>
+                            </group>
+                        </group>
+                        <group  string="Dangerous Goods and Fragile Goods ">
+                            <group>
+                                <field name="dangerous_goods" widget='radio'/>
+                            </group>
+                            <group>
+                                <field name="fragile_goods" widget='radio'/>
+                            </group>
+                        </group>
+                        <!--                        <group col="2">-->
+                        <!--                            <group string="">-->
+                        <!--                                <field name="sender_signature"/>-->
+                        <!--                                <field name="received_by_jet_express"/>-->
+                        <!--                                <field name="sender_date"/>-->
+                        <!--                                <field name="jet_express_date"/>-->
+                        <!--                            </group>-->
+                        <!--                        </group>-->
+                        <group col="3" string="Services (Cross One Box Only Select Services)">
+                            <group>
+                                <field name="services_10_00_express_doc"/>
+                                <field name="services_10_00_express_non_doc"/>
+                                <field name="services_10_00_express_same_day"/>
+                            </group>
+                            <group>
+                                <field name="services_12_00_express_doc"/>
+                                <field name="services_12_00_express_non_doc"/>
+                                <field name="services_12_00_express_same_day"/>
+                            </group>
+                            <group>
+                                <field name="services_express_doc"/>
+                                <field name="services_express_non_doc"/>
+                                <field name="services_express_same_day"/>
+                            </group>
+
+                        </group>
+                        <group col="3" string="Good Description">
+                            <group>
+                                <field name="goods_description_1"/>
+                                <field name="number_of_items_1"/>
+                                <field name="weight_kg_1"/>
+                                <field name="weight_g_1"/>
+                            </group>
+                            <group>
+                                <field name="goods_description_2"/>
+                                <field name="number_of_items_2"/>
+                                <field name="weight_kg_2"/>
+                                <field name="weight_g_2"/>
+                            </group>
+                            <group>
+
+                                <field name="total_number_of_items"/>
+                                <field name="total_weight_kg"/>
+                                <field name="total_weight_g"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Tree view for shipment order -->
+        <record id="view_shipment_order_payment_tree" model="ir.ui.view">
+            <field name="name">shipment.order.payment.tree</field>
+            <field name="model">shipment.order.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Shipment Orders">
+                    <field name="sender_account_number"/>
+                    <field name="invoice_to_receiver"/>
+                    <field name="sender_company_name"/>
+                    <field name="receiver_company_name"/>
+                    <field name="sender_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action to open the tree view -->
+        <record id="action_shipment_order_payment" model="ir.actions.act_window">
+            <field name="name">Shipment Orders</field>
+            <field name="res_model">shipment.order.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_shipment_order_payment_tree"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record model="freight.import.stage.courier" id="draft_freight_import_stage_courier">
+        <field name="name">New</field>
+        <field name="sequence">1</field>
+    </record>
+    <record model="freight.import.stage.courier" id="ready_freight_import_stage_courier">
+        <field name="name">Assigned to Pick</field>
+        <field name="sequence">2</field>
+    </record>
+
+    <record model="freight.import.stage.courier" id="delay_freight_import_stage_courier">
+        <field name="name">Picked</field>
+        <field name="sequence">3</field>
+    </record>
+    <record model="freight.import.stage.courier" id="done_freight_import_stage_courier">
+        <field name="name">Sort</field>
+        <field name="sequence">4</field>
+    </record>
+
+
+    <record model="freight.export.stage.courier" id="draft_freight_export_stage_courier">
+        <field name="name">New</field>
+        <field name="sequence">1</field>
+    </record>
+    <record model="freight.export.stage.courier" id="ready_freight_export_stage_courier">
+        <field name="name">Assigned to Pick</field>
+        <field name="sequence">2</field>
+    </record>
+    <record model="freight.export.stage.courier" id="delay_freight_export_stage_courier">
+        <field name="name">Picked</field>
+        <field name="sequence">3</field>
+    </record>
+    <record model="freight.export.stage.courier" id="done_freight_export_stage_courier">
+        <field name="name">Sort</field>
+        <field name="sequence">4</field>
+    </record>
+    <record model="freight.local.stage.courier" id="draft_freight_localt_stage_courier">
+        <field name="name">New</field>
+        <field name="sequence">1</field>
+    </record>
+    <record model="freight.local.stage.courier" id="ready_freight_local_stage_courier">
+        <field name="name">Assigned to Pick</field>
+        <field name="sequence">2</field>
+    </record>
+
+    <record model="freight.local.stage.courier" id="delay_freight_local_stage_courier">
+        <field name="name">Picked</field>
+        <field name="sequence">3</field>
+    </record>
+
+    <record model="freight.local.stage.courier" id="done_freight_localt_stage_courier">
+        <field name="name">Sort</field>
+        <field name="sequence">4</field>
+    </record>
+    <record model="freight.local.stage.courier" id="choose_freight_local_stage_courier">
+        <field name="name">Choose Assigned</field>
+        <field name="sequence">5</field>
+    </record>
+    <record model="freight.local.stage.courier" id="assigned_deliver_freight_local_stage_courier">
+        <field name="name">Assigned to Delivered</field>
+        <field name="sequence">6</field>
+    </record>
+
+    <record model="freight.local.stage.courier" id="delivered_freight_local_stage_courier">
+        <field name="name">Delivered To Branch</field>
+        <field name="sequence">10</field>
+    </record>
+    <record model="freight.local.stage.courier" id="return_shipper_local_stage_courier">
+        <field name="name">Returned to Shipper</field>
+        <field name="sequence">11</field>
+    </record>
+    <record model="freight.local.stage.courier" id="delivered_shipper_local_stage_courier">
+        <field name="name">Delivered</field>
+        <field name="sequence">12</field>
+    </record>
+    <record model="freight.local.stage.courier" id="hold_local_stage_courier">
+        <field name="name">Hold at Branch</field>
+        <field name="sequence">13</field>
+    </record>
+    <record model="freight.local.stage.courier" id="change_address_local_stage_courier">
+        <field name="name">Change Address</field>
+        <field name="sequence">14</field>
+    </record>
+
+
+    <!-- Define a cron job to check deadlines daily at midnight -->
+    <record id="ir_cron_check_deadlines_and_create_activity" model="ir.cron">
+        <field name="name">Check Freight Operation Deadlines</field>
+        <field name="model_id" ref="model_freight_operation"/> <!-- Ensure this model ref is correct -->
+        <field name="state">code</field>
+        <field name="code">model._cron_check_deadlines_and_create_activity()</field>
+        <field name="active">True</field>
+        <field name="interval_type">days</field>
+        <field name="interval_number">1</field>
+        <field name="numbercall">-1</field>
+        <field name="doall">False</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=0, minute=0, second=0)"/>
+    </record>
+
+</odoo>

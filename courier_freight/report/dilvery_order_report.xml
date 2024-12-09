@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Main report template -->
+        <template id="report_delivery_order">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <head>
+                            <style>
+                                .bordered-container {
+                                border: 1px solid #000; /* Border around the container */
+                                padding: 0px; /* Internal padding */
+                                margin: 20px; /* External margin */
+                                }
+                                .left-col, .right-col {
+                                border: 1px solid #000; /* Dashed border for both columns */
+                                padding: 10px; /* Internal padding for columns */
+
+                                hr {
+                                width: 2px; /* Width of the horizontal line */
+                                background-color: #000; /* Color of the line */
+                                border: none; /* Remove default border */
+                                height: 100%; /* Full height of the container */
+                                margin: 0; /* Remove any margin */
+
+                                }
+                            </style>
+                        </head>
+                        <div class="page">
+                            <div class="row" style="margin-bottom: 20px;">
+                                <!-- Left Column for Company Logo -->
+                                <div class="col-4" style="text-align: left;">
+                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 80; max-width: 100%;" alt="Logo"/> <!-- Added max-width -->
+                                </div>
+
+                                <!-- Center Column for DELIVERY ORDER -->
+                                <div class="col-4" style="text-align: center; font-weight: bold; font-size: 16px;margin-top: 40px">
+                                    DELIVERY ORDER
+                                </div>
+
+                                <!-- Right Column for Reference Number -->
+                                <div class="col-4" style="text-align: right; font-weight: bold; font-size: 14px;margin-top: 40px">
+                                    MLS/ESL/1001
+                                </div>
+                            </div>
+                            <div class="bordered-container">
+                                <div class="row">
+                                    <div class="col-6 left-col">
+                                        <!-- Content for Left Column -->
+                                        <p style="font-weight: bold;">Notify Party (Complete name and address)</p>
+                                    </div>
+                                    <div class="col-6 right-col">
+                                        <!-- Content for Right Column -->
+                                        <p style="font-weight: bold;text-align: right;">B/l No.</p>
+                                        <p style="font-weight: bold;text-align: right;">ESLJEASOK007254</p>
+
+                                        <span style="font-weight: bold; text-align: left; margin-top: 10px;;">Vessel:</span>
+                                        <span style="margin-left:110px">GFS PERFECT</span><br/>
+                                        <span style="font-weight: bold; text-align: left; margin-top: 10px;;">voyage:</span>
+                                        <span style="margin-left:110px">0045</span><br/>
+                                        <span style="font-weight: bold; text-align: left; margin-top: 10px;;">Port Of Loading:</span>
+                                        <span style="margin-left:50px">JEBEL ALI</span><br/>
+                                        <span style="font-weight: bold; text-align: left; margin-top: 10px;;">Port O discharge:</span>
+                                        <span style="margin-left:50px">Sokhna Port</span><br/>
+                                        <span style="font-weight: bold; text-align: left; margin-top: 10px;;">Arrival date:</span>
+                                        <span style="margin-left:80px">19/10/2023</span><br/>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 left-col">
+                                        <!-- Content for Left Column -->
+                                        <p style="font-weight: bold;">Notify Party (Complete name and address)</p>
+                                        <p style="margin-top: 10px; ">
+                                            EL MOHANDES JOTUN S.A.E.<br/>
+                                            INDUSTRIAL ZONE B3/ 10TH OF RAMADAA,<br/>
+                                            EL SHARKEYA, EGYPT
+                                        </p>
+                                    </div>
+                                    <div class="col-6 right-col">
+                                        <!-- Content for Right Column -->
+                                        <p style="font-weight: bold;">Shipper Exporter(Complete Name and Address)</p>
+                                        <p style="margin-top: 10px; ">
+                                            AQUACHEMIE MIDDLE EAST FZE.<br/>
+                                            STREET 711, PLOT B-048F01, JEBEL ALI FREE ZONE<br/>
+                                            (NORTH) DUBAI, UAE
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div style="margin-top: 20px; margin-bottom: 100px;">
+                                    <div style="font-weight: bold; margin-bottom: 5px; margin-top: 15px; margin-left: 15px;"> <!-- Added margin-top -->
+                                        Kind of packages; Description of goods; Marks and Numbers; Container No./Seal No.
+                                    </div>
+                                    <div class="row" style="margin-top: 20px; margin-bottom: 100px;">
+                                        <div class="col-6" style="margin-bottom: 5px; margin-top: 15px; margin-left: 15px;">
+                                            <p style="margin: 0;">3X20 GP FCL/FCL CY/CY CNTR (IMCO) STC:</p>
+                                            <p style="margin: 0;">240 DRUMS XYLENE</p>
+                                            <p style="margin: 0;">IMCO CLASS: 3 UN NO.: 1307</p>
+                                            <p style="margin: 0;">PACKING GROUP: III</p>
+                                            <p style="margin: 0;">NET WEIGHT: 43200.00 KGS</p>
+                                            <p style="margin: 0;">H.S. CODE: 29024400</p>
+                                            <p style="margin: 0;">ED NO: 303-08063457-23</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <p style="margin: 0;">GROSS WEIGHT</p> <!-- Added Gross Weight -->
+                                                    <p style="margin: 0;margin-left: 15px;">46800 KGS</p> <!-- Added Gross Weight -->
+                                                </div>
+                                                <div class="col-6">
+                                                    <p style="margin: 0;">MEASUREMENT</p> <!-- Added Measurement -->
+                                                </div>
+                                            </div>
+                                            <div style="margin-top: 20px; ">
+                                                <p style="margin: 0;margin-left: 70px;">FREIGHT PREPAID</p> <!-- Added FREIGHT PREPAID -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6" style="margin-top: 20px; margin-left: 15px;">
+                                            <p style="margin: 0; font-weight: bold;">ACID NO: 1002575502023090800</p>
+                                            <p style="margin: 0; font-weight: bold;">21 DAYS FREE TIME DETENTION AT DESTINATION</p>
+                                        </div>
+                                        <div class="col-6" style="margin-top: 20px; margin-left: 15px;">
+                                            <p style="margin: 0; font-weight: bold;">FREE DAYS UNTIL 8/11/2023</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px; margin-bottom: 30px;">
+                                    <div style="display: flex; align-items: flex-start;">
+                                        <div style="border: 1px solid #000; padding: 5px; margin-right: 20px; width: 250px; text-align: center;">
+                                            <span>2024-10-09</span> <!-- Replace with your desired date -->
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 5px;">
+                                                <thead>
+                                                    <tr style="background-color: #e0e0e0;">
+                                                        <th style="border: 1px solid #000; padding: 5px;">Container No.</th>
+                                                        <th style="border: 1px solid #000; padding: 5px;">Size/Type</th>
+                                                        <th style="border: 1px solid #000; padding: 5px;">Gross Weight</th>
+                                                        <th style="border: 1px solid #000; padding: 5px;">Net Weight</th>
+                                                        <th style="border: 1px solid #000; padding: 5px;">Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="border: 1px solid #000; padding: 5px;">CCLU3594530</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">3X20 GP FCL/FCL</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">46800 KGS</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">43200 KGS</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">240 DRUMS XYLENE</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border: 1px solid #000; padding: 5px;">DFSU2252324</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">20</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">15600 KGS</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">14400 KGS</td>
+                                                        <td style="border: 1px solid #000; padding: 5px;">Description Here</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div style="margin-top: 20px; font-size: 10px; color: #777;">
+                                <p style="border-top: 1px solid #000; padding-top: 5px; text-align: center;">
+                                    <t t-esc="'LOGISTICS COMPANY NOT RESPONSIBLE FOR WEIGHTS AND MEASUREMENTS'"/>
+                                </p>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <!-- Report action record -->
+        <record id="report_delivery_order_report" model="ir.actions.report">
+            <field name="name">dilvery order</field>
+            <field name="model">shipment.order.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">courier_freight.report_delivery_order</field>
+            <field name="report_file">courier_freight.report_delivery_order</field>
+            <field name="binding_model_id" ref="courier_freight.model_shipment_order_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

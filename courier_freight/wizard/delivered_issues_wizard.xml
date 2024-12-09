@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_freight_operation_delivered_wizard_form" model="ir.ui.view">
+            <field name="name">freight.operation.delivered.wizard.form</field>
+            <field name="model">freight.operation.delivered.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Delivered Issue">
+                    <group>
+                        <field name="operation_id" invisible="0"/>
+                        <field name="date"/>
+                        <field name="stage_id"/>
+                        <field name="reason"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm" type="object" name="confirm" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- Tree View for Delivered Issues -->
+        <record id="view_freight_operation_delivered_wizard_tree" model="ir.ui.view">
+            <field name="name">freight.operation.delivered.wizard.tree</field>
+            <field name="model">freight.operation.delivered.wizard</field>
+            <field name="arch" type="xml">
+                <tree string="Delivered Issues">
+                    <field name="operation_id"/>
+                    <field name="date"/>
+                    <field name="stage_id"/>
+                    <field name="reason"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

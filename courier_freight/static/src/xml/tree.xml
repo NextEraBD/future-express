@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+   <t t-extend="ListView.buttons" t-name="courier_freight.buttons">
+       <t t-jquery="button.o_list_button_save" t-operation="after">
+           <button type="button" style="margin-left:15px;margin-right:15px;" class="btn btn-primary open_wizared">
+               Reload
+           </button>
+       </t>
+   </t>
+</templates>

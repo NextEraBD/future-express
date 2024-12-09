@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Define the view for 'ticket' tree view -->
+        <record id="view_ticket_tree" model="ir.ui.view">
+            <field name="name">ticket.tree</field>
+            <field name="model">customer.ticket</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <!-- Add more fields as per your requirements -->
+                </tree>
+            </field>
+        </record>
+
+        <!-- Define the form view for 'ticket' -->
+        <record id="view_ticket_form" model="ir.ui.view">
+            <field name="name">ticket.form</field>
+            <field name="model">customer.ticket</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_submit" string="Submit" type="object" class="btn-primary" states="draft"/>
+                        <button name="action_approve" string="Approve" type="object" class="btn-success" states="submitted"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <!-- Main Details -->
+                            <group string="Main Details">
+                                <field name="user_id" required="1"/>
+                                <field name="customer_id" required="1"/>
+                                <field name="date_created"/>
+                                <field name="complaint_type_id"/>
+                            </group>
+                            <!-- ticket Details -->
+                            <group string="ticket Details">
+                                <field name="description" required="1"/>
+                                <field name="feedback"/>
+                                <field name="amount"/>
+                                <field name="police"/>
+                                <field name="number_of_operations"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids" widget="mail_activity" options="{'model': 'customer.ticket'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Define the action for 'ticket' -->
+        <record id="action_ticket" model="ir.actions.act_window">
+            <field name="name">tickets</field>
+            <field name="res_model">customer.ticket</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new ticket.
+                </p>
+            </field>
+            <field name="view_id" ref="view_ticket_tree"/>
+        </record>
+
+
+<!--         Define the menu item for 'tickets' -->
+        <menuitem
+                id="operation_menu_task"
+                name="Task"
+                parent="freight.freight_root"
+                action="courier_freight.action_view_task_operation_id"
+                sequence="5"/>
+        <menuitem
+                id="compliment_menu_task"
+                name="Task"
+                parent="courier_freight.menu_customer_compliment"
+                action="courier_freight.action_view_task_operation_id"
+                sequence="5"/>
+        <menuitem id="menu_ticket" name="Tickets" parent="courier_freight.menu_customer_compliment" action="action_ticket" sequence="2"/>
+
+
+    </data>
+</odoo>

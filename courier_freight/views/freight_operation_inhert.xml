@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="freight_operation_inherited_view" model="ir.ui.view">
+            <field name="name">freight.operation.form</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <field name="stage_id_local_cruise" widget="statusbar"
+                           attrs="{'invisible': [('cruise_type','!=','local')]}"/>
+                </xpath>
+                <xpath expr="//button[@name='action_open_create_rfq']" position="after">
+                    <button name="action_assign_to_pick" type="object" string="Assign to Pick" class="oe_highlight"
+                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 1)]}"/>
+
+                    <button name="action_pick" type="object" string="Pick" class="oe_highlight"
+                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 2)]}"/>
+                    <button name="action_send_to_sort" type="object" string="Send to Sort" class="oe_highlight"
+                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 3)]}"/>
+                    <button name="action_open_operation_wizard" type="object" string="Transfer" class="btn-primary"
+                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 4)]}"/>
+                    <button name="action_assign_to_delivered" type="object" string="Assigned To Delivered" class="oe_highlight"
+                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 5)]}"/>
+                    <button name="action_delivered" type="object" string=" Delivered" class="oe_highlight"
+                            attrs="{'invisible': [('stage_id_local_cruise', '!=', 6)]}"
+                    />
+                    <button name="action_open_delivered_issue_wizard" type="object" string="Delivered Issue" class="btn-primary"/>
+                    <button name="%(action_view_operation_task_form)d" type="action"
+                            class="btn-link d-block" string="Create Task"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_online_payments" type="object" class="oe_stat_button"
+                            icon="fa-pencil-square-o" string="Online Payments"
+                            attrs="{'invisible': [('local_type', '!=', 'online')]}">
+                    </button>
+                    <button class="oe_stat_button" name="action_view_shipment_orders"
+                            type="object" icon="fa-truck">
+                        <field name="shipment_order_count" string="Shipment Orders" widget="statinfo" icon="fa-truck"/>
+                    </button>
+                    <button class="oe_stat_button" name="action_open_issue_wizard" type="object" icon="fa-exclamation-triangle">
+                        <field name="issue_count" string="Issues" widget="statinfo" icon="fa-exclamation-triangle"/>
+                    </button>
+                    <button class="oe_stat_button" type="action" name="%(action_view_task_operation_id)d"
+                            context="{'default_partner_id': customer_id }"
+                            icon="fa-tasks">
+                        <field string="Tasks" name="task_number" widget="statinfo"/>
+                    </button>
+                </xpath>
+                <xpath expr="//button[@name='action_view_claims']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_open_create_rfq']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('cruise_type', '!=', 'international')]}</attribute>
+                </xpath>
+
+                <field name="transport" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type', '=', 'cruise')], 'required': [('operation_type', '=', 'cargo')]}</attribute>
+                </field>
+
+                <xpath expr="//field[@name='transport']" position="after">
+                    <field name="operation_type"/>
+                    <field name="cash" required="1"/>
+                    <field name="cruise_type" attrs="{'invisible': [('operation_type', '!=', 'cruise')]}"/>
+                    <field name="local_type" attrs="{'invisible': [('cruise_type', '!=', 'local')]}"/>
+                    <field name="collection_amount" attrs="{'invisible': [('local_type', '!=', 'online')]}"/>
+                    <field name="direction" attrs="{
+                                'invisible': [('cruise_type', '!=', 'international')],
+                                 'required': [('cruise_type', '=', 'international')],
+                                 'options': {'no_reset': True}}"/>
+                </xpath>
+                <field name="operation" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="operation_air" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="direction" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="state" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="volume" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="pieces" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="date_from" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="Cut_off" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="estimated_time_departure" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="estimated_time_arrival" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="customer_id" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="date_end" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="actual_time_departure" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <field name="actual_time_arrival" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </field>
+                <xpath expr="//label[@for='weight']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='chargeable_weight']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+
+                <xpath expr="//div[@name='weight_div']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//div[@name='journal_div']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='shipper']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='consignee']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='main']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='general']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='bill']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='service']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='package']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='net_weight']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+                <xpath expr="//label[@for='net_weight']/following-sibling::div[@name='journal_div']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('operation_type','=','cruise')]}</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='col1']" position="inside">
+                    <field name="pricelist_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="currency_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="customer_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="customer_service_id"/>
+                    <field name="account_number_wb" required="1" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+
+                    <field name="received_date" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="sale_order_date" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="competitors" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="price_list_id"  attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+
+                </xpath>
+                <xpath expr="//field[@name='customer_id']" position="after">
+                    <field name="address"/>
+                    <field name="phone"/>
+                    <field name="tax_id"/>
+                    <field name="email"/>
+                    <field name="account_number"/>
+                </xpath>
+                <xpath expr="//group[@name='cal2']" position="inside">
+                    <field name="branch_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="shipment_type" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="courier" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="payment_terms" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    <field name="date_assign" readonly="1"/>
+                    <field name="dead_line"/>
+                </xpath>
+                <xpath expr="//group[@name='operation']"  position="inside">
+                    <group string="Sender" attrs="{'invisible': [('operation_type','!=','cruise')]}">
+                        <field name="sender_name" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_mobile" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_address" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_country_id"
+                               attrs="{'invisible': [('operation_type', '!=', 'cruise')],}" readonly="0"/>
+                        <field name="sender_state_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="sender_town" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    </group>
+                    <group string="Resiver" attrs="{'invisible': [('operation_type','!=','cruise')]}">
+                        <field name="receiver_name" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_mobile" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_address" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_country_id"  attrs="{'invisible': [('operation_type','!=','cruise')]}" readonly="0"/>
+                        <field name="receiver_state_id" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                        <field name="receiver_town" attrs="{'invisible': [('operation_type','!=','cruise')]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='accounting']" position="before">
+                    <page string="Order Lines" attrs="{'invisible': [('operation_type', '!=', 'cruise')]}">
+                        <field name="shipment_order_line_ids">
+                            <tree editable="1">
+                                <field name="check"/>
+                                <field name="product"/>
+                                <field name="freight_operation_id" optional="hide"/>
+                                <field name="currency_id" optional="hide"/>
+                                <field name="vendor" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}"/>
+                                <field name="size"/>
+                                <field name="width"/>
+                                <field name="height"/>
+                                <field name="gross_weight"/>
+                                <field name="cbm"/>
+                                <field name="weight"/>
+                                <!--                                <field name="customer"/>-->
+                                <field name="description" optional="hide"/>
+                                <field name="source" optional="hide"/>
+                                <field name="destination" optional="hide"/>
+                                <field name="services" widget="many2many_tags" optional="hide"/>
+                                <field name="services_amount" optional="hide"/>
+                                <field name="departial_date" optional="hide"/>
+                                <field name="analytic_tag" optional="hide"/>
+                                <field name="international_tax"  widget="many2many_tags" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}" optional="hide"/>
+                                <field name="local_tax"  widget="many2many_tags" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'local')]}" optional="hide"/>
+                                <field name="tax_id"  widget="many2many_tags" optional="hide"/>
+                                <field name="currency_id" optional="hide"/>
+                                <field name="net_rate" />
+                                <field name="sale_price" optional="hide"/>
+                                <field name="cost_price" attrs="{'column_invisible': [('parent.cruise_type', '!=', 'international')]}"/>
+                                <field name="total_price"/>
+                                <field name="total_price_currency"/>
+                                <field name="processed_so" optional="hide"/>
+                                <field name="processed_po" optional="hide"/>
+
+                            </tree>
+                        </field>
+                        <group>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="untaxed_amount"/>
+                                <field name="ks_amount_discount"/>
+                                <field name="services"/>
+                                <field name="local_taxes" attrs="{'invisible': [('cruise_type', '!=', 'local')]}"/>
+                                <field name="international_taxes" attrs="{'invisible': [('cruise_type', '!=', 'international')]}"/>
+                                <field name="vat"/>
+                                <field name="total_usd"/>
+                                <field name="total_egp"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Assigned to Pick" attrs="{'invisible': [('stage_id_local_cruise', '!=', 1)]}">
+                        <group>
+                            <field name="assigned_to" string="Assigned to Pick"/>
+                        </group>
+                    </page>
+                    <page string="Assigned to Deliver" attrs="{'invisible': [('stage_id_local_cruise', '!=', 5)]}">
+                        <group>
+                            <field name="assigned_to_deliver" string="Assigned to Deliver"/>
+                        </group>
+                    </page>
+
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/group" position="before">
+                    <div class="ks_container">
+                        <field name="ks_enable_discount" invisible="1"/>
+                        <label for="ks_global_discount_type" string="Universal Discount Type:"/>
+                        <field name="ks_global_discount_type" class="oe_inline"/>
+                    </div>
+                    <div class="ks_container">
+                        <field name="ks_amount_discount" invisible="1"/>
+                    </div>
+                    <div class="ks_container">
+                        <label for="ks_global_discount_rate" string="Universal Discount:" />
+                        <field name="ks_global_discount_rate" class="oe_inline" />
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_pick_opreation" model="ir.actions.server">
+            <field name="name">Pick</field>
+            <field name="model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_view_types">tree</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = record.action_pick()
+            </field>
+        </record>
+
+        <record id="action_sort_opreation" model="ir.actions.server">
+            <field name="name">Send To Sort</field>
+            <field name="model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_view_types">tree</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = record.action_send_to_sort()
+            </field>
+        </record>
+
+        <record id="action_transfer_opreation" model="ir.actions.server">
+            <field name="name">Transfer</field>
+            <field name="model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_view_types">tree</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = record.action_open_operation_wizard()
+            </field>
+        </record>
+
+        <record id="action_assign_pick" model="ir.actions.server">
+            <field name="name">Assign Pick</field>
+            <field name="model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_view_types">tree</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = record.action_open_assign_pick_wizard()
+            </field>
+        </record>
+
+        <record id="action_assign_delivered" model="ir.actions.server">
+            <field name="name">Assign Delivered</field>
+            <field name="model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_view_types">tree</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = record.action_open_assign_delivered_wizard()
+            </field>
+        </record>
+
+        <record id="action_delivered" model="ir.actions.server">
+            <field name="name">Delivered</field>
+            <field name="model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_model_id" ref="freight.model_freight_operation"/>
+            <field name="binding_view_types">tree</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = record.action_open_delivered_wizard()
+            </field>
+        </record>
+
+         <record id="view_freight_operation_activity_tree_inherited" model="ir.ui.view">
+        <field name="name">freight.operation.activity.tree.inherited</field>
+        <field name="model">freight.operation</field>
+        <field name="inherit_id" ref="freight.view_freight_operation_activity_tree"/>
+        <field name="arch" type="xml">
+            <!-- Example modification or addition -->
+            <xpath expr="//tree//field[@name='customer_id']" position="after">
+                <field name="account_number" optional="show"/>
+                <field name="phone" optional="show"/>
+            </xpath>
+
+            <xpath expr="//tree" position="inside">
+                <field name="account_number_wb"/>
+                <field name="date_assign" optional="show"/>
+                <field name="sender_state_id" optional="hide"/>
+                <field name="receiver_state_id" optional="hide"/>
+                <field name="branch_id" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+        <record id="view_freight_operation_filter" model="ir.ui.view">
+            <field name="name">freight.operation.view.search</field>
+            <field name="model">freight.operation</field>
+            <field name="inherit_id" ref="freight.view_freight_operation_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="account_number_wb" required="1"/>
+                    <field name="account_number"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

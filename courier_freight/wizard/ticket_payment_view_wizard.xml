@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <!-- Include the wizard view -->
+        <record id="view_ticket_approval_wizard_form" model="ir.ui.view">
+            <field name="name">ticket.approval.wizard.form</field>
+            <field name="model">ticket.approval.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Ticket Approval">
+                    <group>
+                        <field name="journal_id"/>
+                        <field name="debit_account_id"/>
+                        <field name="credit_account_id"/>
+                    </group>
+                    <footer>
+                        <button string="Approve" type="object" name="action_confirm" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

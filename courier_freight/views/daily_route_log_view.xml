@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree view for Daily Route Logs -->
+        <record id="view_daily_route_log_tree" model="ir.ui.view">
+            <field name="name">daily.route.log.tree</field>
+            <field name="model">daily.route.log</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="route_id"/>
+                    <field name="log_date"/>
+                    <field name="customer_id"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view for Daily Route Log -->
+        <record id="view_daily_route_log_form" model="ir.ui.view">
+            <field name="name">daily.route.log.form</field>
+            <field name="model">daily.route.log</field>
+            <field name="arch" type="xml">
+                <form string="Daily Route Log">
+                    <sheet>
+                        <group>
+                            <field name="route_line_id"/>
+                            <field name="log_date"/>
+                            <field name="status"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action for Daily Route Logs -->
+        <record id="action_daily_route_log" model="ir.actions.act_window">
+            <field name="name">Daily Route Logs</field>
+            <field name="res_model">daily.route.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="view_daily_route_log_tree"/>
+        </record>
+
+        <record id="view_daily_route_log_search" model="ir.ui.view">
+            <field name="name">daily.route.log.search</field>
+            <field name="model">daily.route.log</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="route_id"/>
+                    <field name="log_date"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Route" name="group_by_route" context="{'group_by':'route_id'}"/>
+                        <filter string="Date" name="group_by_date" context="{'group_by':'log_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Menu item for Daily Route Logs -->
+        <menuitem id="menu_daily_route_log" name="Daily Route Logs" parent="courier_freight.menu_daily_rout_maine" action="action_daily_route_log" sequence="3"/>
+    </data>
+</odoo>

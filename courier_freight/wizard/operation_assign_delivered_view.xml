@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_assign_delivered_wizard_form" model="ir.ui.view">
+            <field name="name">assign.delivered.wizard.form</field>
+            <field name="model">assign.delivered.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Assign To Pick">
+                    <group>
+                        <group>
+                            <field name="operation_ids" invisible="1"/>
+                            <field name="user_id" placeholder="Assign To"/>
+                        </group>
+                     </group>
+                    <notebook>
+
+                    </notebook>
+
+                    <footer>
+                        <button string="Assign To Delivered" type="object" name="action_assign_to_deliver" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

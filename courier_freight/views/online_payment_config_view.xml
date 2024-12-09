@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_online_payment_config_form" model="ir.ui.view">
+            <field name="name">online.payment.config.form</field>
+            <field name="model">online.payment.config</field>
+            <field name="arch" type="xml">
+                <form string="Online Payment Configuration">
+                    <sheet>
+                        <group>
+                            <group string="For the Partner">
+                                <field name="crm_partner_credit_account_id"/>
+                                <field name="crm_partner_debit_account_id"/>
+                                <field name="crm_partner_journal_id"/>
+                            </group>
+                            <group string="For Paid">
+                                <field name="crm_paid_credit_account_id"/>
+                                <!--                                <field name="crm_paid_debit_account_id"/>-->
+                                <!--                                <field name="crm_paid_journal_id"/>-->
+                            </group>
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_online_payment_config_tree" model="ir.ui.view">
+            <field name="name">online.payment.config.tree</field>
+            <field name="model">online.payment.config</field>
+            <field name="arch" type="xml">
+                <tree string="Online Payment Configuration">
+                    <field name="crm_partner_credit_account_id"/>
+                    <field name="crm_partner_debit_account_id"/>
+                    <field name="crm_partner_journal_id"/>
+                    <field name="crm_paid_credit_account_id"/>
+                    <!-- Uncomment if needed
+                    <field name="crm_paid_debit_account_id"/>
+                    <field name="crm_paid_journal_id"/>
+                    -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_online_payment_config_settings" model="ir.actions.act_window">
+            <field name="name">Online Payment Config</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">online.payment.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_online_payment_config" name="Online Payment Configuration"
+                  parent="account.menu_finance_configuration" sequence="10" />
+
+        <menuitem id="menu_online_payment_config_settings" name="Settings"
+                  parent="menu_online_payment_config" action="action_online_payment_config_settings"/>
+
+        <!--        <record id="ks_res_config_settings_view_form_crm" model="ir.ui.view">-->
+        <!--            <field name="name">ks.res.config.settings.view.form.crm</field>-->
+        <!--            <field name="model">res.config.settings</field>-->
+        <!--            <field name="priority" eval="50"/>-->
+        <!--            <field name="inherit_id" ref="base.res_config_settings_view_form"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//div[hasclass('app_settings_block')]/div[@name='generate_lead_setting_container']" position="after">-->
+        <!--                    <h2>Accounting</h2>-->
+        <!--                    <div class="row mt16 o_settings_container" name="accounting_setting_container">-->
+        <!--                        <div class="col-lg-6 o_setting_box">-->
+        <!--                            <div class="o_setting_right_pane">-->
+        <!--                                <label for="crm_partner_credit_account_id">Credit Account</label>-->
+        <!--                                <field name="crm_partner_credit_account_id"/>-->
+        <!--                                <label for="crm_partner_debit_account_id">Debit Account</label>-->
+        <!--                                <field name="crm_partner_debit_account_id"/>-->
+        <!--                                <label for="crm_partner_journal_id">Journal Account </label>-->
+        <!--                                <field name="crm_partner_journal_id"/>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <div class="col-lg-6 o_setting_box">-->
+        <!--                            <div class="o_setting_right_pane">-->
+        <!--                                <label for="crm_paid_debit_account_id">Paid Debit Account</label>-->
+        <!--                                <field name="crm_paid_debit_account_id"/>-->
+        <!--                                <label for="crm_paid_credit_account_id">Paid Credit Account</label>-->
+        <!--                                <field name="crm_paid_credit_account_id"/>-->
+        <!--                                <label for="crm_paid_journal_id">Paid Journal Account</label>-->
+        <!--                                <field name="crm_paid_journal_id"/>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+    </data>
+</odoo>

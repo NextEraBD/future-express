@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Main report template -->
+        <template id="payment_report_template">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="2"/>
+                <t t-set="data_report_header_spacing" t-value="2"/>
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.basic_layout">
+                        <head>
+                            <style>
+                                .square {
+                                display: inline-block;
+                                width: 25px; /* Adjusted for better fit */
+                                height: 15px; /* Adjusted for better fit */
+                                }
+                                .small-table {
+                                display: inline-block;
+                                border: 1px solid #000;
+                                border-collapse: collapse;
+                                margin-left: 8px; /* Reduced margin */
+                                vertical-align: top;
+                                }
+                                .small-table td, .small-table th {
+                                border: 1px solid #000;
+                                padding: 4px; /* Reduced padding */
+                                text-align: center;
+                                }
+                                .small-table td {
+                                width: 18px; /* Adjusted for better fit */
+                                height: 18px; /* Adjusted for better fit */
+                                }
+                                .inline-label {
+                                display: inline-block;
+                                vertical-align: top;
+                                }
+                                .right-content {
+                                display: inline-block;
+                                vertical-align: top;
+                                }
+                                .non-bordered-table {
+                                width: 100%;
+                                margin-top: 2px; /* Reduced margin */
+                                }
+                                .non-bordered-table td, .non-bordered-table th {
+                                padding: 4px; /* Reduced padding */
+                                text-align: center;
+                                }
+                                .non-bordered-table th {
+                                font-weight: bold;
+                                }
+                                .address-section {
+                                margin-bottom: 10px; /* Reduced margin */
+                                }
+                                .contact-section {
+                                margin-top: 15px; /* Reduced margin */
+                                display: flex;
+                                align-items: center;
+                                }
+                                .contact-section .icon {
+                                margin-right: 8px; /* Reduced space */
+                                }
+                                .contact-section .text {
+                                display: inline-block;
+                                vertical-align: middle;
+                                }
+                                .special-instruction {
+                                margin-top: 15px; /* Reduced margin */
+                                font-weight: bold;
+                                }
+                                .goods-description-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 8px; /* Reduced margin */
+                                }
+                                .goods-description-table td, .goods-description-table th {
+                                border: 1px solid #000;
+                                padding: 6px; /* Reduced padding */
+                                text-align: center;
+                                }
+                                .goods-description-table th {
+                                font-weight: bold;
+                                }
+                                .goods-description-title {
+                                margin-top: 15px; /* Reduced margin */
+                                font-weight: bold;
+                                }
+                                .new-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 15px; /* Reduced margin */
+                                }
+                                .new-table td, .new-table th {
+                                border: 1px solid #000;
+                                padding: 6px; /* Reduced padding */
+                                text-align: center;
+                                }
+                                .new-table th {
+                                font-weight: bold;
+                                }
+                            </style>
+
+                        </head>
+                        <div class="page">
+                            <div>
+                                <!-- Top Section -->
+                                <div class="row" style="display: flex; justify-content: space-between;">
+                                    <div class="col-8" style="width: 20%; margin-top:20px">
+                                        <!-- Sender Account Number -->
+                                        <strong><label style="color: #d43629;">1. Sender Account Number:</label></strong>
+                                        <span t-field="doc.sender_account_number"/>
+                                        <br/>
+                                        <!-- Invoice to Receiver -->
+                                        <strong><label style="color: #d43629;">2. Invoice to Receiver:</label></strong>
+                                        <span t-field="doc.invoice_to_receiver"/>
+                                    </div>
+
+                                    <div class="col-6" style="width: 25%; text-align: center;margin-top:30px">
+                                        <table style="display: inline-block; border: 1px solid #000; border-collapse: collapse;">
+                                            <span style="color: #d43629;">3.</span>
+                                            <tr style="height: 20px;">
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                            </tr>
+                                            <tr style="height: 20px;">
+                                                <td style="border: 1px solid #000;background-color: #d43629;color: white" colspan="7"> Sendr Liable Unpaid Charges </td>
+                                            </tr>
+                                            <tr style="height: 20px;">
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                                <td style="border: 1px solid #000; text-align: center;">
+                                                    <div class="square"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-6" style="width:30%; text-align: right;margin-left:-100px;"> <!-- Increased width for barcode -->
+                                        <!-- Logo -->
+                                        <img t-if="doc.barcode_image" t-att-src="image_data_uri(doc.barcode_image)" style="max-height: 120px; max-width: 100%; width:90%;" alt="Barcode"/> <!-- Added width: 100% -->
+                                    </div>
+
+                                    <div class="col-6" style="width: 25%; text-align: right; margin-top:-120px">
+                                        <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 80; max-width: 100%;" alt="Logo"/> <!-- Added max-width -->
+                                    </div>
+                                </div>
+                                <hr style="border-top: 2px solid #000; margin-top:-140px;"/>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <!-- Title: From (Collection Address) -->
+                                        <p style="font-weight: bold;color: #d43629;"> 4. From (Collection Address)</p>
+
+                                        <!-- Company Name -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Company Name:</label>
+                                            <span t-field="doc.sender_company_name"/>
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Address:</label>
+                                            <span t-field="doc.sender_address"/>
+                                        </div>
+
+                                        <!-- City and Post/Zip Code -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">City:</label>
+                                            <span t-field="doc.sender_city"/>
+                                            <label style="font-weight: bold; margin-left: 370px;">Post/Zip Code:</label>
+                                            <span t-field="doc.sender_post_zip_code"/>
+                                        </div>
+
+                                        <!-- Province and Country -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Province:</label>
+                                            <span t-field="doc.sender_province"/>
+                                            <label style="font-weight: bold; margin-left: 335px;">Country:</label>
+                                            <span t-field="doc.sender_country"/>
+                                        </div>
+
+                                        <!-- Contact Name and Tel -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Contact Name:</label>
+                                            <span t-field="doc.sender_contact_name"/>
+                                            <label style="font-weight: bold; margin-left: 300px;">Tel:</label>
+                                            <span t-field="doc.sender_tel"/>
+                                        </div>
+                                        <hr style="border-top: 2px solid black; margin-top: 55px; margin-bottom: 50px;"/>
+                                        <!-- Title: To (Receiver) -->
+                                        <p style="font-weight: bold;color: #d43629;"> 5. To (Receiver)</p>
+
+                                        <!-- Company Name -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Company Name:</label>
+                                            <span t-field="doc.receiver_company_name"/>
+                                        </div>
+
+                                        <!-- Address -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Address:</label>
+                                            <span t-field="doc.receiver_address"/>
+                                        </div>
+
+                                        <!-- City and Post/Zip Code -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">City:</label>
+                                            <span t-field="doc.receiver_city"/>
+                                            <label style="font-weight: bold; margin-left: 370px;">Post/Zip Code:</label>
+                                            <span t-field="doc.receiver_post_zip_code"/>
+                                        </div>
+
+                                        <!-- Province and Country -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Province:</label>
+                                            <span t-field="doc.receiver_province"/>
+                                            <label style="font-weight: bold; margin-left: 335px;">Country:</label>
+                                            <span t-field="doc.receiver_country"/>
+                                        </div>
+
+                                        <!-- Contact Name and Tel -->
+                                        <div class="address-section">
+                                            <label style="font-weight: bold;">Contact Name:</label>
+                                            <span t-field="doc.receiver_contact_name"/>
+                                            <label style="font-weight: bold; margin-left: 300px;">Tel:</label>
+                                            <span t-field="doc.receiver_tel"/>
+                                        </div>
+                                        <!-- Light Gray Box -->
+                                        <div style="background-color: #f2f2f2; padding:10px;">
+                                            <!-- Dangerous Goods Section -->
+                                            <p style="font-weight: bold;color: #d43629;">6. Dangerous Goods (cross correct Box)</p>
+                                            <p style="display: inline-block;">Does this consignment contain any dangerous goods?</p>
+
+                                            <!-- Dangerous Goods Fields -->
+                                            <t t-if="doc.dangerous_goods == 'yes'">
+                                                <label style="font-weight: bold; margin-left: 10px;">Yes:</label>
+                                                <input type="checkbox" checked="checked" style="margin-right: 10px;"/>
+                                                <label style="font-weight: bold;">No:</label>
+                                                <input type="checkbox" style="margin-right: 10px;"/>
+                                            </t>
+                                            <t t-if="doc.dangerous_goods == 'no'">
+                                                <label style="font-weight: bold; margin-left: 10px;">Yes:</label>
+                                                <input type="checkbox" style="margin-right: 10px;"/>
+                                                <label style="font-weight: bold;">No:</label>
+                                                <input type="checkbox" checked="checked" style="margin-right: 10px;"/>
+                                            </t>
+
+                                            <!-- Fragile Goods Section -->
+                                            <p style="font-weight: bold;color: #d43629;">7. Fragile Goods (cross correct Box)</p>
+                                            <p style="display: inline-block;">Does this consignment contain any fragile goods?</p>
+
+                                            <!-- Fragile Goods Fields -->
+                                            <t t-if="doc.fragile_goods == 'yes'">
+                                                <label style="font-weight: bold; margin-left: 10px;">Yes:</label>
+                                                <input type="checkbox" checked="checked" style="margin-right: 10px;"/>
+                                                <label style="font-weight: bold;">No:</label>
+                                                <input type="checkbox" style="margin-right: 10px;"/>
+                                            </t>
+                                            <t t-if="doc.fragile_goods == 'no'">
+                                                <label style="font-weight: bold; margin-left: 10px;">Yes:</label>
+                                                <input type="checkbox" style="margin-right: 10px;"/>
+                                                <label style="font-weight: bold;">No:</label>
+                                                <input type="checkbox" checked="checked" style="margin-right: 10px;"/>
+                                            </t>
+                                        </div>                                        <!-- New Table -->
+                                        <table class="new-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sender Signature</th>
+                                                    <th>Received By Jet Express</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="height:32px"> </td>
+                                                    <td> </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date:         /     </td>
+                                                    <td>Date:         /     </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Right column content -->
+                                        <div class="right-content">
+                                            <p class="inline-label" style="font-weight: bold;">Please Quote this number if you have any Enquiry</p>
+                                            <!-- Smaller Table beside the title -->
+                                            <table class="small-table">
+                                                <tr>
+                                                    <th>Origin</th>
+                                                    <th style="color: #d43629;">Dest</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><div class="square" style="height: 30px"/></td>
+                                                    <td><div class="square" style="height: 30px"/></td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                        <p style="font-weight: bold;margin-bottom:0px;margin-top: -5px,color: #d43629;">8. Services (Cross One Box Only Select Services)</p>
+                                        <!-- Non-bordered table -->
+                                        <table class="non-bordered-table">
+                                            <thead>
+                                                <tr>
+                                                    <th> </th>
+                                                    <th>Document</th>
+                                                    <th>Non Document</th>
+                                                    <th>Same Day</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- 10.00 Express Row -->
+                                                <tr>
+                                                    <td>10.00 Express</td>
+                                                    <td>
+                                                        <t t-if="doc.services_10_00_express_doc">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_10_00_express_doc">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="doc.services_10_00_express_non_doc">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_10_00_express_non_doc">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="doc.services_10_00_express_same_day">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_10_00_express_same_day">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- 12.00 Express Row -->
+                                                <tr>
+                                                    <td>12.00 Express</td>
+                                                    <td>
+                                                        <t t-if="doc.services_12_00_express_doc">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_12_00_express_doc">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="doc.services_12_00_express_non_doc">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_12_00_express_non_doc">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="doc.services_12_00_express_same_day">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_12_00_express_same_day">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- Express Row -->
+                                                <tr>
+                                                    <td>Express</td>
+                                                    <td>
+                                                        <t t-if="doc.services_express_doc">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_express_doc">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="doc.services_express_non_doc">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_express_non_doc">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                    <td>
+                                                        <t t-if="doc.services_express_same_day">
+                                                            <input type="checkbox" checked="checked"/>
+                                                        </t>
+                                                        <t t-if="not doc.services_express_same_day">
+                                                            <input type="checkbox"/>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr style="border-top: 2px solid #000; margin-top: 21px;"/>
+                                        <div class="contact-section">
+                                            <img class="icon" src="/path/to/telephone_icon.png" alt="Telephone Icon" style="width: 20px; height: 20px;"/>
+                                            <p class="text">Please Contact Customer Service 0109004009 to arrange shipments, for contact and service details, please see brochure and your price list in case of contracting. If no service is selected, the express service will be provided and invoiced.</p>
+                                        </div>
+                                        <div class="special-instruction">
+                                            <p style="color: #d43629;">9. Special Delivery Instruction (reserved for your instruction requires)</p>
+                                        </div>
+
+                                        <!-- Title: Goods Description -->
+                                        <div class="goods-description-title">
+                                            <p style="color: #d43629;">10. Goods Description</p>
+                                        </div>
+                                        <!-- Goods Description Table -->
+                                        <table class="goods-description-table">
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2">General Description <br/>Please put full details</th>
+                                                    <th rowspan="2">Number of Items</th>
+                                                    <th colspan="2">Weight</th>
+                                                    <th rowspan="2">Dimensions <br/>In cm</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Kilograms</th>
+                                                    <th>Grams</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style=" height: 28px;"> <span t-field="doc.goods_description_1"/></td>
+                                                    <td> <span t-field="doc.number_of_items_1"/></td>
+                                                    <td> <span t-field="doc.weight_kg_1"/></td>
+                                                    <td> <span t-field="doc.weight_g_1"/></td>
+                                                    <td><strong>--LX ---WX ---H</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style=" height: 28px;"> <span t-field="doc.goods_description_2"/></td>
+                                                    <td> <span t-field="doc.number_of_items_2"/></td>
+                                                    <td> <span t-field="doc.weight_kg_2"/></td>
+                                                    <td> <span t-field="doc.weight_g_2"/></td>
+                                                    <td><strong>--LX ---WX ---H</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style=" height: 28px;"><strong>Total</strong>  </td>
+                                                    <td> <span t-field="doc.total_number_of_items"/></td>
+                                                    <td> <span t-field="doc.total_weight_kg"/></td>
+                                                    <td> <span t-field="doc.total_weight_g"/></td>
+                                                    <td><strong>M3</strong> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- New Table -->
+                                        <table class="new-table">
+                                            <thead>
+                                                <tr style="color: white;background-color:#d43629">
+                                                    <th>Delivered To (Signature)</th>
+                                                    <th>Received Name In Capital</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td rowspan="2"> </td>
+                                                    <td style="height:32px">  </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Delivery Time:   </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <table class="new-table" style="margin-top: 20px;">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" style="direction: rtl;  text-align: right;">
+                                                يحب الا تحتوي الشحنة على أي مبالغ نقدية أو أشياء ثمينة مثل المجوهرات أو الحلي الذهبية، نحن لا نقوم بشحن الحيوانات أو الكائنات الحية
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" style="text-align: left;font-weight: bold">Shipment Shall Not Contatines Any Money . Jewelerys. Golden or Silver Object. And We Are Not Shipping Animals or Any Life Being</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                <span style="direction: rtl;  text-align: right;font-weight: bold">في حالة تلف كسر او فقدان محتويات الرسالة ينم تعويض الراسل بحد اقصى ثلاث اضعاف قيمة شحن الرسالة</span>
+                                                <br/>
+                                                <span style="text-align: left;font-weight: bold">In Case Of Breaking . Damaging or Losing Shipments . We Comnenstate The Sender The maximum of three Time The Value Of Shipping</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <!-- Report action record -->
+        <record id="payment_report" model="ir.actions.report">
+            <field name="name">Payment</field>
+            <field name="model">shipment.order.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">courier_freight.payment_report_template</field>
+            <field name="report_file">courier_freight.payment_report_template</field>
+            <field name="binding_model_id" ref="courier_freight.model_shipment_order_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="freight_import_courier_stage_view_form" model="ir.ui.view">
+            <field name="name">freight_import_courier_view_form</field>
+            <field name="model">freight.import.stage.courier</field>
+            <field name="arch" type="xml">
+                <form string="shipment_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="freight_import_courier_stage_action" model="ir.actions.act_window">
+            <field name="name">Freight Import Stage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">freight.import.stage.courier</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="freight_export_courier_stage_view_form" model="ir.ui.view">
+            <field name="name">shipment_stage_courier_view_form</field>
+            <field name="model">freight.export.stage.courier</field>
+            <field name="arch" type="xml">
+                <form string="shipment_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="freight_export_courier_stage_action" model="ir.actions.act_window">
+            <field name="name">Freight Export Stage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">freight.export.stage.courier</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <record id="freight_local_courier_stage_view_form" model="ir.ui.view">
+            <field name="name">freight_local_courier_view_form</field>
+            <field name="model">freight.local.stage.courier</field>
+            <field name="arch" type="xml">
+                <form string="shipment_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="freight_local_courier_stage_action" model="ir.actions.act_window">
+            <field name="name">Freight Local Stage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">freight.local.stage.courier</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+        <menuitem name="courier" parent="freight.freight_configuration" id="menu_freight_courier_stage_id"
+                  sequence="5"/>
+
+        <menuitem name="Shipment Stage Import Courier"  parent="menu_freight_courier_stage_id" id="menu_freight_import_courier_stage_id"
+                  action="freight_import_courier_stage_action" sequence="4"/>
+        <menuitem name="Shipment Export Stage Courier" parent="menu_freight_courier_stage_id" id="menu_freight_export_courier_stage_id"
+                  action="freight_export_courier_stage_action" sequence="4"/>
+        <menuitem name="Shipment Stage Local" parent="menu_freight_courier_stage_id" id="menu_freight_local_courier_stage_id"
+                  action="freight_local_courier_stage_action" sequence="5"/>
+
+    </data>
+</odoo>

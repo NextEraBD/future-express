@@ -3,6 +3,7 @@
     'name': 'Customer Complement',
     'version': '1.0',
     'summary': 'journal_statment',
+    'images': ['static/img/complement.png'],
     'author': 'Banan',
     'depends': ['base','freight',],
     'data': [

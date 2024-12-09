@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <record id="view_operation_task_form" model="ir.ui.view">
+            <field name="name">operation.task.wizard</field>
+            <field name="model">operation.task.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Task">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Project Task"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_ids" class="o_task_user_field" options="{'no_open': True}"
+                                   widget="many2many_avatar_user"/>
+                            <field name="description"/>
+                            <field name="branch_id"/>
+                        </group>
+                        <group>
+                            <field name="date_assign"/>
+                            <field name="dead_line"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_task" string="Create Task" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_operation_task_form" model="ir.actions.act_window">
+            <field name="name">Create Task</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">operation.task.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_operation_task_form"/>
+            <field name="target">new</field>
+        </record>
+        <record id="action_view_task_operation_id" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">tree,form,calendar,pivot,graph</field>
+            <field name="domain">[('operation_id','!=', False)]</field>
+            <field name="help" type="html">
+                <p>
+                    Odoo's project management allows you to manage the pipeline of your tasks efficiently. You can track
+                    progress, discuss on tasks, attach documents, etc.
+                </p>
+            </field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_task_form2_inherit" model="ir.ui.view">
+            <field name="name">view_task_form2_inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="sale_project.view_sale_project_inherit_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='sale_line_id']" position="before">
+                    <field name="operation_id"/>
+                </xpath>
+                <xpath expr="//field[@name='user_ids']" position="after">
+                    <field name="create_id"/>
+                    <field name="branch_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
+
+

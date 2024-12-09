@@ -1,0 +1,57 @@
+<odoo>
+    <data noupdate="1">
+        <!-- sequence for employee purchase requisition -->
+        <record id="sequence_shipment_order" model="ir.sequence">
+            <field name="name">Shipment Order Sequence</field>
+            <field name="code">shipment.order.sequence</field>
+            <field name="prefix">SHO</field>
+            <field name="padding">5</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
+        <record id="sequence_customer_compliment" model="ir.sequence">
+            <field name="name">Customer Compliment Serial Number</field>
+            <field name="code">customer.compliment.serial</field>
+            <field name="prefix">CC</field>
+            <field name="padding">5</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
+        <record id="sequence_customer_ticket" model="ir.sequence">
+            <field name="name">Customer Ticket Serial Number</field>
+            <field name="code">customer.ticket.serial</field>
+            <field name="prefix">CT</field>
+            <field name="padding">5</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
+        <record id="sequence_online_payment" model="ir.sequence">
+            <field name="name">Online Payment Serial Number</field>
+            <field name="code">online.payment.serial</field>
+            <field name="prefix">OP</field>
+            <field name="padding">5</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
+
+        <record id="sequence_daily_route" model="ir.sequence">
+            <field name="name">Daily Rout</field>
+            <field name="code">daily.route.serial</field>
+            <field name="prefix">DR</field>
+            <field name="padding">5</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
+
+    </data>
+</odoo>

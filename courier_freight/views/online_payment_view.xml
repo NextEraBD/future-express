@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_online_payment_tree" model="ir.ui.view">
+            <field name="name">online.payment.tree</field>
+            <field name="model">online.payment</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="partner_id"/>
+                    <field name="customer_id"/>
+                    <field name="amount"/>
+                    <field name="currency_id"/>
+                    <field name="date"/>
+                    <field name="description"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_online_payment_form" model="ir.ui.view">
+            <field name="name">online.payment.form</field>
+            <field name="model">online.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Create Payment" type="object" name="action_create_payment_custom" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button string="Paid" type="object" name="action_paid" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'create_payment')]}" groups="account.group_account_manager"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button string="View Journal Entries" type="object" name="action_view_journal_entries" class="oe_stat_button" icon="fa-list" >
+                                <field name="journal_entry_count" string="Count" widget="statinfo" icon="fa-credit-card"/>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="customer_id"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                            <field name="date"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_online_payment" model="ir.actions.act_window">
+            <field name="name">Online Payments</field>
+            <field name="res_model">online.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'create_payment')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first online payment
+                </p>
+            </field>
+        </record>
+
+<!--        <record id="action_view_journal_entries" model="ir.actions.act_window">-->
+<!--            <field name="name">Journal Entries</field>-->
+<!--            <field name="res_model">account.move</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="domain">[('payment_id', '=', active_id)]</field>-->
+<!--            <field name="context">{'default_payment_id': active_id}</field>-->
+<!--        </record>-->
+        <menuitem id="menu_online_payment" name="Online Payments"
+                  parent="account.menu_finance"
+                  action="action_online_payment"/>
+    </data>
+</odoo>

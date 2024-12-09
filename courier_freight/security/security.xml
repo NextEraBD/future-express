@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--    <record model="ir.module.category" id="module_category_opreation">-->
+    <!--        <field name="name">Opreation</field>-->
+    <!--        <field name="sequence">101</field>-->
+    <!--    </record>-->
+
+    <!--    <record id="group_shipment_order_manager" model="res.groups">-->
+    <!--        <field name="name">Manager</field>-->
+    <!--        <field name="category_id" ref="module_category_opreation"/>-->
+    <!--    </record>-->
+    <!--    <record model="ir.rule" id="rule_administrator">-->
+    <!--        <field name="name">Administrator Rule</field>-->
+    <!--        <field name="model_id" ref="model_freight_operation"/>-->
+    <!--        <field name="groups" eval="[(4, ref('group_shipment_order_manager'))]"/>-->
+    <!--        <field name="domain_force">[(1,'=',1)]</field>-->
+    <!--    </record>-->
+
+
+    <!-- Define Category -->
+    <record id="module_freight_group_category" model="ir.module.category">
+        <field name="name">Freight Operations</field>
+        <field name="description">Groups related to freight operations</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Define Groups under the Freight Operations Category -->
+    <record id="group_freight_admin" model="res.groups">
+        <field name="name">Admin</field>
+        <field name="category_id" ref="module_freight_group_category"/>
+    </record>
+    <record id="group_freight_user" model="res.groups">
+        <field name="name">Freight User</field>
+        <field name="category_id" ref="module_freight_group_category"/> <!-- You can change this to an appropriate category -->
+    </record>
+    <record id="group_freight_assign_to_pick" model="res.groups">
+        <field name="name">Assign to Pick</field>
+        <field name="category_id" ref="module_freight_group_category"/>
+    </record>
+
+    <record id="group_freight_sort" model="res.groups">
+        <field name="name">Sort</field>
+        <field name="category_id" ref="module_freight_group_category"/>
+    </record>
+
+    <record id="freight_user_rule_assigned_pick" model="ir.rule">
+        <field name="name">Freight User Access to Assigned Picks</field>
+        <field name="model_id" ref="model_freight_operation"/> <!-- Change to your actual model reference -->
+        <field name="groups" eval="[(4, ref('group_freight_user'))]"/>  <!-- Adjust the module name -->
+        <field name="domain_force">[('name', '=', 'Assigned to Pick')]</field>
+    </record>
+
+    <record id="freight_user_rule_assigned_deliver" model="ir.rule">
+        <field name="name">Freight User Access to Assigned Deliveries</field>
+        <field name="model_id" ref="model_freight_operation"/> <!-- Change to your actual model reference -->
+        <field name="groups" eval="[(4, ref('group_freight_user'))]"/>  <!-- Adjust the module name -->
+        <field name="domain_force">[('assigned_to_deliver', '=', user.id)]</field>
+    </record>
+    <!-- Define Record Rules for freight.local.stage.courier -->
+    <record id="freight_local_admin_rule" model="ir.rule">
+        <field name="name">Admin Access to All Local Stages</field>
+        <field name="model_id" ref="model_freight_local_stage_courier"/>
+        <field name="groups" eval="[(4, ref('group_freight_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+    <!-- Define Record Rules for freight.local.stage.courier -->
+    <record id="freight_local_admin_rule_all" model="ir.rule">
+        <field name="name">Admin Access to All opreation</field>
+        <field name="model_id" ref="model_freight_operation"/>
+        <field name="groups" eval="[(4, ref('group_freight_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+    <record id="freight_local_admin_rule_all_mail" model="ir.rule">
+        <field name="name">Admin Access to All opreation Mail</field>
+        <field name="model_id" ref="mail.model_mail_activity"/>
+        <field name="groups" eval="[(4, ref('group_freight_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+    <!-- Rule for Branch Access -->
+    <record id="operation_branch_access_rule" model="ir.rule">
+        <field name="name">Operation Branch Access</field>
+        <field name="model_id" ref="model_freight_operation"/>
+        <field name="domain_force">[('branch_id', 'in', user.branch_ids.ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <record id="freight_local_assign_rule" model="ir.rule">
+        <field name="name"> Pick Access to Local Stages</field>
+        <field name="model_id" ref="model_freight_local_stage_courier"/>
+        <field name="groups" eval="[(4, ref('group_freight_assign_to_pick')), (4, ref('group_freight_user'))]"/> <!-- Adjust as needed -->
+        <field name="domain_force">[('name', '=', 'Assigned to Pick')]</field>
+    </record>
+
+    <record id="freight_local_sort_rule" model="ir.rule">
+        <field name="name">Sort Access to Local Stages</field>
+        <field name="model_id" ref="model_freight_local_stage_courier"/>
+        <field name="groups" eval="[(4, ref('group_freight_sort'))]"/>
+        <field name="domain_force">[('name', 'in', ['Sort','Returned to Shipper'])]</field>
+    </record>
+
+    <!-- Rule for the branch -->
+    <record id="operation_branch_access_rule" model="ir.rule">
+        <field name="name">Operation branch access</field>
+        <field name="model_id" ref="model_freight_operation"/>
+        <field name="domain_force">[('branch_id', 'in', user.branch_ids.ids)]</field>
+        <field name="global" eval="True"/>
+    </record>
+
+    <!--Branch record rule for the stage and user-->
+    <record id="freight_assign_to_pick_rule" model="ir.rule">
+        <field name="name">Pick Access to Assigned Operations in Branch</field>
+        <field name="model_id" ref="model_freight_operation"/>
+        <field name="groups" eval="[(4, ref('group_freight_assign_to_pick'))]"/>
+        <field name="domain_force">[('stage_id_local_cruise.name', '=', 'Assigned to Pick'), ('branch_id', 'in', user.branch_ids.ids)]</field>
+    </record>
+
+
+    <!-- Rule for Sort Users to View Only Operations in Sort Stage -->
+    <record id="freight_sort_stage_view_rule" model="ir.rule">
+        <field name="name">Sort Users - View Only Sort Stage Operations</field>
+        <field name="model_id" ref="model_freight_operation"/>
+        <field name="groups" eval="[(4, ref('group_freight_sort'))]"/>
+        <field name="domain_force">[('stage_id_local_cruise.name', 'in', ['Sort','Returned to Shipper']), ('branch_id', 'in', user.branch_ids.ids)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Grant the Sort Group access to create and modify mail.activities -->
+    <record id="mail_activity_access_sort_group" model="ir.model.access">
+        <field name="name">Mail Activity Access for Sort Group</field>
+        <field name="model_id" ref="mail.model_mail_activity"/>
+        <field name="group_id" ref="group_freight_sort"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Rule for Sort Users to Create Activities for Any Operation -->
+    <record id="mail_activity_create_any_operation_rule" model="ir.rule">
+        <field name="name">Sort Users - Create Activities for Any Operation</field>
+        <field name="model_id" ref="mail.model_mail_activity"/>
+        <field name="groups" eval="[(4, ref('group_freight_sort'))]"/>
+        <field name="domain_force">[]</field> <!-- No domain restriction -->
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="mail_activity_access_branch_manager" model="ir.model.access">
+        <field name="name">Mail Activity Access for Branch Managers</field>
+        <field name="model_id" ref="mail.model_mail_activity"/>
+        <field name="group_id" ref="group_freight_admin"/> <!-- Assuming branch managers are in this group -->
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+
+</odoo>

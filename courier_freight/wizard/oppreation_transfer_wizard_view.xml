@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_operation_wizard_form" model="ir.ui.view">
+            <field name="name">operation.wizard.form</field>
+            <field name="model">operation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Add Operations">
+                    <group>
+                        <group col="4">
+                            <field name="wb_number" placeholder="Enter WB Number or Scan"/>
+                            <field name="show_vendor" invisible="1"/>
+                            <field name="vendor_id" attrs="{'invisible': [('show_vendor', '=', False)]}"/>
+                        </group>
+                     </group>
+                    <notebook>
+                        <page string="Operations">
+                            <field name="operation_line_ids">
+                                <tree editable="bottom">
+                                    <field name="operation_id"/>
+                                    <field name="account_number_wb"/>
+                                    <field name="chargeable_weight"/>
+                                    <field name="branch_id"/>
+                                    <field name="sender_name"/>
+                                    <field name="receiver_name"/>
+                                    <field name="receiver_state_id"/>
+                                    <field name="receiver_town" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button string="Process Operations" type="object" name="action_process_operations" class="btn-primary"/>
+                        <button string="Print" type="object" attrs="{'invisible': [('show_vendor', '=', False)]}" name="print_report" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="report_freight_operation_action" model="ir.actions.report">
+            <field name="name">Operation Report</field>
+            <field name="model">freight.operation</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">courier_freight.report_freight_operation_action</field>
+            <field name="report_file">courier_freight.report_freight_operation_action</field>
+            <field name="print_report_name">'Operation Report'</field>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+
+</odoo>
